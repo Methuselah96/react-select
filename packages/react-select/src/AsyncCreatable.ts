@@ -1,5 +1,3 @@
-// @flow
-
 import { type ElementConfig } from 'react';
 import { makeAsyncSelect } from './Async';
 import { makeCreatableSelect } from './Creatable';

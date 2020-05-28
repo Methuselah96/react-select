@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component, type ElementRef, type Node } from 'react';
 import memoizeOne from 'memoize-one';
 import { MenuPlacer } from './components/Menu';

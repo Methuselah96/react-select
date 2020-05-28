@@ -1,5 +1,3 @@
-// @flow
-
 import type { Theme } from './types';
 
 export const colors = {

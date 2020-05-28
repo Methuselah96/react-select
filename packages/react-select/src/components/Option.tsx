@@ -1,30 +1,29 @@
-// @flow
 /** @jsx jsx */
-import { type Node } from 'react';
+import { MouseEventHandler, ReactNode } from 'react';
 import { jsx } from '@emotion/core';
 
 import type { CommonProps, PropsWithStyles, InnerRef } from '../types';
 
-type State = {
+interface State {
   /** Whether the option is disabled. */
-  isDisabled: boolean,
+  isDisabled: boolean;
   /** Whether the option is focused. */
-  isFocused: boolean,
+  isFocused: boolean;
   /** Whether the option is selected. */
-  isSelected: boolean,
-};
-type InnerProps = {
-  id: string,
-  key: string,
-  onClick: MouseEventHandler,
-  onMouseOver: MouseEventHandler,
-  tabIndex: number,
-};
+  isSelected: boolean;
+}
+interface InnerProps {
+  id: string;
+  key: string;
+  onClick: MouseEventHandler<HTMLDivElement>;
+  onMouseOver: MouseEventHandler<HTMLDivElement>;
+  tabIndex: number;
+}
 export type OptionProps = PropsWithStyles &
   CommonProps &
   State & {
     /** The children to be rendered. */
-    children: Node,
+    children: ReactNode,
     /** Inner ref to DOM Node */
     innerRef: InnerRef,
     /** props passed to the wrapping element for the group. */

@@ -1,17 +1,16 @@
-// @flow
 /** @jsx jsx */
 import { PureComponent, type Element } from 'react';
 import { jsx } from '@emotion/core';
 import NodeResolver from './NodeResolver';
 import ScrollLock from './ScrollLock/index';
 
-type Props = {
+interface Props {
   children: Element<*>,
   isEnabled: boolean,
-};
-type State = {
+}
+interface State {
   touchScrollTarget: HTMLElement | null,
-};
+}
 
 // NOTE:
 // We shouldn't need this after updating to React v16.3.0, which introduces:

@@ -1,22 +1,21 @@
-// @flow
 /** @jsx jsx */
-import { type ElementRef } from 'react';
+import { Ref } from 'react';
 import { jsx } from '@emotion/core';
 import AutosizeInput from 'react-input-autosize';
 
 import type { PropsWithStyles, ClassNamesState } from '../types';
 
 export type InputProps = PropsWithStyles & {
-  cx: (?ClassNamesState, ?string) => string | void,
+  cx: (classNamesState: ClassNamesState | null | undefined, className: string | null | undefined) => string | undefined;
   /** Reference to the internal element */
-  innerRef: (ElementRef<*>) => void,
+  innerRef: Ref<HTMLInputElement>;
   /** Set whether the input should be visible. Does not affect input size. */
-  isHidden: boolean,
+  isHidden: boolean;
   /** Whether the input is disabled */
-  isDisabled?: boolean,
-  className?: string,
+  isDisabled?: boolean;
+  className?: string;
   /** The ID of the form that the input belongs to */
-  form?: string,
+  form?: string;
 };
 
 export const inputCSS = ({

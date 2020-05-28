@@ -1,14 +1,12 @@
-// @flow
-
-import React, { type AbstractComponent } from 'react';
-import { type MultiValueProps } from '../components/MultiValue';
+import React, { ComponentType } from 'react';
+import { MultiValueProps } from '../components/MultiValue';
 import { Collapse } from './transitions';
 
 // strip transition props off before spreading onto actual component
 
 const AnimatedMultiValue = (
-  WrappedComponent: AbstractComponent<MultiValueProps>
-): AbstractComponent<MultiValueProps> => {
+  WrappedComponent: ComponentType<MultiValueProps>
+): ComponentType<MultiValueProps> => {
   return ({ in: inProp, onExited, ...props }) => (
     <Collapse in={inProp} onExited={onExited}>
       <WrappedComponent cropWithEllipsis={inProp} {...props} />

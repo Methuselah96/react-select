@@ -1,16 +1,14 @@
-// @flow
-
 import React, { Component, type Element } from 'react';
 
 import NodeResolver from './NodeResolver';
 
-export type CaptorProps = {
+export interface CaptorProps {
   children: Element<*>,
   onBottomArrive?: (event: SyntheticEvent<HTMLElement>) => void,
   onBottomLeave?: (event: SyntheticEvent<HTMLElement>) => void,
   onTopArrive?: (event: SyntheticEvent<HTMLElement>) => void,
   onTopLeave?: (event: SyntheticEvent<HTMLElement>) => void,
-};
+}
 
 class ScrollCaptor extends Component<CaptorProps> {
   isBottom: boolean = false;

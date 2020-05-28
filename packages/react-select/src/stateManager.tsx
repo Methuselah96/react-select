@@ -1,5 +1,3 @@
-// @flow
-
 import React, {
   Component,
   type ElementRef,
@@ -9,17 +7,16 @@ import React, {
 
 import type { ActionMeta, InputActionMeta, ValueType } from './types';
 
-export type DefaultProps = {|
-  defaultInputValue: string,
-  defaultMenuIsOpen: boolean,
-  defaultValue: ValueType,
-|};
-export type Props = {
-  ...DefaultProps,
+export interface DefaultProps {
+  defaultInputValue: string;
+  defaultMenuIsOpen: boolean;
+  defaultValue: ValueType;
+}
+export type Props = DefaultProps & {
   inputValue?: string,
   menuIsOpen?: boolean,
   value?: ValueType,
-  onChange?: (ValueType, ActionMeta) => void,
+  onChange?: (value: ValueType, actionMeta: ActionMeta) => void,
 };
 
 type StateProps<P> = $Diff<
@@ -35,11 +32,11 @@ type StateProps<P> = $Diff<
   }
 >;
 
-type State = {
-  inputValue: string,
-  menuIsOpen: boolean,
-  value: ValueType,
-};
+interface State {
+  inputValue: string;
+  menuIsOpen: boolean;
+  value: ValueType;
+}
 
 export const defaultProps = {
   defaultInputValue: '',

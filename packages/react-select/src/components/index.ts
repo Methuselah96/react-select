@@ -1,16 +1,15 @@
-// @flow
-import { type ComponentType, type Element } from 'react';
+import { ComponentType, Element } from 'react';
 import {
-  type IndicatorContainerProps,
-  type ContainerProps,
-  type ValueContainerProps,
+  IndicatorContainerProps,
+  ContainerProps,
+  ValueContainerProps,
   IndicatorsContainer,
   SelectContainer,
   ValueContainer,
 } from './containers';
 import {
-  type IndicatorProps,
-  type LoadingIconProps,
+  IndicatorProps,
+  LoadingIconProps,
   ClearIndicator,
   DropdownIndicator,
   LoadingIndicator,
@@ -19,28 +18,28 @@ import {
   CrossIcon,
 } from './indicators';
 
-import Control, { type ControlProps } from './Control';
-import Group, { type GroupProps, GroupHeading } from './Group';
-import Input, { type InputProps } from './Input';
+import Control, { ControlProps } from './Control';
+import Group, { GroupProps, GroupHeading } from './Group';
+import Input, { InputProps } from './Input';
 import Menu, {
-  type MenuProps,
+  MenuProps,
   MenuList,
-  type MenuListComponentProps,
+  MenuListComponentProps,
   MenuPortal,
-  type MenuPortalProps,
-  type NoticeProps,
+  MenuPortalProps,
+  NoticeProps,
   NoOptionsMessage,
   LoadingMessage,
 } from './Menu';
 import MultiValue, {
-  type MultiValueProps,
+  MultiValueProps,
   MultiValueContainer,
   MultiValueLabel,
   MultiValueRemove,
 } from './MultiValue';
-import Option, { type OptionProps } from './Option';
-import Placeholder, { type PlaceholderProps } from './Placeholder';
-import SingleValue, { type SingleValueProps } from './SingleValue';
+import Option, { OptionProps } from './Option';
+import Placeholder, { PlaceholderProps } from './Placeholder';
+import SingleValue, { SingleValueProps } from './SingleValue';
 
 export type PlaceholderOrValue =
   | Element<ComponentType<PlaceholderProps>>
@@ -77,7 +76,7 @@ export type SelectComponents = {
   ValueContainer: ComponentType<ValueContainerProps>,
 };
 
-export type SelectComponentsConfig = $Shape<SelectComponents>;
+export type SelectComponentsConfig = Partial<SelectComponents>;
 
 export const components = {
   ClearIndicator: ClearIndicator,

@@ -1,15 +1,13 @@
-// @flow
-
-import React, { Component, type ComponentType, type ElementRef } from 'react';
+import React, { Component, ComponentType, RefCallback } from 'react';
 import { Transition } from 'react-transition-group';
 
 export type fn = () => void;
-export type BaseTransition = {
+export interface BaseTransition {
   /** Whether we are in a transition. */
-  in: boolean,
+  in: boolean;
   /** Function to be called once transition finishes. */
-  onExited: fn
-};
+  onExited: fn;
+}
 
 // ==============================
 // Fade Transition
@@ -55,8 +53,13 @@ export const collapseDuration = 260;
 
 type TransitionState = 'exiting' | 'exited';
 type Width = number | 'auto';
-type CollapseProps = { children: any, in: boolean };
-type CollapseState = { width: Width };
+interface CollapseProps {
+  children: any;
+  in: boolean;
+}
+interface CollapseState {
+  width: Width;
+}
 
 // wrap each MultiValue with a collapse transition; decreases width until
 // finally removing from DOM
@@ -75,7 +78,7 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
   }
 
   // width must be calculated; cannot transition from `undefined` to `number`
-  getWidth = (ref: ElementRef<*>) => {
+  getWidth: RefCallback<HTMLDivElement> = (ref) => {
     if (ref && isNaN(this.state.width)) {
       /*
         Here we're invoking requestAnimationFrame with a callback invoking our

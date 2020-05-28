@@ -1,18 +1,19 @@
-// @flow
+import { OptionType, OptionsType } from '../types';
 
-import { type OptionType, type OptionsType } from '../types';
-
-export type InstructionsContext = {
-  isSearchable?: boolean,
-  isMulti?: boolean,
-  label?: string,
-  isDisabled?: boolean
-};
-export type ValueEventContext = { value: string, isDisabled?: boolean };
+export interface InstructionsContext {
+  isSearchable?: boolean;
+  isMulti?: boolean;
+  label?: string;
+  isDisabled?: boolean;
+}
+export interface ValueEventContext {
+  value: string;
+  isDisabled?: boolean;
+}
 
 export const instructionsAriaMessage = (
   event: string,
-  context?: InstructionsContext = {}
+  context: InstructionsContext = {}
 ) => {
   const { isSearchable, isMulti, label, isDisabled } = context;
   switch (event) {

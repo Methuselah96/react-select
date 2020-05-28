@@ -1,6 +1,5 @@
-// @flow
 /** @jsx jsx */
-import { type Node } from 'react';
+import { ReactNode } from 'react';
 import { jsx, keyframes } from '@emotion/core';
 
 import type { CommonProps, Theme } from '../types';
@@ -44,7 +43,7 @@ export const DownChevron = (props: any) => (
 
 export type IndicatorProps = CommonProps & {
   /** The children to be rendered inside the indicator. */
-  children: Node,
+  children: ReactNode,
   /** Props that will be passed on to the children. */
   innerProps: any,
   /** The focused state of the select. */
@@ -115,7 +114,9 @@ export const ClearIndicator = (props: IndicatorProps) => {
 // Separator
 // ==============================
 
-type SeparatorState = { isDisabled: boolean };
+interface SeparatorState {
+  isDisabled: boolean;
+}
 
 export const indicatorSeparatorCSS = ({
   isDisabled,
@@ -177,7 +178,10 @@ export const loadingIndicatorCSS = ({
   verticalAlign: 'middle',
 });
 
-type DotProps = { delay: number, offset: boolean };
+interface DotProps {
+  delay: number;
+  offset: boolean
+}
 const LoadingDot = ({ delay, offset }: DotProps) => (
   <span
     css={{

@@ -1,19 +1,17 @@
-// @flow
-
-type Config = {
-  ignoreCase?: boolean,
-  ignoreAccents?: boolean,
-  stringify?: Object => string,
-  trim?: boolean,
-  matchFrom?: 'any' | 'start',
-};
+interface Config {
+  ignoreCase?: boolean;
+  ignoreAccents?: boolean;
+  stringify?: (obj: Object) => string;
+  trim?: boolean;
+  matchFrom?: 'any' | 'start';
+}
 
 import { stripDiacritics } from './diacritics';
 
 const trimString = str => str.replace(/^\s+|\s+$/g, '');
 const defaultStringify = option => `${option.label} ${option.value}`;
 
-export const createFilter = (config: ?Config) => (
+export const createFilter = (config: Config | null | undefined) => (
   option: { label: string, value: string, data: any },
   rawInput: string
 ): boolean => {

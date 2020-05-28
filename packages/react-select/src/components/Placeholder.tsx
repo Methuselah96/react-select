@@ -1,14 +1,13 @@
-// @flow
 /** @jsx jsx */
-import { type Node } from 'react';
+import { ReactNode } from 'react';
 import { jsx } from '@emotion/core';
 import type { CommonProps } from '../types';
 
 export type PlaceholderProps = CommonProps & {
   /** The children to be rendered. */
-  children: Node,
+  children: ReactNode;
   /** props passed to the wrapping element for the group. */
-  innerProps: { [string]: any },
+  innerProps: { [key: string]: any };
 };
 
 export const placeholderCSS = ({

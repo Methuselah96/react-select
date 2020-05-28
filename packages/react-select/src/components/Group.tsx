@@ -1,20 +1,19 @@
-// @flow
 /** @jsx jsx */
-import { type Node, type ComponentType } from 'react';
+import { ReactNode, ComponentType } from 'react';
 import { jsx } from '@emotion/core';
 
 import type { CommonProps } from '../types';
 
-type ComponentProps = {
+interface ComponentProps {
   /** The children to be rendered. */
-  children: Node,
+  children: ReactNode;
   /** Component to wrap the label, recieves headingProps. */
-  Heading: ComponentType<any>,
+  Heading: ComponentType<any>;
   /** Props to pass to Heading. */
-  headingProps: any,
+  headingProps: any;
   /** Label to be displayed in the heading component. */
-  label: Node,
-};
+  label: ReactNode;
+}
 export type GroupProps = CommonProps & ComponentProps;
 
 export const groupCSS = ({ theme: { spacing } }: GroupProps) => ({

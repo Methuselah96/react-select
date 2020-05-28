@@ -1,28 +1,27 @@
-// @flow
 /** @jsx jsx */
-import { type Node, type ElementRef } from 'react';
+import { ReactNode, Ref, MouseEventHandler } from 'react';
 import { jsx } from '@emotion/core';
 
 import type { CommonProps, PropsWithStyles } from '../types';
 
-type State = {
+interface State {
   /** Whether the select is disabled. */
-  isDisabled: boolean,
+  isDisabled: boolean;
   /** Whether the select is focused. */
-  isFocused: boolean,
+  isFocused: boolean;
   /** Whether the select is expanded. */
-  menuIsOpen: boolean,
-};
+  menuIsOpen: boolean;
+}
 
 export type ControlProps = CommonProps &
   PropsWithStyles &
   State & {
     /** Children to render. */
-    children: Node,
-    innerRef: ElementRef<*>,
+    children: ReactNode,
+    innerRef: Ref<HTMLDivElement>,
     /** The mouse down event and the innerRef to pass down to the controller element. */
     innerProps: {
-      onMouseDown: (SyntheticMouseEvent<HTMLElement>) => void,
+      onMouseDown: MouseEventHandler<HTMLDivElement>,
     },
   };
 

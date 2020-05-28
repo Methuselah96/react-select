@@ -1,23 +1,22 @@
-// @flow
 /** @jsx jsx */
-import { type Node } from 'react';
+import { ReactNode } from 'react';
 import { jsx, ClassNames } from '@emotion/core';
 import { CrossIcon } from './indicators';
 import type { CommonProps } from '../types';
 
 export type MultiValueProps = CommonProps & {
-  children: Node,
-  components: any,
-  cropWithEllipsis: boolean,
-  data: any,
-  innerProps: any,
-  isFocused: boolean,
-  isDisabled: boolean,
+  children: ReactNode;
+  components: any;
+  cropWithEllipsis: boolean;
+  data: any;
+  innerProps: any;
+  isFocused: boolean;
+  isDisabled: boolean;
   removeProps: {
-    onTouchEnd: any => void,
-    onClick: any => void,
-    onMouseDown: any => void,
-  },
+    onTouchEnd: (event: any) => void;
+    onClick: (event: any) => void;
+    onMouseDown: (event: any) => void;
+  };
 };
 
 export const multiValueCSS = ({
@@ -61,12 +60,12 @@ export const multiValueRemoveCSS = ({
   },
 });
 
-export type MultiValueGenericProps = {
-  children: Node,
-  data: any,
-  innerProps: { className?: string },
-  selectProps: any,
-};
+export interface MultiValueGenericProps {
+  children: ReactNode;
+  data: any;
+  innerProps: { className?: string };
+  selectProps: any;
+}
 export const MultiValueGeneric = ({
   children,
   innerProps,
@@ -74,17 +73,17 @@ export const MultiValueGeneric = ({
 
 export const MultiValueContainer = MultiValueGeneric;
 export const MultiValueLabel = MultiValueGeneric;
-export type MultiValueRemoveProps = {
-  children: Node,
-  data: any,
+export interface MultiValueRemoveProps {
+  children: ReactNode;
+  data: any;
   innerProps: {
-    className: string,
-    onTouchEnd: any => void,
-    onClick: any => void,
-    onMouseDown: any => void,
-  },
-  selectProps: any,
-};
+    className: string;
+    onTouchEnd: (event: any) => void;
+    onClick: (event: any) => void;
+    onMouseDown: (event: any) => void;
+  };
+  selectProps: any;
+}
 export function MultiValueRemove({
   children,
   innerProps,

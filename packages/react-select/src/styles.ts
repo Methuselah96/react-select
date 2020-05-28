@@ -1,5 +1,3 @@
-// @flow
-
 import {
   containerCSS,
   indicatorsContainerCSS,
@@ -30,7 +28,9 @@ import {
   multiValueRemoveCSS,
 } from './components/MultiValue';
 
-type Props = { [key: string]: any };
+interface Props {
+  [key: string]: any
+}
 
 // TODO: flow for state
 type StyleFn = (props: Props, state: { [key: string]: any }) => {};
@@ -59,7 +59,7 @@ export type Styles = {
   singleValue?: StyleFn,
   valueContainer: StyleFn,
 };
-export type StylesConfig = $Shape<Styles>;
+export type StylesConfig = Partial<Styles>;
 export type GetStyles = (string, Props) => {};
 
 export const defaultStyles: Styles = {

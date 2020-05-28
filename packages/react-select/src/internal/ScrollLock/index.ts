@@ -1,4 +1,3 @@
-// @flow
 import { Component } from 'react';
 
 import { LOCK_STYLES, STYLE_KEYS } from './constants';
@@ -17,10 +16,10 @@ const canUseDOM = !!(
 
 let activeScrollLocks = 0;
 
-type Props = {
-  accountForScrollbars: boolean,
-  touchScrollTarget?: HTMLElement,
-};
+interface Props {
+  accountForScrollbars: boolean;
+  touchScrollTarget?: HTMLElement;
+}
 type TargetStyle = {
   [key: string]: string | null,
 };

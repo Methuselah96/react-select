@@ -1,20 +1,20 @@
-// @flow
 /** @jsx jsx */
+import { ReactNode } from 'react';
 import type { CommonProps } from '../types';
 import { jsx } from '@emotion/core';
 
-type State = {
+interface State {
   /** Whether this is disabled. */
-  isDisabled: boolean,
-};
-type ValueProps = {
+  isDisabled: boolean;
+}
+interface ValueProps {
   /** The children to be rendered. */
-  children: React$Node,
+  children: ReactNode;
   /* The data of the selected option rendered in the Single Value component. */
-  data: any,
+  data: any;
   /** Props passed to the wrapping element for the group. */
-  innerProps: any,
-};
+  innerProps: any;
+}
 export type SingleValueProps = CommonProps & ValueProps & State;
 
 export const css = ({

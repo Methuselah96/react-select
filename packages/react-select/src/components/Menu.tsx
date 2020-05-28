@@ -1,10 +1,9 @@
-// @flow
 /** @jsx jsx */
 import {
   Component,
   type Element as ReactElement,
   type ElementRef,
-  type Node,
+  ReactNode,
 } from 'react';
 import { jsx } from '@emotion/core';
 import { createPortal } from 'react-dom';
@@ -33,19 +32,19 @@ import type { Theme } from '../types';
 // Get Menu Placement
 // ------------------------------
 
-type MenuState = {
-  placement: 'bottom' | 'top' | null,
-  maxHeight: number,
-};
-type PlacementArgs = {
-  maxHeight: number,
-  menuEl: ElementRef<*>,
+interface MenuState {
+  placement: 'bottom' | 'top' | null;
+  maxHeight: number;
+}
+interface PlacementArgs {
+  maxHeight: number;
+  menuEl: ElementRef<*>;
   minHeight: number,
   placement: 'bottom' | 'top' | 'auto',
   shouldScroll: boolean,
   isFixedPosition: boolean,
   theme: Theme,
-};
+}
 
 export function getMenuPlacement({
   maxHeight,
@@ -58,7 +57,7 @@ export function getMenuPlacement({
 }: PlacementArgs): MenuState {
   const { spacing } = theme;
   const scrollParent = getScrollParent(menuEl);
-  const defaultState = { placement: 'bottom', maxHeight };
+  const defaultState: MenuState = { placement: 'bottom', maxHeight };
 
   // something went wrong, return default state
   if (!menuEl || !menuEl.offsetParent) return defaultState;
@@ -209,7 +208,7 @@ export function getMenuPlacement({
 
 export type MenuAndPlacerCommon = CommonProps & {
   /** Callback to update the portal after possible flip. */
-  getPortalPlacement: MenuState => void,
+  getPortalPlacement: (state: MenuState) => void,
   /** Props to be passed to the menu wrapper. */
   innerProps: {},
   /** Set the maximum height of the menu. */
@@ -231,7 +230,7 @@ export type MenuProps = MenuAndPlacerCommon & {
 };
 export type MenuPlacerProps = MenuAndPlacerCommon & {
   /** The children to be rendered. */
-  children: ({}) => Node,
+  children: ({}) => ReactNode,
 };
 
 function alignToControl(placement) {

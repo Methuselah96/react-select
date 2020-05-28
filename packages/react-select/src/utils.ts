@@ -1,5 +1,3 @@
-// @flow
-
 import { type ElementRef } from 'react';
 import type {
   ClassNamesState,
@@ -74,7 +72,7 @@ export const cleanValue = (value: ValueType): OptionsType => {
 export function handleInputChange(
   inputValue: string,
   actionMeta: InputActionMeta,
-  onInputChange?: (string, InputActionMeta) => string | void
+  onInputChange?: (inputValue: string, actionMeta: InputActionMeta) => string | undefined
 ) {
   if (onInputChange) {
     const newValue = onInputChange(inputValue, actionMeta);
@@ -163,7 +161,7 @@ export function animatedScrollTo(
   element: Element,
   to: number,
   duration: number = 200,
-  callback: Element => void = noop
+  callback: (element: Element) => void = noop
 ) {
   const start = getScrollTop(element);
   const change = to - start;

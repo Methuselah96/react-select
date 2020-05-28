@@ -1,6 +1,5 @@
-// @flow
 /** @jsx jsx */
-import { type Node } from 'react';
+import { ReactNode } from 'react';
 import { jsx } from '@emotion/core';
 import type { CommonProps, KeyboardEventHandler } from '../types';
 
@@ -8,17 +7,17 @@ import type { CommonProps, KeyboardEventHandler } from '../types';
 // Root Container
 // ==============================
 
-type ContainerState = {
+interface ContainerState {
   /** Whether the select is disabled. */
-  isDisabled: boolean,
+  isDisabled: boolean;
   /** Whether the text in the select is indented from right to left. */
-  isRtl: boolean,
-};
+  isRtl: boolean;
+}
 
 export type ContainerProps = CommonProps &
   ContainerState & {
     /** The children to be rendered. */
-    children: Node,
+    children: ReactNode,
     /** Inner props to be passed down to the container. */
     innerProps: { onKeyDown: KeyboardEventHandler },
   };
@@ -65,7 +64,7 @@ export type ValueContainerProps = CommonProps & {
   /** Whether the value container currently holds a value. */
   hasValue: boolean,
   /** The children to be rendered. */
-  children: Node,
+  children: ReactNode,
 };
 export const valueContainerCSS = ({
   theme: { spacing },
@@ -103,10 +102,10 @@ export const ValueContainer = (props: ValueContainerProps) => {
 // Indicator Container
 // ==============================
 
-type IndicatorsState = {
+interface IndicatorsState {
   /** Whether the text should be rendered right to left. */
-  isRtl: boolean,
-};
+  isRtl: boolean;
+}
 
 export type IndicatorContainerProps = CommonProps &
   IndicatorsState & {

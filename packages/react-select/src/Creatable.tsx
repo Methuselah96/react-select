@@ -1,9 +1,7 @@
-// @flow
-
 import React, {
   Component,
   type Config,
-  type Node,
+  ReactNode,
   type AbstractComponent,
   type ElementRef,
   type ElementConfig,
@@ -13,7 +11,7 @@ import type { OptionType, OptionsType, ValueType, ActionMeta } from './types';
 import { cleanValue } from './utils';
 import manageState from './stateManager';
 
-export type DefaultCreatableProps = {|
+export interface DefaultCreatableProps {
   /* Allow options to be created while the `isLoading` prop is true. Useful to
      prevent the "create new ..." option being displayed while async results are
      still being loaded. */
@@ -22,20 +20,19 @@ export type DefaultCreatableProps = {|
   createOptionPosition: 'first' | 'last',
   /* Gets the label for the "create new ..." option in the menu. Is given the
      current input value. */
-  formatCreateLabel: string => Node,
+  formatCreateLabel: (inputValue: string) => ReactNode,
   /* Determines whether the "create new ..." option should be displayed based on
      the current input value, select value and options array. */
   isValidNewOption: (string, OptionsType, OptionsType) => boolean,
   /* Returns the data for the new option when it is created. Used to display the
      value, and is passed to `onChange`. */
-  getNewOptionData: (string, Node) => OptionType,
-|};
-export type CreatableProps = {
-  ...DefaultCreatableProps,
+  getNewOptionData: (inputValue: string, optionLabel: ReactNode) => OptionType,
+}
+export type CreatableProps = DefaultCreatableProps & {
   /* If provided, this will be called with the input value when a new option is
      created, and `onChange` will **not** be called. Use this when you need more
      control over what happens when new options are created. */
-  onCreateOption?: string => void,
+  onCreateOption?: (inputValue: string) => void,
   /* Sets the position of the createOption element in your options list. Defaults to 'last' */
   createOptionPosition: 'first' | 'last',
   /* Name of the HTML Input (optional - without this, no input will be rendered) */

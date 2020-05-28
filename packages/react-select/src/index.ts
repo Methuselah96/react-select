@@ -1,4 +1,3 @@
-// @flow
 import { type ElementConfig } from 'react';
 
 import SelectBase from './Select';
