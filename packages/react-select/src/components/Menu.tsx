@@ -233,11 +233,11 @@ export type MenuPlacerProps = MenuAndPlacerCommon & {
   children: ({}) => ReactNode,
 };
 
-function alignToControl(placement) {
+function alignToControl(placement: 'bottom' | 'top' | null) {
   const placementToCSSProp = { bottom: 'top', top: 'bottom' };
   return placement ? placementToCSSProp[placement] : 'bottom';
 }
-const coercePlacement = p => (p === 'auto' ? 'bottom' : p);
+const coercePlacement = (p: MenuPlacement) => (p === 'auto' ? 'bottom' : p);
 
 type MenuStateWithProps = MenuState & MenuProps;
 

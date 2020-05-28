@@ -1,7 +1,7 @@
 /** @jsx jsx */
-import { ReactNode } from 'react';
+import { ReactNode, KeyboardEventHandler } from 'react';
 import { jsx } from '@emotion/core';
-import type { CommonProps, KeyboardEventHandler } from '../types';
+import type { CommonProps } from '../types';
 
 // ==============================
 // Root Container
@@ -19,7 +19,7 @@ export type ContainerProps = CommonProps &
     /** The children to be rendered. */
     children: ReactNode,
     /** Inner props to be passed down to the container. */
-    innerProps: { onKeyDown: KeyboardEventHandler },
+    innerProps: { onKeyDown: KeyboardEventHandler<HTMLDivElement> },
   };
 export const containerCSS = ({ isDisabled, isRtl }: ContainerState) => ({
   label: 'container',
@@ -110,7 +110,7 @@ interface IndicatorsState {
 export type IndicatorContainerProps = CommonProps &
   IndicatorsState & {
     /** The children to be rendered. */
-    children: Node,
+    children: ReactNode,
   };
 
 export const indicatorsContainerCSS = () => ({

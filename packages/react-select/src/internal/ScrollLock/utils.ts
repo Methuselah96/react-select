@@ -1,8 +1,8 @@
-export function preventTouchMove(e) {
+export function preventTouchMove(e: TouchEvent) {
   e.preventDefault();
 }
 
-export function allowTouchMove(e) {
+export function allowTouchMove(e: TouchEvent) {
   e.stopPropagation();
 }
 

@@ -1,8 +1,8 @@
 /** @jsx jsx */
-import { MouseEventHandler, ReactNode } from 'react';
+import { MouseEventHandler, ReactNode, Ref } from 'react';
 import { jsx } from '@emotion/core';
 
-import type { CommonProps, PropsWithStyles, InnerRef } from '../types';
+import type { CommonProps, PropsWithStyles } from '../types';
 
 interface State {
   /** Whether the option is disabled. */
@@ -25,7 +25,7 @@ export type OptionProps = PropsWithStyles &
     /** The children to be rendered. */
     children: ReactNode,
     /** Inner ref to DOM Node */
-    innerRef: InnerRef,
+    innerRef: Ref<HTMLDivElement>,
     /** props passed to the wrapping element for the group. */
     innerProps: InnerProps,
     /* Text to be displayed representing the option. */

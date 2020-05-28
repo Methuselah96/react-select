@@ -1,11 +1,11 @@
 /** @jsx jsx */
-import { PureComponent, type Element } from 'react';
+import { PureComponent, ReactElement } from 'react';
 import { jsx } from '@emotion/core';
 import NodeResolver from './NodeResolver';
 import ScrollLock from './ScrollLock/index';
 
 interface Props {
-  children: Element<*>,
+  children: ReactElement,
   isEnabled: boolean,
 }
 interface State {

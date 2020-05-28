@@ -18,7 +18,7 @@ let activeScrollLocks = 0;
 
 interface Props {
   accountForScrollbars: boolean;
-  touchScrollTarget?: HTMLElement;
+  touchScrollTarget: HTMLElement | null;
 }
 type TargetStyle = {
   [key: string]: string | null,

@@ -4,7 +4,7 @@ export const STYLE_KEYS = [
   'overflow',
   'paddingRight',
   'position'
-];
+] as const;
 
 export const LOCK_STYLES = {
   boxSizing: 'border-box', // account for possible declaration `width: 100%;` on body

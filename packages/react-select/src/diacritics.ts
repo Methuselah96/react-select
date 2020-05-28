@@ -86,7 +86,7 @@ const diacritics = [
 ];
 
 const anyDiacritic = new RegExp('[' + diacritics.map(d => d.letters).join('') + ']', 'g');
-const diacriticToBase = {};
+const diacriticToBase: { [letter: string]: string } = {};
 
 for (let i = 0; i < diacritics.length; i++) {
   let diacritic = diacritics[i];

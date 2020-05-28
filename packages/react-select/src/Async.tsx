@@ -2,10 +2,10 @@ import React, {
   Component,
   type Config,
   type ElementConfig,
-  type AbstractComponent,
+  ComponentType,
   type ElementRef,
 } from 'react';
-import Select, { type Props as SelectProps } from './Select';
+import Select, { Props as SelectProps } from './Select';
 import { handleInputChange } from './utils';
 import manageState from './stateManager';
 import type { OptionsType, InputActionMeta } from './types';
@@ -21,9 +21,9 @@ interface DefaultAsyncProps {
 export type AsyncProps = DefaultAsyncProps & {
   /* Function that returns a promise, which is the set of options to be used
      once the promise resolves. */
-  loadOptions: (inputValue: string, callback: (options: OptionsType) => void) => Promise<*> | void,
+  loadOptions: (inputValue: string, callback: (options: OptionsType) => void) => Promise<any> | undefined,
   /* Same behaviour as for Select */
-  onInputChange?: (string, InputActionMeta) => void,
+  onInputChange?: (newValue: string, actionMeta: InputActionMeta) => string | undefined,
   /* Same behaviour as for Select */
   inputValue?: string,
   /* Will cause the select to be displayed in the loading state, even if the
@@ -49,17 +49,17 @@ type State = {
   passEmptyOptions: boolean,
 };
 
-export const makeAsyncSelect = <C: {}>(
-  SelectComponent: AbstractComponent<C>
-): AbstractComponent<C & Config<AsyncProps, DefaultAsyncProps>> =>
+export const makeAsyncSelect = <C extends {}>(
+  SelectComponent: ComponentType<C>
+): ComponentType<C & Config<AsyncProps, DefaultAsyncProps>> =>
   class Async extends Component<C & AsyncProps, State> {
     static defaultProps = defaultProps;
     select: ElementRef<*>;
     lastRequest: {};
     mounted: boolean = false;
-    optionsCache: { [string]: OptionsType } = {};
+    optionsCache: { [key: string]: OptionsType } = {};
     constructor(props: C & AsyncProps) {
-      super();
+      super(props);
       this.state = {
         defaultOptions: Array.isArray(props.defaultOptions)
           ? props.defaultOptions
@@ -105,7 +105,7 @@ export const makeAsyncSelect = <C: {}>(
     blur() {
       this.select.blur();
     }
-    loadOptions(inputValue: string, callback: (?Array<*>) => void) {
+    loadOptions(inputValue: string, callback: (options?: Array<any> | null) => void) {
       const { loadOptions } = this.props;
       if (!loadOptions) return callback();
       const loader = loadOptions(inputValue, callback);

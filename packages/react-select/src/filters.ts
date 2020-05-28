@@ -1,3 +1,5 @@
+import { OptionType } from './types';
+
 interface Config {
   ignoreCase?: boolean;
   ignoreAccents?: boolean;
@@ -8,8 +10,8 @@ interface Config {
 
 import { stripDiacritics } from './diacritics';
 
-const trimString = str => str.replace(/^\s+|\s+$/g, '');
-const defaultStringify = option => `${option.label} ${option.value}`;
+const trimString = (str: string) => str.replace(/^\s+|\s+$/g, '');
+const defaultStringify = (option: OptionType) => `${option.label} ${option.value}`;
 
 export const createFilter = (config: Config | null | undefined) => (
   option: { label: string, value: string, data: any },

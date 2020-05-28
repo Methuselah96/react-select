@@ -189,7 +189,7 @@ const LoadingDot = ({ delay, offset }: DotProps) => (
       backgroundColor: 'currentColor',
       borderRadius: '1em',
       display: 'inline-block',
-      marginLeft: offset ? '1em' : null,
+      marginLeft: offset ? '1em' : undefined,
       height: '1em',
       verticalAlign: 'top',
       width: '1em',

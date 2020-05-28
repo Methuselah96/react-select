@@ -1,9 +1,9 @@
-import { Component, type Element, type ElementRef } from 'react';
+import { Component, ReactElement } from 'react';
 import { findDOMNode } from 'react-dom';
 
 type Props = {
-  children: Element<*>,
-  innerRef: ElementRef<*>,
+  children: ReactElement,
+  innerRef: (element: HTMLElement) => void,
 };
 
 export default class NodeResolver extends Component<Props> {

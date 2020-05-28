@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { Ref } from 'react';
+import { RefCallback } from 'react';
 import { jsx } from '@emotion/core';
 import AutosizeInput from 'react-input-autosize';
 
@@ -8,7 +8,7 @@ import type { PropsWithStyles, ClassNamesState } from '../types';
 export type InputProps = PropsWithStyles & {
   cx: (classNamesState: ClassNamesState | null | undefined, className: string | null | undefined) => string | undefined;
   /** Reference to the internal element */
-  innerRef: Ref<HTMLInputElement>;
+  innerRef: RefCallback<HTMLInputElement>;
   /** Set whether the input should be visible. Does not affect input size. */
   isHidden: boolean;
   /** Whether the input is disabled */
@@ -28,7 +28,7 @@ export const inputCSS = ({
   visibility: isDisabled ? 'hidden' : 'visible',
   color: colors.neutral80,
 });
-const inputStyle = isHidden => ({
+const inputStyle = (isHidden: boolean) => ({
   label: 'input',
   background: 0,
   border: 0,

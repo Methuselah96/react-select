@@ -6,7 +6,7 @@ import React, {
   type ElementRef,
   type ElementConfig,
 } from 'react';
-import Select, { type Props as SelectProps } from './Select';
+import Select, { Props as SelectProps } from './Select';
 import type { OptionType, OptionsType, ValueType, ActionMeta } from './types';
 import { cleanValue } from './utils';
 import manageState from './stateManager';
@@ -23,7 +23,7 @@ export interface DefaultCreatableProps {
   formatCreateLabel: (inputValue: string) => ReactNode,
   /* Determines whether the "create new ..." option should be displayed based on
      the current input value, select value and options array. */
-  isValidNewOption: (string, OptionsType, OptionsType) => boolean,
+  isValidNewOption: (inputValue: string, value: OptionsType, options: OptionsType) => boolean,
   /* Returns the data for the new option when it is created. Used to display the
      value, and is passed to `onChange`. */
   getNewOptionData: (inputValue: string, optionLabel: ReactNode) => OptionType,
@@ -42,12 +42,12 @@ export type CreatableProps = DefaultCreatableProps & {
   value: ValueType,
   isLoading?: boolean,
   isMulti?: boolean,
-  onChange: (ValueType, ActionMeta) => void,
+  onChange: (newValue: ValueType, actionMeta: ActionMeta) => void,
 };
 
 export type Props = SelectProps & CreatableProps;
 
-const compareOption = (inputValue = '', option) => {
+const compareOption = (inputValue = '', option: OptionType) => {
   const candidate = String(inputValue).toLowerCase();
   const optionValue = String(option.value).toLowerCase();
   const optionLabel = String(option.label).toLowerCase();
@@ -66,7 +66,7 @@ const builtins = {
       selectValue.some(option => compareOption(inputValue, option)) ||
       selectOptions.some(option => compareOption(inputValue, option))
     ),
-  getNewOptionData: (inputValue: string, optionLabel: Node) => ({
+  getNewOptionData: (inputValue: string, optionLabel: ReactNode) => ({
     label: optionLabel,
     value: inputValue,
     __isNew__: true,
@@ -84,7 +84,7 @@ type State = {
   options: OptionsType,
 };
 
-export const makeCreatableSelect = <C: {}>(
+export const makeCreatableSelect = <C extends {}>(
   SelectComponent: AbstractComponent<C>
 ): AbstractComponent<C & Config<CreatableProps, DefaultCreatableProps>> =>
   class Creatable extends Component<CreatableProps & C, State> {
@@ -146,7 +146,7 @@ export const makeCreatableSelect = <C: {}>(
         if (onCreateOption) onCreateOption(inputValue);
         else {
           const newOptionData = getNewOptionData(inputValue, inputValue);
-          const newActionMeta = { action: 'create-option', name };
+          const newActionMeta: ActionMeta = { action: 'create-option', name };
           if (isMulti) {
             onChange([...cleanValue(value), newOptionData], newActionMeta);
           } else {
