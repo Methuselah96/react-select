@@ -1,7 +1,7 @@
 import React, {
   Component,
   type ElementRef,
-  type AbstractComponent,
+  ComponentType,
   type Config,
 } from 'react';
 
@@ -44,9 +44,9 @@ export const defaultProps = {
   defaultValue: null,
 };
 
-const manageState = <C: {}>(
-  SelectComponent: AbstractComponent<C>
-): AbstractComponent<StateProps<C> & Config<Props, DefaultProps>> =>
+const manageState = <C extends {}>(
+  SelectComponent: ComponentType<C>
+): ComponentType<StateProps<C> & Config<Props, DefaultProps>> =>
   class StateManager extends Component<StateProps<C> & Props, State> {
     static defaultProps: DefaultProps = defaultProps;
 

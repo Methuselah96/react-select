@@ -401,7 +401,7 @@ export const loadingMessageCSS = noticeCSS;
 
 export type NoticeProps = CommonProps & {
   /** The children to be rendered. */
-  children: Node,
+  children: ReactNode,
   /** Props to be passed on to the wrapper. */
   innerProps: {},
 };

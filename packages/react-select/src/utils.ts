@@ -26,7 +26,7 @@ export const emptyString = () => '';
  - className('comp', { some: true, state: false })
    @returns 'react-select__comp react-select__comp--some'
 */
-function applyPrefixToName(prefix, name) {
+function applyPrefixToName(prefix: string, name: string) {
   if (!name) {
     return prefix;
   } else if (name[0] === '-') {
@@ -85,14 +85,14 @@ export function handleInputChange(
 // Scroll Helpers
 // ==============================
 
-export function isDocumentElement(el: Element) {
+export function isDocumentElement(el: HTMLElement) {
   return [document.documentElement, document.body, window].indexOf(el) > -1;
 }
 
 // Normalized Scroll Top
 // ------------------------------
 
-export function normalizedHeight(el: Element): number {
+export function normalizedHeight(el: HTMLElement): number {
   if (isDocumentElement(el)) {
     return window.innerHeight;
   }
@@ -103,14 +103,14 @@ export function normalizedHeight(el: Element): number {
 // Normalized scrollTo & scrollTop
 // ------------------------------
 
-export function getScrollTop(el: Element): number {
+export function getScrollTop(el: HTMLElement): number {
   if (isDocumentElement(el)) {
     return window.pageYOffset;
   }
   return el.scrollTop;
 }
 
-export function scrollTo(el: Element, top: number): void {
+export function scrollTo(el: HTMLElement, top: number): void {
   // with a scroll distance, we perform scroll on the element
   if (isDocumentElement(el)) {
     window.scrollTo(0, top);
@@ -123,11 +123,11 @@ export function scrollTo(el: Element, top: number): void {
 // Get Scroll Parent
 // ------------------------------
 
-export function getScrollParent(element: ElementRef<*>): Element {
+export function getScrollParent(element: ElementRef): HTMLElement {
   let style = getComputedStyle(element);
   const excludeStaticParent = style.position === 'absolute';
   const overflowRx = /(auto|scroll)/;
-  const docEl = ((document.documentElement: any): Element); // suck it, flow...
+  const docEl = document.documentElement;
 
   if (style.position === 'fixed') return docEl;
 
@@ -158,7 +158,7 @@ function easeOutCubic(t: number, b: number, c: number, d: number): number {
 }
 
 export function animatedScrollTo(
-  element: Element,
+  element: HTMLElement,
   to: number,
   duration: number = 200,
   callback: (element: Element) => void = noop
@@ -224,13 +224,13 @@ export function getBoundingClientObj(element: HTMLElement) {
     width: rect.width,
   };
 }
-export type RectType = {
-  left: number,
-  right: number,
-  bottom: number,
-  height: number,
-  width: number,
-};
+export interface RectType {
+  left: number;
+  right: number;
+  bottom: number;
+  height: number;
+  width: number;
+}
 
 // ==============================
 // String to Key (kebabify)

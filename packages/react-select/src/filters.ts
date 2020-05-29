@@ -13,7 +13,7 @@ import { stripDiacritics } from './diacritics';
 const trimString = (str: string) => str.replace(/^\s+|\s+$/g, '');
 const defaultStringify = (option: OptionType) => `${option.label} ${option.value}`;
 
-export const createFilter = (config: Config | null | undefined) => (
+export const createFilter = (config?: Config | null) => (
   option: { label: string, value: string, data: any },
   rawInput: string
 ): boolean => {
