@@ -44,10 +44,10 @@ export const defaultProps = {
   defaultValue: null,
 };
 
-const manageState = <C extends {}>(
-  SelectComponent: ComponentType<C>
-): ComponentType<StateProps<C> & Config<Props, DefaultProps>> =>
-  class StateManager extends Component<StateProps<C> & Props, State> {
+const manageState = <P extends {}>(
+  SelectComponent: ComponentType<P>
+): ComponentType<StateProps<P> & Config<Props, DefaultProps>> =>
+  class StateManager extends Component<StateProps<P> & Props, State> {
     static defaultProps: DefaultProps = defaultProps;
 
     select: ElementRef<*>;

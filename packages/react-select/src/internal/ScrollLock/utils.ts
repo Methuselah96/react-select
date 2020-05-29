@@ -6,7 +6,7 @@ export function allowTouchMove(e: TouchEvent) {
   e.stopPropagation();
 }
 
-export function preventInertiaScroll() {
+export function preventInertiaScroll(this: HTMLElement) {
   const top = this.scrollTop;
   const totalScroll = this.scrollHeight;
   const currentScroll = top + this.offsetHeight;

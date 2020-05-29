@@ -1,9 +1,8 @@
 /** @jsx jsx */
 import {
   Component,
-  type Element as ReactElement,
-  type ElementRef,
   ReactNode,
+  Ref,
 } from 'react';
 import { jsx } from '@emotion/core';
 import { createPortal } from 'react-dom';
@@ -18,7 +17,6 @@ import {
   scrollTo,
 } from '../utils';
 import type {
-  InnerRef,
   MenuPlacement,
   MenuPosition,
   CommonProps,
@@ -38,7 +36,7 @@ interface MenuState {
 }
 interface PlacementArgs {
   maxHeight: number;
-  menuEl: ElementRef<*>;
+  menuEl: HTMLDivElement;
   minHeight: number,
   placement: 'bottom' | 'top' | 'auto',
   shouldScroll: boolean,
@@ -222,16 +220,16 @@ export type MenuAndPlacerCommon = CommonProps & {
   /** Set whether the page should scroll to show the menu. */
   menuShouldScrollIntoView: boolean,
 };
-export type MenuProps = MenuAndPlacerCommon & {
+export interface MenuProps extends MenuAndPlacerCommon {
   /** Reference to the internal element, consumed by the MenuPlacer component */
-  innerRef: ElementRef<*>,
+  innerRef: Ref<HTMLDivElement>;
   /** The children to be rendered. */
-  children: ReactElement<*>,
-};
-export type MenuPlacerProps = MenuAndPlacerCommon & {
+  children: Element;
+}
+export interface MenuPlacerProps extends MenuAndPlacerCommon {
   /** The children to be rendered. */
-  children: ({}) => ReactNode,
-};
+  children: ({}) => ReactNode;
+}
 
 function alignToControl(placement: 'bottom' | 'top' | null) {
   const placementToCSSProp = { bottom: 'top', top: 'bottom' };
@@ -266,7 +264,7 @@ export class MenuPlacer extends Component<MenuPlacerProps, MenuState> {
   static contextTypes = {
     getPortalPlacement: PropTypes.func,
   };
-  getPlacement = (ref: ElementRef<*>) => {
+  getPlacement = (ref: HTMLDivElement) => {
     const {
       minMenuHeight,
       maxMenuHeight,
@@ -341,12 +339,12 @@ type MenuListState = {
   maxHeight: number,
 };
 
-export type MenuListProps = {
+export interface MenuListProps {
   /** The children to be rendered. */
-  children: Node,
+  children: ReactNode;
   /** Inner ref to DOM Node */
-  innerRef: InnerRef,
-};
+  innerRef: Ref<HTMLDivElement>;
+}
 export type MenuListComponentProps = CommonProps &
   MenuListProps &
   MenuListState;

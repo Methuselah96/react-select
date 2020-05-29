@@ -13,14 +13,14 @@ export interface CaptorProps {
 class ScrollCaptor extends Component<CaptorProps> {
   isBottom: boolean = false;
   isTop: boolean = false;
-  scrollTarget: HTMLElement;
-  touchStart: number;
+  scrollTarget?: HTMLElement;
+  touchStart?: number;
 
   componentDidMount() {
-    this.startListening(this.scrollTarget);
+    this.startListening(this.scrollTarget!);
   }
   componentWillUnmount() {
-    this.stopListening(this.scrollTarget);
+    this.stopListening(this.scrollTarget!);
   }
   startListening(el: HTMLElement) {
     // bail early if no element is available to attach to
@@ -61,8 +61,8 @@ class ScrollCaptor extends Component<CaptorProps> {
       onTopArrive,
       onTopLeave,
     } = this.props;
-    const { scrollTop, scrollHeight, clientHeight } = this.scrollTarget;
-    const target = this.scrollTarget;
+    const { scrollTop, scrollHeight, clientHeight } = this.scrollTarget!;
+    const target = this.scrollTarget!;
     const isDeltaPositive = delta > 0;
     const availableScroll = scrollHeight - clientHeight - scrollTop;
     let shouldCancelScroll = false;
@@ -110,7 +110,7 @@ class ScrollCaptor extends Component<CaptorProps> {
     this.touchStart = event.changedTouches[0].clientY;
   };
   onTouchMove = (event: TouchEvent) => {
-    const deltaY = this.touchStart - event.changedTouches[0].clientY;
+    const deltaY = this.touchStart! - event.changedTouches[0].clientY;
     this.handleEventDelta(event, deltaY);
   };
 
@@ -127,9 +127,9 @@ class ScrollCaptor extends Component<CaptorProps> {
   }
 }
 
-type SwitchProps = CaptorProps & {
-  isEnabled: boolean,
-};
+interface SwitchProps extends CaptorProps {
+  isEnabled: boolean;
+}
 
 export default function ScrollCaptorSwitch({
   isEnabled = true,

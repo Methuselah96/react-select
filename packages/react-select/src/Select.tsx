@@ -200,7 +200,7 @@ export interface Props {
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
   name?: string;
   /* Text to display when there are no options */
-  noOptionsMessage: (obj: { inputValue: string }) => Reactode | null;
+  noOptionsMessage: (obj: { inputValue: string }) => ReactNode | null;
   /* Handle blur events on the control */
   onBlur?: FocusEventHandler;
   /* Handle change events on the select */
