@@ -1,12 +1,12 @@
 import React, { ComponentType } from 'react';
 import { SingleValueProps } from '../components/SingleValue';
-import { Fade } from './transitions';
+import { Fade, FadeProps } from './transitions';
 
 // instant fade; all transition-group children must be transitions
 
 const AnimatedSingleValue = (
   WrappedComponent: ComponentType<SingleValueProps>
-): ComponentType<SingleValueProps> => (props) => (
+): ComponentType<SingleValueProps & Omit<FadeProps, 'component'>> => (props) => (
   <Fade component={WrappedComponent} {...props} />
 );
 

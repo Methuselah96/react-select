@@ -5,7 +5,7 @@ import AutosizeInput from 'react-input-autosize';
 
 import type { PropsWithStyles, ClassNamesState } from '../types';
 
-export type InputProps = PropsWithStyles & {
+export interface InputProps extends PropsWithStyles {
   cx: (classNamesState: ClassNamesState | null | undefined, className: string | null | undefined) => string | undefined;
   /** Reference to the internal element */
   innerRef: RefCallback<HTMLInputElement>;
@@ -16,7 +16,7 @@ export type InputProps = PropsWithStyles & {
   className?: string;
   /** The ID of the form that the input belongs to */
   form?: string;
-};
+}
 
 export const inputCSS = ({
   isDisabled,

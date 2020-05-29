@@ -58,7 +58,7 @@ export const SelectContainer = (props: ContainerProps) => {
 // Value Container
 // ==============================
 
-export type ValueContainerProps = CommonProps & {
+export interface ValueContainerProps extends CommonProps {
   /** Set when the value container should hold multiple values */
   isMulti: boolean,
   /** Whether the value container currently holds a value. */

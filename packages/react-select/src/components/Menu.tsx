@@ -12,7 +12,7 @@ import PropTypes from 'prop-types';
 import {
   animatedScrollTo,
   getBoundingClientObj,
-  type RectType,
+  RectType,
   getScrollParent,
   getScrollTop,
   scrollTo,

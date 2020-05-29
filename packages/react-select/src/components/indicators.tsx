@@ -41,16 +41,16 @@ export const DownChevron = (props: any) => (
 // Dropdown & Clear Buttons
 // ==============================
 
-export type IndicatorProps = CommonProps & {
+export interface IndicatorProps extends CommonProps {
   /** The children to be rendered inside the indicator. */
-  children: ReactNode,
+  children: ReactNode;
   /** Props that will be passed on to the children. */
-  innerProps: any,
+  innerProps: any;
   /** The focused state of the select. */
-  isFocused: boolean,
+  isFocused: boolean;
   /** Whether the text is right to left */
-  isRtl: boolean,
-};
+  isRtl: boolean;
+}
 
 const baseCSS = ({
   isFocused,
@@ -197,17 +197,16 @@ const LoadingDot = ({ delay, offset }: DotProps) => (
   />
 );
 
-export type LoadingIconProps = {
+export interface LoadingIconProps extends CommonProps {
   /** Props that will be passed on to the children. */
-  innerProps: any,
+  innerProps: any;
   /** The focused state of the select. */
-  isFocused: boolean,
+  isFocused: boolean;
   /** Whether the text is right to left */
-  isRtl: boolean,
-} & CommonProps & {
-    /** Set size of the container. */
-    size: number,
-  };
+  isRtl: boolean;
+  /** Set size of the container. */
+  size: number;
+}
 export const LoadingIndicator = (props: LoadingIconProps) => {
   const { className, cx, getStyles, innerProps, isRtl } = props;
 

@@ -1,5 +1,6 @@
-import React, { Component, ComponentType, RefCallback } from 'react';
+import React, { Component, ComponentType, CSSProperties, RefCallback } from 'react';
 import { Transition } from 'react-transition-group';
+import { TransitionStatus } from 'react-transition-group/Transition';
 
 export type fn = () => void;
 export interface BaseTransition {
@@ -13,10 +14,10 @@ export interface BaseTransition {
 // Fade Transition
 // ==============================
 
-type FadeProps = BaseTransition & {
-  component: ComponentType<any>,
-  duration: number,
-};
+export interface FadeProps extends BaseTransition {
+  component: ComponentType<any>;
+  duration: number;
+}
 export const Fade = ({
   component: Tag,
   duration = 1,
@@ -24,11 +25,12 @@ export const Fade = ({
   onExited, // eslint-disable-line no-unused-vars
   ...props
 }: FadeProps) => {
-  const transition = {
+  const transition: { [Status in TransitionStatus]: CSSProperties | undefined } = {
     entering: { opacity: 0 },
     entered: { opacity: 1, transition: `opacity ${duration}ms` },
     exiting: { opacity: 0 },
     exited: { opacity: 0 },
+    unmounted: undefined,
   };
 
   return (
@@ -51,11 +53,9 @@ export const Fade = ({
 
 export const collapseDuration = 260;
 
-type TransitionState = 'exiting' | 'exited';
 type Width = number | 'auto';
-interface CollapseProps {
+interface CollapseProps extends BaseTransition {
   children: any;
-  in: boolean;
 }
 interface CollapseState {
   width: Width;
@@ -65,11 +65,14 @@ interface CollapseState {
 // finally removing from DOM
 export class Collapse extends Component<CollapseProps, CollapseState> {
   duration = collapseDuration;
-  rafID: number | null;
-  state = { width: 'auto' };
-  transition = {
+  rafID?: number | null;
+  state: CollapseState = { width: 'auto' };
+  transition: { [Status in TransitionStatus]: CSSProperties | undefined } = {
     exiting: { width: 0, transition: `width ${this.duration}ms ease-out` },
     exited: { width: 0 },
+    entering: undefined,
+    entered: undefined,
+    unmounted: undefined,
   };
   componentWillUnmount () {
     if (this.rafID) {
@@ -96,14 +99,14 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
   };
 
   // get base styles
-  getStyle = (width: Width) => ({
+  getStyle = (width: Width): CSSProperties => ({
     overflow: 'hidden',
     whiteSpace: 'nowrap',
     width,
   });
 
   // get transition styles
-  getTransition = (state: TransitionState) => this.transition[state];
+  getTransition = (state: TransitionStatus) => this.transition[state];
 
   render() {
     const { children, in: inProp } = this.props;
