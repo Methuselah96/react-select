@@ -1,4 +1,4 @@
-import React, { Component, type ElementRef, ReactNode, MouseEvent as SyntheticMouseEvent, TouchEvent as SyntheticTouchEvent } from 'react';
+import React, { Component, ReactNode, MouseEvent as SyntheticMouseEvent, TouchEvent as SyntheticTouchEvent } from 'react';
 import memoizeOne from 'memoize-one';
 import { MenuPlacer } from './components/Menu';
 import isEqual from './internal/react-fast-compare';
@@ -44,7 +44,7 @@ import {
   SelectComponentsConfig,
 } from './components/index';
 
-import { defaultStyles, StylesConfig } from './styles';
+import { defaultStyles, Styles, StylesConfig } from './styles';
 import { defaultTheme, ThemeConfig } from './theme';
 
 import type {
@@ -373,8 +373,8 @@ export default class Select extends Component<Props, State> {
     this.buildMenuOptions = memoizeOne(
       this.buildMenuOptions,
       (newArgs: any, lastArgs: any) => {
-        const [newProps, newSelectValue] = (newArgs: [Props, OptionsType]);
-        const [lastProps, lastSelectValue] = (lastArgs: [Props, OptionsType]);
+        const [newProps, newSelectValue] = newArgs;
+        const [lastProps, lastSelectValue] = lastArgs;
 
         return isEqual(newSelectValue, lastSelectValue)
           && isEqual(newProps.inputValue, lastProps.inputValue)
@@ -455,7 +455,7 @@ export default class Select extends Component<Props, State> {
     this.stopListeningToTouch();
     document.removeEventListener('scroll', this.onScroll, true);
   }
-  cacheComponents = (components: SelectComponents) => {
+  cacheComponents = (components: Partial<SelectComponents>) => {
     this.components = defaultComponents({ components });
   };
   // ==============================
@@ -799,7 +799,7 @@ export default class Select extends Component<Props, State> {
   getOptionValue = (data: OptionType): string => {
     return this.props.getOptionValue(data);
   };
-  getStyles = (key: string, props: {}): {} => {
+  getStyles = (key: keyof Styles, props: {}): {} => {
     const base = defaultStyles[key](props);
     base.boxSizing = 'border-box';
     const custom = this.props.styles[key];

@@ -2,7 +2,7 @@ import React, {
   Component,
   type Config,
   ReactNode,
-  type AbstractComponent,
+  ComponentType,
   type ElementRef,
   type ElementConfig,
 } from 'react';
@@ -84,13 +84,13 @@ type State = {
   options: OptionsType,
 };
 
-export const makeCreatableSelect = <C extends {}>(
-  SelectComponent: AbstractComponent<C>
-): AbstractComponent<C & Config<CreatableProps, DefaultCreatableProps>> =>
-  class Creatable extends Component<CreatableProps & C, State> {
+export const makeCreatableSelect = <P extends {}>(
+  SelectComponent: ComponentType<P>
+): ComponentType<P & Config<CreatableProps, DefaultCreatableProps>> =>
+  class Creatable extends Component<CreatableProps & P, State> {
     static defaultProps = defaultProps;
     select: ElementRef<*>;
-    constructor(props: CreatableProps & C) {
+    constructor(props: CreatableProps & P) {
       super(props);
       const options = props.options || [];
       this.state = {
@@ -98,7 +98,7 @@ export const makeCreatableSelect = <C extends {}>(
         options: options,
       };
     }
-    UNSAFE_componentWillReceiveProps(nextProps: CreatableProps & C) {
+    UNSAFE_componentWillReceiveProps(nextProps: CreatableProps & P) {
       const {
         allowCreateWhileLoading,
         createOptionPosition,

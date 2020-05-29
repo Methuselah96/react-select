@@ -1,8 +1,6 @@
 import React, {
   Component,
-  type ElementRef,
   ComponentType,
-  type Config,
 } from 'react';
 
 import type { ActionMeta, InputActionMeta, ValueType } from './types';
@@ -19,18 +17,7 @@ export type Props = DefaultProps & {
   onChange?: (value: ValueType, actionMeta: ActionMeta) => void,
 };
 
-type StateProps<P> = $Diff<
-  P,
-  {
-    inputValue: any,
-    value: any,
-    menuIsOpen: any,
-    onChange: any,
-    onInputChange: any,
-    onMenuClose: any,
-    onMenuOpen: any,
-  }
->;
+type StateProps<P> = Omit<P, 'inputValue' | 'value' | 'menuIsOpen' | 'onChange' | 'onInputChange' | 'onMenuClose' | 'onMenuOpen'>;
 
 interface State {
   inputValue: string;
@@ -46,13 +33,13 @@ export const defaultProps = {
 
 const manageState = <P extends {}>(
   SelectComponent: ComponentType<P>
-): ComponentType<StateProps<P> & Config<Props, DefaultProps>> =>
+) =>
   class StateManager extends Component<StateProps<P> & Props, State> {
     static defaultProps: DefaultProps = defaultProps;
 
     select: ElementRef<*>;
 
-    state = {
+    state: State = {
       inputValue:
         this.props.inputValue !== undefined
           ? this.props.inputValue

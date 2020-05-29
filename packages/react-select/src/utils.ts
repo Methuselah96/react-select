@@ -1,4 +1,3 @@
-import { type ElementRef } from 'react';
 import type {
   ClassNamesState,
   InputActionMeta,
@@ -123,7 +122,7 @@ export function scrollTo(el: HTMLElement, top: number): void {
 // Get Scroll Parent
 // ------------------------------
 
-export function getScrollParent(element: ElementRef): HTMLElement {
+export function getScrollParent(element: HTMLElement): HTMLElement {
   let style = getComputedStyle(element);
   const excludeStaticParent = style.position === 'absolute';
   const overflowRx = /(auto|scroll)/;

@@ -33,30 +33,30 @@ interface Props {
 }
 
 // TODO: flow for state
-type StyleFn = (props: Props, state: { [key: string]: any }) => {};
+type StyleFn = (props: Props, state?: { [key: string]: any }) => {};
 
 export interface Styles {
-  clearIndicator?: StyleFn;
-  container?: StyleFn;
-  control?: StyleFn;
-  dropdownIndicator?: StyleFn;
-  group?: StyleFn;
-  groupHeading?: StyleFn;
-  indicatorsContainer?: StyleFn;
-  indicatorSeparator?: StyleFn;
-  input?: StyleFn;
-  loadingIndicator?: StyleFn;
-  loadingMessage?: StyleFn;
-  menu?: StyleFn;
-  menuList?: StyleFn;
-  menuPortal?: StyleFn;
-  multiValue?: StyleFn;
-  multiValueLabel?: StyleFn;
-  multiValueRemove?: StyleFn;
-  noOptionsMessage?: StyleFn;
-  option?: StyleFn;
-  placeholder?: StyleFn;
-  singleValue?: StyleFn;
+  clearIndicator: StyleFn;
+  container: StyleFn;
+  control: StyleFn;
+  dropdownIndicator: StyleFn;
+  group: StyleFn;
+  groupHeading: StyleFn;
+  indicatorsContainer: StyleFn;
+  indicatorSeparator: StyleFn;
+  input: StyleFn;
+  loadingIndicator: StyleFn;
+  loadingMessage: StyleFn;
+  menu: StyleFn;
+  menuList: StyleFn;
+  menuPortal: StyleFn;
+  multiValue: StyleFn;
+  multiValueLabel: StyleFn;
+  multiValueRemove: StyleFn;
+  noOptionsMessage: StyleFn;
+  option: StyleFn;
+  placeholder: StyleFn;
+  singleValue: StyleFn;
   valueContainer: StyleFn;
 }
 export type StylesConfig = Partial<Styles>;
