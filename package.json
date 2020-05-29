@@ -144,5 +144,8 @@
   "browser": {
     "./dist/react-select.cjs.js": "./dist/react-select.browser.cjs.js",
     "./dist/react-select.esm.js": "./dist/react-select.browser.esm.js"
+  },
+  "devDependencies": {
+    "@types/react-transition-group": "^4.4.0"
   }
 }
