@@ -13,7 +13,7 @@ const filterColors = (inputValue: string) => {
   );
 };
 
-const promiseOptions = (inputValue: string) =>
+const promiseOptions = (inputValue: string): Promise<ColourOption[]> =>
   new Promise((resolve) => {
     setTimeout(() => {
       resolve(filterColors(inputValue));
@@ -47,7 +47,7 @@ export default class AccessingInternals extends Component {
     return (
       <Fragment>
         <h4>Creatable Select</h4>
-        <CreatableSelect<ColourOption>
+        <CreatableSelect
           ref={(ref) => {
             this.creatableRef = ref;
           }}
@@ -71,7 +71,7 @@ export default class AccessingInternals extends Component {
           </button>
         </Note>
         <h4>Async Select</h4>
-        <AsyncSelect<ColourOption>
+        <AsyncSelect
           ref={(ref) => {
             this.asyncRef = ref;
           }}
@@ -96,7 +96,7 @@ export default class AccessingInternals extends Component {
           </button>
         </Note>
         <h4>Select</h4>
-        <Select<ColourOption>
+        <Select
           ref={(ref) => {
             this.selectRef = ref;
           }}

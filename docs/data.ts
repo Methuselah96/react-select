@@ -6,7 +6,7 @@ export interface ColourOption {
   isDisabled?: boolean;
 }
 
-export const colourOptions = [
+export const colourOptions: ColourOption[] = [
   { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
   { value: 'blue', label: 'Blue', color: '#0052CC', isDisabled: true },
   { value: 'purple', label: 'Purple', color: '#5243AA' },
@@ -120,7 +120,12 @@ export const dogOptions = [
 // 	bigOptions = bigOptions.concat(colourOptions);
 // }
 
-export const groupedOptions = [
+export interface GroupedOption {
+  label: string;
+  options: (ColourOption | FlavourOption)[];
+}
+
+export const groupedOptions: GroupedOption[] = [
   {
     label: 'Colours',
     options: colourOptions,

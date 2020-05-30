@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import AsyncSelect from 'react-select/async';
-import { colourOptions } from '../data';
+import { ColourOption, colourOptions } from '../data';
 
 interface State {
   inputValue: string;
@@ -13,7 +13,7 @@ const filterColors = (inputValue: string) => {
   );
 };
 
-const promiseOptions = (inputValue: string) =>
+const promiseOptions = (inputValue: string): Promise<ColourOption[]> =>
   new Promise((resolve) => {
     setTimeout(() => {
       resolve(filterColors(inputValue));

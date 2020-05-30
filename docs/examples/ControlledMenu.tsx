@@ -27,7 +27,7 @@ export default class ControlledMenu extends Component<{}, State> {
     const { menuIsOpen } = this.state;
     return (
       <Fragment>
-        <Select<ColourOption>
+        <Select
           ref={(ref) => {
             this.select = ref;
           }}

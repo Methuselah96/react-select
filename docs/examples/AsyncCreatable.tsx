@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import AsyncCreatableSelect from 'react-select/async-creatable';
-import { colourOptions } from '../data';
+import { ColourOption, colourOptions } from '../data';
 
 const filterColors = (inputValue: string) => {
   return colourOptions.filter((i) =>
@@ -9,7 +9,7 @@ const filterColors = (inputValue: string) => {
   );
 };
 
-const promiseOptions = (inputValue: string) =>
+const promiseOptions = (inputValue: string): Promise<ColourOption[]> =>
   new Promise((resolve) => {
     setTimeout(() => {
       resolve(filterColors(inputValue));

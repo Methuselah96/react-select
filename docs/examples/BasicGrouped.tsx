@@ -1,12 +1,7 @@
 import React, { CSSProperties } from 'react';
 
-import Select, { GroupType } from 'react-select';
-import {
-  ColourOption,
-  colourOptions,
-  FlavourOption,
-  groupedOptions,
-} from '../data';
+import Select from 'react-select';
+import { colourOptions, GroupedOption, groupedOptions } from '../data';
 
 const groupStyles = {
   display: 'flex',
@@ -26,7 +21,7 @@ const groupBadgeStyles: CSSProperties = {
   textAlign: 'center',
 };
 
-const formatGroupLabel = (data: GroupType<ColourOption | FlavourOption>) => (
+const formatGroupLabel = (data: GroupedOption) => (
   <div style={groupStyles}>
     <span>{data.label}</span>
     <span style={groupBadgeStyles}>{data.options.length}</span>
@@ -34,7 +29,7 @@ const formatGroupLabel = (data: GroupType<ColourOption | FlavourOption>) => (
 );
 
 export default () => (
-  <Select<ColourOption | FlavourOption>
+  <Select
     defaultValue={colourOptions[1]}
     options={groupedOptions}
     formatGroupLabel={formatGroupLabel}
