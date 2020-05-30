@@ -8,20 +8,17 @@ import {
   AsyncCallbacks,
   AsyncMulti,
   AsyncPromises,
+  DefaultOptions,
 } from '../../examples';
-
 
 export default function Async() {
   return (
-  <Fragment>
-    <Helmet>
-      <title>Async - React Select</title>
-      <meta
-        name="description"
-        content="The react-select Async Component."
-      />
-    </Helmet>
-    {md`
+    <Fragment>
+      <Helmet>
+        <title>Async - React Select</title>
+        <meta name="description" content="The react-select Async Component." />
+      </Helmet>
+      {md`
     # Async
     Use the Async component to load options from a remote source as the user types.
 
@@ -36,8 +33,8 @@ export default function Async() {
     ${(
       <ExampleWrapper
         label="Callbacks"
-        urlPath="docs/examples/AsyncCallbacks.js"
-        raw={require('!!raw-loader!../../examples/AsyncCallbacks.js')}
+        urlPath="docs/examples/AsyncCallbacks.tsx"
+        raw={require('!!raw-loader!../../examples/AsyncCallbacks.tsx')}
       >
         <AsyncCallbacks />
       </ExampleWrapper>
@@ -48,8 +45,8 @@ export default function Async() {
     ${(
       <ExampleWrapper
         label="Promises"
-        urlPath="docs/examples/AsyncPromises.js"
-        raw={require('!!raw-loader!../../examples/AsyncPromises.js')}
+        urlPath="docs/examples/AsyncPromises.tsx"
+        raw={require('!!raw-loader!../../examples/AsyncPromises.tsx')}
       >
         <AsyncPromises />
       </ExampleWrapper>
@@ -58,10 +55,10 @@ export default function Async() {
     ${(
       <ExampleWrapper
         label="Async MultiSelect"
-        urlPath="docs/examples/AsyncMulti.js"
-        raw={require('!!raw-loader!../../examples/AsyncMulti.js')}
+        urlPath="docs/examples/AsyncMulti.tsx"
+        raw={require('!!raw-loader!../../examples/AsyncMulti.tsx')}
       >
-        <AsyncMulti/>
+        <AsyncMulti />
       </ExampleWrapper>
     )}
 
@@ -75,19 +72,20 @@ export default function Async() {
         urlPath="docs/examples/DefaultOptions.js"
         raw={require('!!raw-loader!../../examples/DefaultOptions.js')}
       >
-        <AsyncMulti/>
+        <DefaultOptions />
       </ExampleWrapper>
     )}
 
     ${(
       <ExampleWrapper
         label="Async with defaultOptions as true"
-        urlPath="docs/examples/AsyncPromises.js"
-        raw={require('!!raw-loader!../../examples/AsyncPromises.js')}
+        urlPath="docs/examples/AsyncPromises.tsx"
+        raw={require('!!raw-loader!../../examples/AsyncPromises.tsx')}
       >
         <AsyncPromises />
       </ExampleWrapper>
     )}
   `}
-</Fragment>);
-};
+    </Fragment>
+  );
+}

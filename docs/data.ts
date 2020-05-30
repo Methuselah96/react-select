@@ -19,6 +19,12 @@ export const colourOptions = [
   { value: 'silver', label: 'Silver', color: '#666666' },
 ];
 
+export interface FlavourOption {
+  value: string;
+  label: string;
+  rating: string;
+}
+
 export const flavourOptions = [
   { value: 'vanilla', label: 'Vanilla', rating: 'safe' },
   { value: 'chocolate', label: 'Chocolate', rating: 'good' },

@@ -33,8 +33,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Single"
-      urlPath="docs/examples/BasicSingle.js"
-      raw={require('!!raw-loader!../../examples/BasicSingle.js')}
+      urlPath="docs/examples/BasicSingle.tsx"
+      raw={require('!!raw-loader!../../examples/BasicSingle.tsx')}
     >
       <BasicSingle />
     </ExampleWrapper>
@@ -43,8 +43,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Multi"
-      urlPath="docs/examples/BasicMulti.js"
-      raw={require('!!raw-loader!../../examples/BasicMulti.js')}
+      urlPath="docs/examples/BasicMulti.tsx"
+      raw={require('!!raw-loader!../../examples/BasicMulti.tsx')}
     >
       <BasicMulti />
     </ExampleWrapper>
@@ -78,8 +78,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Grouped"
-      urlPath="docs/examples/BasicGrouped.js"
-      raw={require('!!raw-loader!../../examples/BasicGrouped.js')}
+      urlPath="docs/examples/BasicGrouped.tsx"
+      raw={require('!!raw-loader!../../examples/BasicGrouped.tsx')}
     >
       <BasicGrouped />
     </ExampleWrapper>
@@ -99,8 +99,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Animation"
-      urlPath="docs/examples/AnimatedMulti.js"
-      raw={require('!!raw-loader!../../examples/AnimatedMulti.js')}
+      urlPath="docs/examples/AnimatedMulti.tsx"
+      raw={require('!!raw-loader!../../examples/AnimatedMulti.tsx')}
     >
       <AnimatedMulti />
     </ExampleWrapper>
@@ -142,8 +142,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Callbacks"
-      urlPath="docs/examples/AsyncCallbacks.js"
-      raw={require('!!raw-loader!../../examples/AsyncCallbacks.js')}
+      urlPath="docs/examples/AsyncCallbacks.tsx"
+      raw={require('!!raw-loader!../../examples/AsyncCallbacks.tsx')}
     >
       <AsyncCallbacks />
     </ExampleWrapper>
@@ -152,8 +152,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Promises"
-      urlPath="docs/examples/AsyncPromises.js"
-      raw={require('!!raw-loader!../../examples/AsyncPromises.js')}
+      urlPath="docs/examples/AsyncPromises.tsx"
+      raw={require('!!raw-loader!../../examples/AsyncPromises.tsx')}
     >
       <AsyncPromises />
     </ExampleWrapper>
@@ -171,8 +171,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Creatable Example"
-      urlPath="docs/home/examples/CreatableSingle.js"
-      raw={require('!!raw-loader!../../examples/CreatableSingle.js')}
+      urlPath="docs/home/examples/CreatableSingle.tsx"
+      raw={require('!!raw-loader!../../examples/CreatableSingle.tsx')}
     >
       <CreatableSingle />
     </ExampleWrapper>
