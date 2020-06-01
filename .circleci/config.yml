@@ -57,7 +57,7 @@ jobs:
                   name: Running unit tests
                   command: |
                       yarn lint
-                      yarn flow check --flowconfig-name=.flowconfig-ci
+                      yarn tsc --noEmit
                       yarn test:jest
                       yarn coveralls
     end_to_end:
