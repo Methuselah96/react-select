@@ -312,8 +312,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom Menu Example"
-            urlPath="docs/examples/CustomMenu.js"
-            raw={require('!!raw-loader!../../examples/CustomMenu.js')}
+            urlPath="docs/examples/CustomMenu.tsx"
+            raw={require('!!raw-loader!../../examples/CustomMenu.tsx')}
           >
             <CustomMenu />
           </ExampleWrapper>
@@ -328,8 +328,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom MenuList Example"
-            urlPath="docs/examples/CustomMenuList.js"
-            raw={require('!!raw-loader!../../examples/CustomMenuList.js')}
+            urlPath="docs/examples/CustomMenuList.tsx"
+            raw={require('!!raw-loader!../../examples/CustomMenuList.tsx')}
           >
             <CustomMenuList />
           </ExampleWrapper>
@@ -345,8 +345,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom LoadingMessage Example"
-            urlPath="docs/examples/CustomLoadingMessage.js"
-            raw={require('!!raw-loader!../../examples/CustomLoadingMessage.js')}
+            urlPath="docs/examples/CustomLoadingMessage.tsx"
+            raw={require('!!raw-loader!../../examples/CustomLoadingMessage.tsx')}
           >
             <CustomLoadingMessage />
           </ExampleWrapper>
@@ -361,8 +361,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom NoOptionsMessage Example"
-            urlPath="docs/examples/CustomNoOptionsMessage.js"
-            raw={require('!!raw-loader!../../examples/CustomNoOptionsMessage.js')}
+            urlPath="docs/examples/CustomNoOptionsMessage.tsx"
+            raw={require('!!raw-loader!../../examples/CustomNoOptionsMessage.tsx')}
           >
             <CustomNoOptionsMessage />
           </ExampleWrapper>
@@ -383,8 +383,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom MultiValueContainer Example"
-            urlPath="docs/examples/CustomMultiValueContainer.js"
-            raw={require('!!raw-loader!../../examples/CustomMultiValueContainer.js')}
+            urlPath="docs/examples/CustomMultiValueContainer.tsx"
+            raw={require('!!raw-loader!../../examples/CustomMultiValueContainer.tsx')}
           >
             <CustomMultiValueContainer />
           </ExampleWrapper>
@@ -400,8 +400,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom MultiValueLabel Example"
-            urlPath="docs/examples/CustomMultiValueLabel.js"
-            raw={require('!!raw-loader!../../examples/CustomMultiValueLabel.js')}
+            urlPath="docs/examples/CustomMultiValueLabel.tsx"
+            raw={require('!!raw-loader!../../examples/CustomMultiValueLabel.tsx')}
           >
             <CustomMultiValueLabel />
           </ExampleWrapper>
@@ -417,8 +417,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom MultiValueRemove Example"
-            urlPath="docs/examples/CustomMultiValueRemove.js"
-            raw={require('!!raw-loader!../../examples/CustomMultiValueRemove.js')}
+            urlPath="docs/examples/CustomMultiValueRemove.tsx"
+            raw={require('!!raw-loader!../../examples/CustomMultiValueRemove.tsx')}
           >
             <CustomMultiValueRemove />
           </ExampleWrapper>
@@ -433,8 +433,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom Option Example"
-            urlPath="docs/examples/CustomOption.js"
-            raw={require('!!raw-loader!../../examples/CustomOption.js')}
+            urlPath="docs/examples/CustomOption.tsx"
+            raw={require('!!raw-loader!../../examples/CustomOption.tsx')}
           >
             <CustomOption />
           </ExampleWrapper>
@@ -451,8 +451,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom Placeholder Example"
-            urlPath="docs/examples/CustomPlaceholder.js"
-            raw={require('!!raw-loader!../../examples/CustomPlaceholder.js')}
+            urlPath="docs/examples/CustomPlaceholder.tsx"
+            raw={require('!!raw-loader!../../examples/CustomPlaceholder.tsx')}
           >
             <CustomPlaceholder />
           </ExampleWrapper>
@@ -467,8 +467,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom SelectContainer Example"
-            urlPath="docs/examples/CustomSelectContainer.js"
-            raw={require('!!raw-loader!../../examples/CustomSelectContainer.js')}
+            urlPath="docs/examples/CustomSelectContainer.tsx"
+            raw={require('!!raw-loader!../../examples/CustomSelectContainer.tsx')}
           >
             <CustomSelectContainer />
           </ExampleWrapper>
@@ -483,8 +483,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom SingleValue Example"
-            urlPath="docs/examples/CustomSingleValue.js"
-            raw={require('!!raw-loader!../../examples/CustomSingleValue.js')}
+            urlPath="docs/examples/CustomSingleValue.tsx"
+            raw={require('!!raw-loader!../../examples/CustomSingleValue.tsx')}
           >
             <CustomSingleValue />
           </ExampleWrapper>
@@ -499,8 +499,8 @@ export default function Components() {
         ${(
           <ExampleWrapper
             label="Custom ValueContainer Example"
-            urlPath="docs/examples/CustomValueContainer.js"
-            raw={require('!!raw-loader!../../examples/CustomValueContainer.js')}
+            urlPath="docs/examples/CustomValueContainer.tsx"
+            raw={require('!!raw-loader!../../examples/CustomValueContainer.tsx')}
           >
             <CustomValueContainer />
           </ExampleWrapper>

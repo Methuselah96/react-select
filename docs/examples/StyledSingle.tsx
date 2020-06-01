@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import chroma from 'chroma-js';
 
 import { colourOptions } from '../data';
@@ -20,8 +20,11 @@ const dot = (color = '#ccc') => ({
 });
 
 const colourStyles = {
-  control: styles => ({ ...styles, backgroundColor: 'white' }),
-  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+  control: (styles: CSSProperties) => ({ ...styles, backgroundColor: 'white' }),
+  option: (
+    styles: CSSProperties,
+    { data, isDisabled, isFocused, isSelected }: any
+  ) => {
     const color = chroma(data.color);
     return {
       ...styles,
@@ -43,13 +46,17 @@ const colourStyles = {
 
       ':active': {
         ...styles[':active'],
-        backgroundColor: !isDisabled && (isSelected ? data.color : color.alpha(0.3).css()),
+        backgroundColor:
+          !isDisabled && (isSelected ? data.color : color.alpha(0.3).css()),
       },
     };
   },
-  input: styles => ({ ...styles, ...dot() }),
-  placeholder: styles => ({ ...styles, ...dot() }),
-  singleValue: (styles, { data }) => ({ ...styles, ...dot(data.color) }),
+  input: (styles: CSSProperties) => ({ ...styles, ...dot() }),
+  placeholder: (styles: CSSProperties) => ({ ...styles, ...dot() }),
+  singleValue: (styles: CSSProperties, { data }: any) => ({
+    ...styles,
+    ...dot(data.color),
+  }),
 };
 
 export default () => (

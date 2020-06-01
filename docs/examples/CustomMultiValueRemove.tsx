@@ -1,12 +1,10 @@
-// @flow
-
 import React from 'react';
 import EmojiIcon from '@atlaskit/icon/glyph/emoji';
 import Tooltip from '@atlaskit/tooltip';
 import Select, { components } from 'react-select';
 import { colourOptions } from '../data';
 
-const MultiValueRemove = props => {
+const MultiValueRemove = (props: any) => {
   return (
     <Tooltip
       content={'Customise your multi-value remove component!'}
@@ -24,7 +22,7 @@ export default () => (
     closeMenuOnSelect={false}
     components={{ MultiValueRemove }}
     styles={{
-      multiValueRemove: base => ({
+      multiValueRemove: (base) => ({
         ...base,
         border: `1px dotted ${colourOptions[2].color}`,
         height: '100%',

@@ -1,9 +1,9 @@
 import React from 'react';
 import Tooltip from '@atlaskit/tooltip';
-import Select, { components } from 'react-select';
-import { colourOptions } from '../data';
+import Select, { components, OptionProps } from 'react-select';
+import { ColourOption, colourOptions } from '../data';
 
-const Option = props => {
+const Option = (props: OptionProps<ColourOption>) => {
   return (
     <Tooltip content={'Customise your option component!'} truncateText>
       <components.Option {...props} />
@@ -16,7 +16,7 @@ export default () => (
     closeMenuOnSelect={false}
     components={{ Option }}
     styles={{
-      option: base => ({
+      option: (base) => ({
         ...base,
         border: `1px dotted ${colourOptions[2].color}`,
         height: '100%',

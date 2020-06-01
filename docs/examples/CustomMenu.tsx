@@ -1,10 +1,15 @@
 import React, { Fragment } from 'react';
 
-import Select, { components } from 'react-select';
-import { colourOptions, groupedOptions } from '../data';
+import Select, { components, GroupType, MenuProps } from 'react-select';
+import {
+  ColourOption,
+  colourOptions,
+  FlavourOption,
+  groupedOptions,
+} from '../data';
 
-function getLength(options) {
-  return options.reduce((acc, curr) => {
+function getLength(options: GroupType<ColourOption | FlavourOption>): number {
+  return Object.values(options).reduce((acc, curr) => {
     if (curr.options) return acc + getLength(curr.options);
     return acc + 1;
   }, 0);
@@ -14,7 +19,7 @@ const menuHeaderStyle = {
   padding: '8px 12px',
 };
 
-const Menu = props => {
+const Menu = (props: MenuProps<ColourOption | FlavourOption>) => {
   const optionsLength = getLength(props.options);
   return (
     <Fragment>

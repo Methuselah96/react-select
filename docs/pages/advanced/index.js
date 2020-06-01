@@ -39,8 +39,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="Sortable MultiSelect example"
-          urlPath="docs/examples/MultiSelectSort.js"
-          raw={require('!!raw-loader!../../examples/MultiSelectSort.js')}
+          urlPath="docs/examples/MultiSelectSort.tsx"
+          raw={require('!!raw-loader!../../examples/MultiSelectSort.tsx')}
         >
           <MultiSelectSort />
         </ExampleWrapper>
@@ -124,7 +124,7 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="Using the style API to replace `menuBuffer`"
-          raw={require('!!raw-loader!../../examples/MenuBuffer.js')}
+          raw={require('!!raw-loader!../../examples/MenuBuffer.tsx')}
         >
           <MenuBuffer />
         </ExampleWrapper>
@@ -166,8 +166,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="onSelectResetsInput = false; closeMenuOnSelect = false"
-          urlPath="docs/examples/OnSelectResetsInput.js"
-          raw={require('!!raw-loader!../../examples/OnSelectResetsInput.js')}
+          urlPath="docs/examples/OnSelectResetsInput.tsx"
+          raw={require('!!raw-loader!../../examples/OnSelectResetsInput.tsx')}
         >
           <OnSelectResetsInput />
         </ExampleWrapper>
@@ -181,8 +181,8 @@ export default function Advanced() {
         <ExampleWrapper
           isEditable={false}
           label="Example of Portaling"
-          urlPath="docs/examples/MenuPortal.js"
-          raw={require('!!raw-loader!../../examples/MenuPortal.js')}
+          urlPath="docs/examples/MenuPortal.tsx"
+          raw={require('!!raw-loader!../../examples/MenuPortal.tsx')}
         >
           <MenuPortal />
         </ExampleWrapper>
@@ -231,8 +231,8 @@ export default function Advanced() {
         <ExampleWrapper
           isEditable={false}
           label="Popout"
-          urlPath="docs/examples/Popout.js"
-          raw={require('!!raw-loader!../../examples/Popout.js')}
+          urlPath="docs/examples/Popout.tsx"
+          raw={require('!!raw-loader!../../examples/Popout.tsx')}
         >
           <Popout />
         </ExampleWrapper>
@@ -246,8 +246,8 @@ export default function Advanced() {
         <ExampleWrapper
           isEditable={false}
           label="Date Picker"
-          urlPath="docs/examples/Experimental.js"
-          raw={require('!!raw-loader!../../examples/Experimental.js')}
+          urlPath="docs/examples/Experimental.tsx"
+          raw={require('!!raw-loader!../../examples/Experimental.tsx')}
         >
           <Experimental />
         </ExampleWrapper>

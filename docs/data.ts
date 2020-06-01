@@ -25,14 +25,19 @@ export interface FlavourOption {
   rating: string;
 }
 
-export const flavourOptions = [
+export const flavourOptions: FlavourOption[] = [
   { value: 'vanilla', label: 'Vanilla', rating: 'safe' },
   { value: 'chocolate', label: 'Chocolate', rating: 'good' },
   { value: 'strawberry', label: 'Strawberry', rating: 'wild' },
   { value: 'salted-caramel', label: 'Salted Caramel', rating: 'crazy' },
 ];
 
-export const stateOptions = [
+export interface StateOption {
+  value: string;
+  label: string;
+}
+
+export const stateOptions: StateOption[] = [
   { value: 'AL', label: 'Alabama' },
   { value: 'AK', label: 'Alaska' },
   { value: 'AS', label: 'American Samoa' },

@@ -1,11 +1,9 @@
-// @flow
-
 import React from 'react';
 import Tooltip from '@atlaskit/tooltip';
 import Select, { components } from 'react-select';
 import { colourOptions } from '../data';
 
-const MultiValueLabel = props => {
+const MultiValueLabel = (props: any) => {
   return (
     <Tooltip content={'Customise your multi-value label component!'}>
       <components.MultiValueLabel {...props} />
@@ -18,7 +16,7 @@ export default () => (
     closeMenuOnSelect={false}
     components={{ MultiValueLabel }}
     styles={{
-      multiValueLabel: base => ({
+      multiValueLabel: (base) => ({
         ...base,
         backgroundColor: colourOptions[2].color,
         color: 'white',

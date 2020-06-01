@@ -1,27 +1,27 @@
 import React, { Component } from 'react';
 
 import AsyncSelect from 'react-select/async';
-import { colourOptions } from '../data';
+import { ColourOption, colourOptions } from '../data';
 
-type State = {
-  inputValue: string,
-};
+interface State {
+  inputValue: string;
+}
 
 const filterColors = (inputValue: string) => {
-  return colourOptions.filter(i =>
+  return colourOptions.filter((i) =>
     i.label.toLowerCase().includes(inputValue.toLowerCase())
   );
 };
 
-const promiseOptions = inputValue =>
-  new Promise(resolve => {
+const promiseOptions = (inputValue: string): Promise<ColourOption[]> =>
+  new Promise((resolve) => {
     setTimeout(() => {
       resolve(filterColors(inputValue));
     }, 1000);
   });
 
-export default class WithPromises extends Component<*, State> {
-  state = { inputValue: '' };
+export default class WithPromises extends Component<{}, State> {
+  state: State = { inputValue: '' };
   handleInputChange = (newValue: string) => {
     const inputValue = newValue.replace(/\W/g, '');
     this.setState({ inputValue });

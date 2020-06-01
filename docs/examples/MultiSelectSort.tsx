@@ -1,21 +1,25 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 
-import Select, { components } from 'react-select';
-import { SortableContainer, SortableElement } from 'react-sortable-hoc';
-import { colourOptions } from '../data';
+import Select, { components, ValueType } from 'react-select';
+import {
+  SortableContainer,
+  SortableElement,
+  SortEndHandler,
+} from 'react-sortable-hoc';
+import { ColourOption, colourOptions } from '../data';
 
-function arrayMove(array, from, to) {
+function arrayMove<T>(array: readonly T[], from: number, to: number) {
   array = array.slice();
   array.splice(to < 0 ? array.length + to : to, 0, array.splice(from, 1)[0]);
   return array;
 }
 
-const SortableMultiValue = SortableElement(props => {
+const SortableMultiValue = SortableElement((props) => {
   // this prevents the menu from being opened/closed when the user clicks
   // on a value to begin dragging it. ideally, detecting a click (instead of
   // a drag) would still focus the control and toggle the menu, but that
   // requires some magic with refs that are out of scope for this example
-  const onMouseDown = e => {
+  const onMouseDown: MouseEventHandler = (e) => {
     e.preventDefault();
     e.stopPropagation();
   };
@@ -25,17 +29,21 @@ const SortableMultiValue = SortableElement(props => {
 const SortableSelect = SortableContainer(Select);
 
 export default function MultiSelectSort() {
-  const [selected, setSelected] = React.useState([
+  const [selected, setSelected] = React.useState<readonly ColourOption[]>([
     colourOptions[4],
     colourOptions[5],
   ]);
 
-  const onChange = selectedOptions => setSelected(selectedOptions);
+  const onChange = (selectedOptions: ValueType<ColourOption, true>) =>
+    setSelected(selectedOptions);
 
-  const onSortEnd = ({ oldIndex, newIndex }) => {
+  const onSortEnd: SortEndHandler = ({ oldIndex, newIndex }) => {
     const newValue = arrayMove(selected, oldIndex, newIndex);
     setSelected(newValue);
-    console.log('Values sorted:', newValue.map(i => i.value));
+    console.log(
+      'Values sorted:',
+      newValue.map((i) => i.value)
+    );
   };
 
   return (

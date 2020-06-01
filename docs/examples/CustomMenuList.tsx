@@ -2,6 +2,7 @@ import React from 'react';
 
 import Select, { components } from 'react-select';
 import { colourOptions, groupedOptions } from '../data';
+import { MenuListProps } from 'react-select/src/components/Menu';
 
 const menuHeaderStyle = {
   padding: '8px 12px',
@@ -9,7 +10,7 @@ const menuHeaderStyle = {
   color: 'white',
 };
 
-const MenuList = props => {
+const MenuList = (props: MenuListProps) => {
   return (
     <components.MenuList {...props}>
       <div style={menuHeaderStyle}>Custom Menu List</div>

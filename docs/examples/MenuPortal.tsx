@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { ChangeEventHandler, Component, Fragment } from 'react';
 import Modal from '@atlaskit/modal-dialog';
 import Button from '@atlaskit/button';
 import Select from 'react-select';
@@ -6,14 +6,14 @@ import { H1, Note } from '../styled-components';
 
 import { colourOptions } from '../data';
 
-type State = {
-  isOpen: boolean,
-  isFixed: boolean,
-  portalPlacement: 'auto' | 'bottom' | 'top',
-};
+interface State {
+  isOpen: boolean;
+  isFixed: boolean;
+  portalPlacement: 'auto' | 'bottom' | 'top';
+}
 
-export default class MenuPortal extends Component<*, State> {
-  state = {
+export default class MenuPortal extends Component<{}, State> {
+  state: State = {
     isOpen: false,
     isFixed: false,
     portalPlacement: 'bottom',
@@ -25,12 +25,12 @@ export default class MenuPortal extends Component<*, State> {
   close = () => {
     this.setState({ isOpen: false });
   };
-  setPlacement = ({ currentTarget }: SyntheticEvent<Event>) => {
+  setPlacement: ChangeEventHandler<HTMLSelectElement> = ({ currentTarget }) => {
     const portalPlacement = currentTarget && currentTarget.value;
     this.setState({ portalPlacement });
   };
   toggleMode = () => {
-    this.setState(state => ({ isFixed: !state.isFixed }));
+    this.setState((state) => ({ isFixed: !state.isFixed }));
   };
   render() {
     const { close, open } = this;
@@ -44,7 +44,7 @@ export default class MenuPortal extends Component<*, State> {
             <Select
               defaultValue={colourOptions[0]}
               isClearable
-              styles={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
+              styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
               menuPortalTarget={document.body}
               isSearchable
               name="color"

@@ -1,9 +1,9 @@
 import React from 'react';
 import { css } from 'emotion';
-import Select from 'react-select';
-import { colourOptions } from '../data';
+import Select, { OptionProps } from 'react-select';
+import { ColourOption, colourOptions } from '../data';
 
-const Option = (props: OptionProps) => {
+const Option = (props: OptionProps<ColourOption>) => {
   const {
     children,
     className,
@@ -40,7 +40,7 @@ export default () => (
     closeMenuOnSelect={false}
     components={{ Option }}
     styles={{
-      option: base => ({
+      option: (base) => ({
         ...base,
         border: `1px dotted ${colourOptions[2].color}`,
         height: '100%',

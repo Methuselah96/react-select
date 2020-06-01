@@ -1,9 +1,10 @@
 import React from 'react';
 import Tooltip from '@atlaskit/tooltip';
 import AsyncSelect from 'react-select/async';
-import { colourOptions } from '../data';
+import { ColourOption, colourOptions } from '../data';
+import { NoticeProps } from 'react-select/src/components/Menu';
 
-const LoadingMessage = props => {
+const LoadingMessage = (props: NoticeProps<ColourOption>) => {
   return (
     <Tooltip content={'Custom Loading Message'}>
       <div
@@ -17,12 +18,12 @@ const LoadingMessage = props => {
 };
 
 const filterColors = (inputValue: string) =>
-  colourOptions.filter(i =>
+  colourOptions.filter((i) =>
     i.label.toLowerCase().includes(inputValue.toLowerCase())
   );
 
-const promiseOptions = inputValue =>
-  new Promise(resolve => {
+const promiseOptions = (inputValue: string): Promise<ColourOption[]> =>
+  new Promise((resolve) => {
     setTimeout(() => {
       resolve(filterColors(inputValue));
     }, 1000);
@@ -35,7 +36,7 @@ const CustomLoadingMessage = () => {
       defaultOptions
       loadOptions={promiseOptions}
       styles={{
-        loadingMessage: base => ({
+        loadingMessage: (base) => ({
           ...base,
           backgroundColor: colourOptions[2].color,
           color: 'white',
@@ -44,7 +45,6 @@ const CustomLoadingMessage = () => {
       components={{ LoadingMessage }}
     />
   );
-
 };
 
 export default CustomLoadingMessage;

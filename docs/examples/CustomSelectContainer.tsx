@@ -1,9 +1,13 @@
 import React from 'react';
 import Select, { components } from 'react-select';
 import Tooltip from '@atlaskit/tooltip';
-import { colourOptions } from '../data';
+import { ColourOption, colourOptions } from '../data';
+import { ContainerProps } from 'react-select/src/components/containers';
 
-const SelectContainer = ({ children, ...props }) => {
+const SelectContainer = ({
+  children,
+  ...props
+}: ContainerProps<ColourOption>) => {
   return (
     <Tooltip content={'customise your select container'} delay={0}>
       <components.SelectContainer {...props}>
@@ -18,7 +22,7 @@ export default () => (
     closeMenuOnSelect={false}
     components={{ SelectContainer }}
     styles={{
-      container: base => ({
+      container: (base) => ({
         ...base,
         backgroundColor: colourOptions[2].color,
         padding: 5,

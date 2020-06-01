@@ -1,4 +1,3 @@
-// @flow
 /** @jsx jsx */
 import { Component } from 'react';
 import { jsx } from '@emotion/core';
@@ -8,7 +7,7 @@ import chrono from 'chrono-node';
 import Select from 'react-select';
 import { components as SelectComponents } from 'react-select';
 
-const createOptionForDate = d => {
+const createOptionForDate = (d) => {
   const date = moment.isMoment(d) ? d : moment(d);
   return {
     date,
@@ -24,7 +23,7 @@ const createOptionForDate = d => {
   };
 };
 
-const defaultOptions = ['today', 'tomorrow', 'yesterday'].map(i =>
+const defaultOptions = ['today', 'tomorrow', 'yesterday'].map((i) =>
   createOptionForDate(chrono.parseDate(i))
 );
 
@@ -74,10 +73,10 @@ const suggestions = [
   return acc;
 }, {});
 
-const suggest = str =>
+const suggest = (str) =>
   str
     .split(/\b/)
-    .map(i => suggestions[i] || i)
+    .map((i) => suggestions[i] || i)
     .join('');
 
 const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
@@ -104,7 +103,7 @@ const daysContainerStyles = {
   paddingLeft: '2%',
 };
 
-const Group = props => {
+const Group = (props) => {
   const {
     Heading,
     getStyles,
@@ -132,7 +131,7 @@ const Group = props => {
   );
 };
 
-const getOptionStyles = defaultStyles => ({
+const getOptionStyles = (defaultStyles) => ({
   ...defaultStyles,
   display: 'inline-block',
   width: '12%',
@@ -141,7 +140,7 @@ const getOptionStyles = defaultStyles => ({
   borderRadius: '4px',
 });
 
-const Option = props => {
+const Option = (props) => {
   const { data, getStyles, innerRef, innerProps } = props;
   if (data.display === 'calendar') {
     const defaultStyles = getStyles('option', props);
@@ -164,7 +163,7 @@ class DatePicker extends Component<*, *> {
   state = {
     options: defaultOptions,
   };
-  handleInputChange = value => {
+  handleInputChange = (value) => {
     if (!value) {
       this.setState({ options: defaultOptions });
       return;
@@ -189,7 +188,7 @@ class DatePicker extends Component<*, *> {
         components={{ Group, Option }}
         filterOption={null}
         isMulti={false}
-        isOptionSelected={(o, v) => v.some(i => i.date.isSame(o.date, 'day'))}
+        isOptionSelected={(o, v) => v.some((i) => i.date.isSame(o.date, 'day'))}
         maxMenuHeight={380}
         onChange={this.props.onChange}
         onInputChange={this.handleInputChange}
