@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Select, { components } from 'react-select';
-import { colourOptions } from '../data';
+import Select, { components, ControlProps } from 'react-select';
+import { ColourOption, colourOptions } from '../data';
 const controlStyles = {
   borderRadius: '1px solid black',
   padding: '5px',
@@ -9,16 +9,14 @@ const controlStyles = {
   color: 'white',
 };
 
-const ControlComponent = props => (
+const ControlComponent = (props: ControlProps<ColourOption>) => (
   <div style={controlStyles}>
     {<p>Custom Control</p>}
     <components.Control {...props} />
   </div>
 );
 
-type State = {};
-
-export default class CustomControl extends Component<*, State> {
+export default class CustomControl extends Component {
   state = {};
   render() {
     return (

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Select from 'react-select';
 import { flavourOptions } from '../data';
 
-export default class CustomIsOptionDisabled extends Component<*> {
+export default class CustomIsOptionDisabled extends Component {
   render() {
     return (
       <Fragment>
@@ -16,7 +16,7 @@ export default class CustomIsOptionDisabled extends Component<*> {
           isSearchable
           name="color"
           options={flavourOptions}
-          isOptionDisabled={option => option.rating !== 'safe'}
+          isOptionDisabled={(option) => option.rating !== 'safe'}
         />
       </Fragment>
     );

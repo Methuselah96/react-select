@@ -13,7 +13,7 @@ const groupStyles = {
   display: 'flex',
 };
 
-const GroupHeading = props => (
+const GroupHeading = (props: any) => (
   <div style={groupStyles}>
     <components.GroupHeading {...props} />
     <Tooltip content="Custom GroupHeading Component">
@@ -28,7 +28,7 @@ export default () => (
     options={groupedOptions}
     components={{ GroupHeading }}
     styles={{
-      groupHeading: base => ({
+      groupHeading: (base) => ({
         ...base,
         flex: '1 1',
         color: 'white',

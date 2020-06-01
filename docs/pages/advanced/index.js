@@ -58,8 +58,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="Custom filterOption with createFilter"
-          urlPath="docs/examples/CreateFilter.js"
-          raw={require('!!raw-loader!../../examples/CreateFilter.js')}
+          urlPath="docs/examples/CreateFilter.tsx"
+          raw={require('!!raw-loader!../../examples/CreateFilter.tsx')}
         >
           <CreateFilter />
         </ExampleWrapper>
@@ -72,8 +72,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="Custom filterOption function"
-          urlPath="docs/examples/CustomFilterOptions.js"
-          raw={require('!!raw-loader!../../examples/CustomFilterOptions.js')}
+          urlPath="docs/examples/CustomFilterOptions.tsx"
+          raw={require('!!raw-loader!../../examples/CustomFilterOptions.tsx')}
         >
           <CustomFilterOptions />
         </ExampleWrapper>
@@ -95,8 +95,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="custom getOptionLabel function example"
-          urlPath="docs/examples/CustomSingleValue.js"
-          raw={require('!!raw-loader!../../examples/CustomSingleValue.js')}
+          urlPath="docs/examples/CustomGetOptionLabel.tsx"
+          raw={require('!!raw-loader!../../examples/CustomGetOptionLabel.tsx')}
         >
           <CustomGetOptionLabel />
         </ExampleWrapper>
@@ -105,8 +105,8 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="custom getOptionValue function example"
-          urlPath="docs/examples/CustomGetOptionValue.js"
-          raw={require('!!raw-loader!../../examples/CustomGetOptionValue.js')}
+          urlPath="docs/examples/CustomGetOptionValue.tsx"
+          raw={require('!!raw-loader!../../examples/CustomGetOptionValue.tsx')}
         >
           <CustomGetOptionValue />
         </ExampleWrapper>
@@ -115,7 +115,7 @@ export default function Advanced() {
       ${(
         <ExampleWrapper
           label="custom isOptionDisabled function example"
-          raw={require('!!raw-loader!../../examples/CustomIsOptionDisabled.js')}
+          raw={require('!!raw-loader!../../examples/CustomIsOptionDisabled.tsx')}
         >
           <CustomIsOptionDisabled />
         </ExampleWrapper>

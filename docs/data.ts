@@ -108,7 +108,12 @@ export const optionLength = [
   },
 ];
 
-export const dogOptions = [
+export interface DogOption {
+  id: number;
+  label: string;
+}
+
+export const dogOptions: DogOption[] = [
   { id: 1, label: 'Chihuahua' },
   { id: 2, label: 'Bulldog' },
   { id: 3, label: 'Dachshund' },

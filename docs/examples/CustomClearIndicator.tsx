@@ -1,12 +1,10 @@
-// @flow
+import React, { CSSProperties } from 'react';
 
-import React from 'react';
-
-import Select from 'react-select';
-import { colourOptions } from '../data';
+import Select, { IndicatorProps } from 'react-select';
+import { ColourOption, colourOptions } from '../data';
 
 const CustomClearText = () => 'clear all';
-const ClearIndicator = props => {
+const ClearIndicator = (props: IndicatorProps<ColourOption>) => {
   const {
     children = <CustomClearText />,
     getStyles,
@@ -23,7 +21,7 @@ const ClearIndicator = props => {
   );
 };
 
-const ClearIndicatorStyles = (base, state) => ({
+const ClearIndicatorStyles = (base: CSSProperties, state: any) => ({
   ...base,
   cursor: 'pointer',
   color: state.isFocused ? 'blue' : 'black',
