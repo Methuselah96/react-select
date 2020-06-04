@@ -1,15 +1,17 @@
-// @flow
 /** @jsx jsx */
-import { type Node } from 'react';
+import { MouseEventHandler, ReactNode, TouchEventHandler } from 'react';
 import { jsx, keyframes } from '@emotion/core';
 
-import type { CommonProps, Theme } from '../types';
+import { CommonProps, OptionTypeBase } from '../types';
 
 // ==============================
 // Dropdown & Clear Icons
 // ==============================
 
-const Svg = ({ size, ...props }: { size: number }) => (
+const Svg = ({
+  size,
+  ...props
+}: { size: number } & JSX.IntrinsicElements['svg']) => (
   <svg
     height={size}
     width={size}
@@ -27,12 +29,12 @@ const Svg = ({ size, ...props }: { size: number }) => (
   />
 );
 
-export const CrossIcon = (props: any) => (
+export const CrossIcon = (props: JSX.IntrinsicElements['svg']) => (
   <Svg size={20} {...props}>
     <path d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z" />
   </Svg>
 );
-export const DownChevron = (props: any) => (
+export const DownChevron = (props: JSX.IntrinsicElements['svg']) => (
   <Svg size={20} {...props}>
     <path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z" />
   </Svg>
@@ -42,24 +44,27 @@ export const DownChevron = (props: any) => (
 // Dropdown & Clear Buttons
 // ==============================
 
-export type IndicatorProps = CommonProps & {
-  /** The children to be rendered inside the indicator. */
-  children: Node,
-  /** Props that will be passed on to the children. */
-  innerProps: any,
+export interface DropdownIndicatorProps<OptionType extends OptionTypeBase>
+  extends CommonProps<OptionType> {
+  innerProps: {
+    onMouseDown: MouseEventHandler<HTMLDivElement>;
+    onTouchEnd: TouchEventHandler<HTMLDivElement>;
+    'aria-hidden': 'true';
+  };
   /** The focused state of the select. */
-  isFocused: boolean,
-  /** Whether the text is right to left */
-  isRtl: boolean,
-};
+  isDisabled: boolean;
+  isFocused: boolean;
+  /** The children to be rendered inside the indicator. */
+  children: ReactNode;
+}
 
-const baseCSS = ({
+const baseCSS = <OptionType extends OptionTypeBase>({
   isFocused,
   theme: {
     spacing: { baseUnit },
     colors,
   },
-}: IndicatorProps) => ({
+}: DropdownIndicatorProps<OptionType>) => ({
   label: 'indicatorContainer',
   color: isFocused ? colors.neutral60 : colors.neutral20,
   display: 'flex',
@@ -72,7 +77,9 @@ const baseCSS = ({
 });
 
 export const dropdownIndicatorCSS = baseCSS;
-export const DropdownIndicator = (props: IndicatorProps) => {
+export const DropdownIndicator = <OptionType extends OptionTypeBase>(
+  props: DropdownIndicatorProps<OptionType>
+) => {
   const { children, className, cx, getStyles, innerProps } = props;
   return (
     <div
@@ -91,8 +98,22 @@ export const DropdownIndicator = (props: IndicatorProps) => {
   );
 };
 
+export interface ClearIndicatorProps<OptionType extends OptionTypeBase>
+  extends CommonProps<OptionType> {
+  innerProps: {
+    onMouseDown: MouseEventHandler<HTMLDivElement>;
+    onTouchEnd: TouchEventHandler<HTMLDivElement>;
+    'aria-hidden': 'true';
+  };
+  isFocused: boolean;
+  /** The children to be rendered inside the indicator. */
+  children: ReactNode;
+}
+
 export const clearIndicatorCSS = baseCSS;
-export const ClearIndicator = (props: IndicatorProps) => {
+export const ClearIndicator = <OptionType extends OptionTypeBase>(
+  props: ClearIndicatorProps<OptionType>
+) => {
   const { children, className, cx, getStyles, innerProps } = props;
   return (
     <div
@@ -115,15 +136,19 @@ export const ClearIndicator = (props: IndicatorProps) => {
 // Separator
 // ==============================
 
-type SeparatorState = { isDisabled: boolean };
+export interface IndicatorSeparatorProps<OptionType extends OptionTypeBase>
+  extends CommonProps<OptionType> {
+  isDisabled: boolean;
+  isFocused: boolean;
+}
 
-export const indicatorSeparatorCSS = ({
+export const indicatorSeparatorCSS = <OptionType extends OptionTypeBase>({
   isDisabled,
   theme: {
     spacing: { baseUnit },
     colors,
   },
-}: CommonProps & SeparatorState) => ({
+}: IndicatorSeparatorProps<OptionType>) => ({
   label: 'indicatorSeparator',
   alignSelf: 'stretch',
   backgroundColor: isDisabled ? colors.neutral10 : colors.neutral20,
@@ -132,7 +157,9 @@ export const indicatorSeparatorCSS = ({
   width: 1,
 });
 
-export const IndicatorSeparator = (props: IndicatorProps) => {
+export const IndicatorSeparator = <OptionType extends OptionTypeBase>(
+  props: IndicatorSeparatorProps<OptionType>
+) => {
   const { className, cx, getStyles, innerProps } = props;
   return (
     <span
@@ -152,18 +179,23 @@ const loadingDotAnimations = keyframes`
   40% { opacity: 1; }
 `;
 
-export const loadingIndicatorCSS = ({
+export interface LoadingIndicatorProps<OptionType extends OptionTypeBase>
+  extends CommonProps<OptionType> {
+  /** Props that will be passed on to the children. */
+  innerProps: { 'aria-hidden': 'true' };
+  isDisabled: boolean;
+  /** The focused state of the select. */
+  isFocused: boolean;
+}
+
+export const loadingIndicatorCSS = <OptionType extends OptionTypeBase>({
   isFocused,
   size,
   theme: {
     colors,
     spacing: { baseUnit },
   },
-}: {
-  isFocused: boolean,
-  size: number,
-  theme: Theme,
-}) => ({
+}: LoadingIndicatorProps<OptionType>) => ({
   label: 'loadingIndicator',
   color: isFocused ? colors.neutral60 : colors.neutral20,
   display: 'flex',
@@ -177,15 +209,18 @@ export const loadingIndicatorCSS = ({
   verticalAlign: 'middle',
 });
 
-type DotProps = { delay: number, offset: boolean };
-const LoadingDot = ({ delay, offset }: DotProps) => (
+interface LoadingDotProps {
+  delay: number;
+  offset: boolean;
+}
+const LoadingDot = ({ delay, offset }: LoadingDotProps) => (
   <span
     css={{
       animation: `${loadingDotAnimations} 1s ease-in-out ${delay}ms infinite;`,
       backgroundColor: 'currentColor',
       borderRadius: '1em',
       display: 'inline-block',
-      marginLeft: offset ? '1em' : null,
+      marginLeft: offset ? '1em' : undefined,
       height: '1em',
       verticalAlign: 'top',
       width: '1em',
@@ -193,18 +228,9 @@ const LoadingDot = ({ delay, offset }: DotProps) => (
   />
 );
 
-export type LoadingIconProps = {
-  /** Props that will be passed on to the children. */
-  innerProps: any,
-  /** The focused state of the select. */
-  isFocused: boolean,
-  /** Whether the text is right to left */
-  isRtl: boolean,
-} & CommonProps & {
-    /** Set size of the container. */
-    size: number,
-  };
-export const LoadingIndicator = (props: LoadingIconProps) => {
+export const LoadingIndicator = <OptionType extends OptionTypeBase>(
+  props: LoadingIndicatorProps<OptionType>
+) => {
   const { className, cx, getStyles, innerProps, isRtl } = props;
 
   return (
