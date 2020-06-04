@@ -1,5 +1,9 @@
 module.exports = {
-  parser: 'babel-eslint',
+  extends: ['plugin:@typescript-eslint/base'],
+  parserOptions: {
+    tsconfigRootDir: __dirname,
+    project: ['./tsconfig.json'],
+  },
   env: {
     browser: true,
     es6: true,
@@ -7,14 +11,15 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
-    'no-unused-vars': [
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': [
       'error',
       {
         args: 'after-used',
         argsIgnorePattern: '^event$',
         ignoreRestSiblings: true,
         vars: 'all',
-        varsIgnorePattern: 'jsx|emotionJSX'
+        varsIgnorePattern: 'jsx|emotionJSX',
       },
     ],
     curly: [2, 'multi-line'],
@@ -22,9 +27,11 @@ module.exports = {
     'no-shadow': 1,
     'no-trailing-spaces': 1,
     'no-underscore-dangle': 1,
-    'no-unused-expressions': 1,
+    'no-unused-expressions': 'off',
+    '@typescript-eslint/no-unused-expressions': 1,
     'object-curly-spacing': [1, 'always'],
-    quotes: [2, 'single', 'avoid-escape'],
+    quotes: 'off',
+    '@typescript-eslint/quotes': [2, 'single', 'avoid-escape'],
     'react/jsx-boolean-value': 1,
     'react/jsx-no-undef': 1,
     'react/jsx-uses-react': 1,
@@ -36,7 +43,8 @@ module.exports = {
     'react/react-in-jsx-scope': 1,
     'react/self-closing-comp': 1,
     'react/sort-prop-types': 1,
-    semi: 2,
+    semi: 'off',
+    '@typescript-eslint/semi': 2,
     strict: 0,
   },
 };

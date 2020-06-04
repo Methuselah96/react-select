@@ -1,36 +1,43 @@
-// @flow
 /** @jsx jsx */
-import { type Node, type ElementRef } from 'react';
+import { MouseEventHandler, ReactNode, Ref } from 'react';
 import { jsx } from '@emotion/core';
 
-import type { CommonProps, PropsWithStyles } from '../types';
+import { CommonProps, OptionTypeBase } from '../types';
 
-type State = {
+interface ControlClassNamesState {
+  control: true;
+  'control--is-disabled': boolean;
+  'control--is-focused': boolean;
+  'control--menu-is-open': boolean;
+}
+
+export interface ControlProps<OptionType extends OptionTypeBase>
+  extends CommonProps<
+    OptionType,
+    ControlClassNamesState,
+    'control',
+    ControlProps<OptionType>
+  > {
   /** Whether the select is disabled. */
-  isDisabled: boolean,
+  isDisabled: boolean;
   /** Whether the select is focused. */
-  isFocused: boolean,
+  isFocused: boolean;
   /** Whether the select is expanded. */
-  menuIsOpen: boolean,
-};
-
-export type ControlProps = CommonProps &
-  PropsWithStyles &
-  State & {
-    /** Children to render. */
-    children: Node,
-    innerRef: ElementRef<*>,
-    /** The mouse down event and the innerRef to pass down to the controller element. */
-    innerProps: {
-      onMouseDown: (SyntheticMouseEvent<HTMLElement>) => void,
-    },
+  menuIsOpen: boolean;
+  /** Children to render. */
+  children: ReactNode;
+  innerRef: Ref<HTMLDivElement>;
+  /** The mouse down event and the innerRef to pass down to the controller element. */
+  innerProps: {
+    onMouseDown: MouseEventHandler<HTMLDivElement>;
   };
+}
 
-export const css = ({
+export const css = <OptionType extends OptionTypeBase>({
   isDisabled,
   isFocused,
   theme: { colors, borderRadius, spacing },
-}: ControlProps) => ({
+}: ControlProps<OptionType>) => ({
   label: 'control',
   alignItems: 'center',
   backgroundColor: isDisabled ? colors.neutral5 : colors.neutral0,
@@ -57,7 +64,9 @@ export const css = ({
   },
 });
 
-const Control = (props: ControlProps) => {
+const Control = <OptionType extends OptionTypeBase>(
+  props: ControlProps<OptionType>
+) => {
   const {
     children,
     cx,
