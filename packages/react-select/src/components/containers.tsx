@@ -1,34 +1,37 @@
-// @flow
 /** @jsx jsx */
-import { type Node } from 'react';
+import { KeyboardEventHandler, ReactNode } from 'react';
 import { jsx } from '@emotion/core';
-import type { CommonProps, KeyboardEventHandler } from '../types';
+import { CommonProps, OptionTypeBase } from '../types';
 
 // ==============================
 // Root Container
 // ==============================
 
-type ContainerState = {
+export interface ContainerProps<OptionType extends OptionTypeBase>
+  extends CommonProps<OptionType> {
+  className?: string;
+  /** Inner props to be passed down to the container. */
+  innerProps: { id?: string; onKeyDown: KeyboardEventHandler<HTMLDivElement> };
   /** Whether the select is disabled. */
-  isDisabled: boolean,
-  /** Whether the text in the select is indented from right to left. */
-  isRtl: boolean,
-};
+  isDisabled: boolean;
+  isFocused: boolean;
+  /** The children to be rendered. */
+  children: ReactNode;
+}
 
-export type ContainerProps = CommonProps &
-  ContainerState & {
-    /** The children to be rendered. */
-    children: Node,
-    /** Inner props to be passed down to the container. */
-    innerProps: { onKeyDown: KeyboardEventHandler },
-  };
-export const containerCSS = ({ isDisabled, isRtl }: ContainerState) => ({
+export const containerCSS = <OptionType extends OptionTypeBase>({
+  isDisabled,
+  isRtl,
+}: ContainerProps<OptionType>) => ({
   label: 'container',
   direction: isRtl ? 'rtl' : null,
   pointerEvents: isDisabled ? 'none' : null, // cancel mouse events when disabled
   position: 'relative',
 });
-export const SelectContainer = (props: ContainerProps) => {
+
+export const SelectContainer = <OptionType extends OptionTypeBase>(
+  props: ContainerProps<OptionType>
+) => {
   const {
     children,
     className,
@@ -59,17 +62,16 @@ export const SelectContainer = (props: ContainerProps) => {
 // Value Container
 // ==============================
 
-export type ValueContainerProps = CommonProps & {
-  /** Set when the value container should hold multiple values */
-  isMulti: boolean,
-  /** Whether the value container currently holds a value. */
-  hasValue: boolean,
+export interface ValueContainerProps<OptionType extends OptionTypeBase>
+  extends CommonProps<OptionType> {
+  isDisabled: boolean;
   /** The children to be rendered. */
-  children: Node,
-};
-export const valueContainerCSS = ({
+  children: ReactNode;
+}
+
+export const valueContainerCSS = <OptionType extends OptionTypeBase>({
   theme: { spacing },
-}: ValueContainerProps) => ({
+}: ValueContainerProps<OptionType>) => ({
   alignItems: 'center',
   display: 'flex',
   flex: 1,
@@ -79,7 +81,10 @@ export const valueContainerCSS = ({
   position: 'relative',
   overflow: 'hidden',
 });
-export const ValueContainer = (props: ValueContainerProps) => {
+
+export const ValueContainer = <OptionType extends OptionTypeBase>(
+  props: ValueContainerProps<OptionType>
+) => {
   const { children, className, cx, isMulti, getStyles, hasValue } = props;
 
   return (
@@ -103,16 +108,16 @@ export const ValueContainer = (props: ValueContainerProps) => {
 // Indicator Container
 // ==============================
 
-type IndicatorsState = {
-  /** Whether the text should be rendered right to left. */
-  isRtl: boolean,
-};
+interface IndicatorContainerClassNamesState {
+  indicators: true;
+}
 
-export type IndicatorContainerProps = CommonProps &
-  IndicatorsState & {
-    /** The children to be rendered. */
-    children: Node,
-  };
+export interface IndicatorContainerProps<OptionType extends OptionTypeBase>
+  extends CommonProps<OptionType> {
+  isDisabled: boolean;
+  /** The children to be rendered. */
+  children: ReactNode;
+}
 
 export const indicatorsContainerCSS = () => ({
   alignItems: 'center',
@@ -120,7 +125,10 @@ export const indicatorsContainerCSS = () => ({
   display: 'flex',
   flexShrink: 0,
 });
-export const IndicatorsContainer = (props: IndicatorContainerProps) => {
+
+export const IndicatorsContainer = <OptionType extends OptionTypeBase>(
+  props: IndicatorContainerProps<OptionType>
+) => {
   const { children, className, cx, getStyles } = props;
 
   return (

@@ -1,45 +1,41 @@
 /** @jsx jsx */
 import { ComponentType, ReactNode } from 'react';
-import { Interpolation, jsx } from '@emotion/core';
+import { jsx } from '@emotion/core';
 
-import { CommonProps, OptionTypeBase, Theme } from '../types';
+import { CommonProps, OptionTypeBase } from '../types';
 
-interface GroupClassNamesState {
-  group: true;
+interface PassedHeadingProps {
+  id: string;
 }
+type ForwardedHeadingProps<OptionType extends OptionTypeBase> = Pick<
+  GroupProps<OptionType>,
+  'selectProps' | 'theme' | 'getStyles' | 'cx'
+>;
 
-export interface GroupProps<OptionType extends OptionTypeBase, HeadingProps>
-  extends CommonProps<
-    OptionType,
-    GroupClassNamesState,
-    'group',
-    GroupProps<OptionType, HeadingProps>
-  > {
-  /** The children to be rendered. */
-  children: ReactNode;
+export interface GroupProps<OptionType extends OptionTypeBase>
+  extends CommonProps<OptionType> {
+  // TODO Spread Group type?
   /** Component to wrap the label, receives headingProps. */
   Heading: ComponentType<
-    HeadingProps &
-      Pick<
-        GroupProps<OptionType, HeadingProps>,
-        'selectProps' | 'theme' | 'getStyles' | 'cx'
-      >
+    PassedHeadingProps & ForwardedHeadingProps<OptionType>
   >;
   /** Props to pass to Heading. */
-  headingProps: HeadingProps;
+  headingProps: PassedHeadingProps;
   /** Label to be displayed in the heading component. */
   label: ReactNode;
+  /** The children to be rendered. */
+  children: ReactNode;
 }
 
-export const groupCSS = <OptionType extends OptionTypeBase, HeadingProps>({
+export const groupCSS = <OptionType extends OptionTypeBase>({
   theme: { spacing },
-}: GroupProps<OptionType, HeadingProps>) => ({
+}: GroupProps<OptionType>) => ({
   paddingBottom: spacing.baseUnit * 2,
   paddingTop: spacing.baseUnit * 2,
 });
 
-const Group = <OptionType extends OptionTypeBase, HeadingProps>(
-  props: GroupProps<OptionType, HeadingProps>
+const Group = <OptionType extends OptionTypeBase>(
+  props: GroupProps<OptionType>
 ) => {
   const {
     children,
@@ -75,22 +71,13 @@ interface GroupHeadingClassNamesState {
   'group-heading': true;
 }
 
-interface GroupHeadingPassedProps {
-  selectProps: unknown;
-  theme: Theme;
-  getStyles: (
-    key: 'groupHeading',
-    props: { theme: Theme } & JSX.IntrinsicElements['div']
-  ) => Interpolation;
-  cx: (state: GroupHeadingClassNamesState, className?: string) => string;
-  className?: string;
-}
-export type GroupHeadingProps = GroupHeadingPassedProps &
-  JSX.IntrinsicElements['div'];
+export type GroupHeadingProps<
+  OptionType extends OptionTypeBase
+> = ForwardedHeadingProps<OptionType> & JSX.IntrinsicElements['div'];
 
 export const groupHeadingCSS = <OptionType extends OptionTypeBase>({
   theme: { spacing },
-}: GroupHeadingProps) => ({
+}: GroupHeadingProps<OptionType>) => ({
   label: 'group',
   color: '#999',
   cursor: 'default',
@@ -103,7 +90,9 @@ export const groupHeadingCSS = <OptionType extends OptionTypeBase>({
   textTransform: 'uppercase',
 });
 
-export const GroupHeading = (props: GroupHeadingProps) => {
+export const GroupHeading = <OptionType extends OptionTypeBase>(
+  props: GroupHeadingProps<OptionType>
+) => {
   const { className, cx, getStyles, theme, selectProps, ...cleanProps } = props;
   return (
     <div

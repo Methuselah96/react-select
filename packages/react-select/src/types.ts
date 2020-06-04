@@ -59,48 +59,36 @@ interface ThemeSpacing {
 
 export interface Theme {
   borderRadius: number;
-  colors: { [key: string]: string };
+  colors: Colors;
   spacing: ThemeSpacing;
 }
 
-// export type PropsWithStyles = {
-//   /**
-//     Get the styles of a particular part of the select. Pass in the name of the
-//     property as the first argument, and the current props as the second argument.
-//     See the `styles` object for the properties available.
-//   */
-//   getStyles: (string, any) => {},
-//   theme: Theme,
-// };
-//
 // export type ClassNameList = Array<string>;
 // export type ClassNamesState = { [string]: boolean } | void;
 
-export interface CommonProps<
-  OptionType extends OptionTypeBase,
-  ClassNamesState,
-  GetStylesKey extends string,
-  GetStylesProps
-> {
+export interface CommonProps<OptionType extends OptionTypeBase> {
+  cx: (state: any, className?: string) => string;
   clearValue: () => void;
-  className?: string;
-  cx: (state: ClassNamesState, className?: string) => string;
   /**
     Get the styles of a particular part of the select. Pass in the name of the
     property as the first argument, and the current props as the second argument.
     See the `styles` object for the properties available.
   */
-  getStyles: (key: GetStylesKey, props: GetStylesProps) => Interpolation;
-  theme: Theme;
+  getStyles: (key: string, props: any) => Interpolation;
   // getValue: () => ValueType;
+  /** Whether the value container currently holds a value. */
   hasValue: boolean;
+  /** Set when the value container should hold multiple values */
   isMulti: boolean;
+  /** Whether the text is right to left */
+  isRtl: boolean;
   options: OptionsType<OptionType>;
   // selectOption: OptionType => void,
-  // selectProps: any,
   // setValue: (ValueType, ActionTypes) => void,
+  selectProps: any;
+  theme: Theme;
 }
-//
+
 // export type ActionTypes =
 //   | 'select-option'
 //   | 'deselect-option'
@@ -124,8 +112,8 @@ export interface CommonProps<
 //   action: InputActionTypes,
 // |};
 //
-// export type MenuPlacement = 'auto' | 'bottom' | 'top';
-// export type MenuPosition = 'absolute' | 'fixed';
+export type MenuPlacement = 'auto' | 'bottom' | 'top';
+export type MenuPosition = 'absolute' | 'fixed';
 //
 // export type FocusDirection =
 //   | 'up'

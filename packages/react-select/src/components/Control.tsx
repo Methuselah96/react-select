@@ -1,23 +1,17 @@
 /** @jsx jsx */
-import { MouseEventHandler, ReactNode, Ref } from 'react';
+import { MouseEventHandler, ReactNode, Ref, TouchEventHandler } from 'react';
 import { jsx } from '@emotion/core';
 
 import { CommonProps, OptionTypeBase } from '../types';
 
-interface ControlClassNamesState {
-  control: true;
-  'control--is-disabled': boolean;
-  'control--is-focused': boolean;
-  'control--menu-is-open': boolean;
-}
-
 export interface ControlProps<OptionType extends OptionTypeBase>
-  extends CommonProps<
-    OptionType,
-    ControlClassNamesState,
-    'control',
-    ControlProps<OptionType>
-  > {
+  extends CommonProps<OptionType> {
+  innerRef: Ref<HTMLDivElement>;
+  /** The mouse down event and the innerRef to pass down to the controller element. */
+  innerProps: {
+    onMouseDown: MouseEventHandler<HTMLDivElement>;
+    onTouchEnd: TouchEventHandler<HTMLDivElement>;
+  };
   /** Whether the select is disabled. */
   isDisabled: boolean;
   /** Whether the select is focused. */
@@ -26,11 +20,6 @@ export interface ControlProps<OptionType extends OptionTypeBase>
   menuIsOpen: boolean;
   /** Children to render. */
   children: ReactNode;
-  innerRef: Ref<HTMLDivElement>;
-  /** The mouse down event and the innerRef to pass down to the controller element. */
-  innerProps: {
-    onMouseDown: MouseEventHandler<HTMLDivElement>;
-  };
 }
 
 export const css = <OptionType extends OptionTypeBase>({
