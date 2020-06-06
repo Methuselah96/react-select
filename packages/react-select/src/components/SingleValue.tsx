@@ -1,9 +1,9 @@
 /** @jsx jsx */
 import { ReactNode } from 'react';
 import type { CommonProps, OptionTypeBase } from '../types';
-import { jsx } from '@emotion/core';
+import { Interpolation, jsx } from '@emotion/core';
 
-interface SingleValueProps<OptionType extends OptionTypeBase>
+export interface SingleValueProps<OptionType extends OptionTypeBase>
   extends CommonProps<OptionType> {
   /** The children to be rendered. */
   children: ReactNode;
@@ -16,7 +16,7 @@ interface SingleValueProps<OptionType extends OptionTypeBase>
 export const css = <OptionType extends OptionTypeBase>({
   isDisabled,
   theme: { spacing, colors },
-}: SingleValueProps<OptionType>) => ({
+}: SingleValueProps<OptionType>): Interpolation => ({
   label: 'singleValue',
   color: isDisabled ? colors.neutral40 : colors.neutral80,
   marginLeft: spacing.baseUnit / 2,

@@ -2,14 +2,11 @@
 import {
   Component,
   MouseEventHandler,
-  // Component,
-  // type Element as ReactElement,
-  // type ElementRef,
   ReactNode,
   Ref,
   RefCallback,
 } from 'react';
-import { jsx } from '@emotion/core';
+import { Interpolation, jsx } from '@emotion/core';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
@@ -22,7 +19,6 @@ import {
   scrollTo,
 } from '../utils';
 import {
-  // InnerRef,
   MenuPlacement,
   MenuPosition,
   CommonProps,
@@ -269,7 +265,7 @@ const coercePlacement = (p: MenuPlacement) => (p === 'auto' ? 'bottom' : p);
 export const menuCSS = <OptionType extends OptionTypeBase>({
   placement,
   theme: { borderRadius, spacing, colors },
-}: MenuProps<OptionType>) => ({
+}: MenuProps<OptionType>): Interpolation => ({
   label: 'menu',
   [alignToControl(placement)]: '100%',
   backgroundColor: colors.neutral0,
@@ -380,7 +376,7 @@ export const menuListCSS = <OptionType extends OptionTypeBase>({
   theme: {
     spacing: { baseUnit },
   },
-}: MenuListProps<OptionType>) => ({
+}: MenuListProps<OptionType>): Interpolation => ({
   maxHeight,
   overflowY: 'auto',
   paddingBottom: baseUnit,
@@ -419,7 +415,7 @@ const noticeCSS = <OptionType extends OptionTypeBase>({
     spacing: { baseUnit },
     colors,
   },
-}: NoticeProps<OptionType>) => ({
+}: NoticeProps<OptionType>): Interpolation => ({
   color: colors.neutral40,
   padding: `${baseUnit * 2}px ${baseUnit * 3}px`,
   textAlign: 'center',
@@ -500,13 +496,17 @@ interface MenuPortalState {
   placement: 'bottom' | 'top' | null;
 }
 
-interface PortalStyleArgs {
+export interface PortalStyleArgs {
   offset: number;
   position: MenuPosition;
   rect: RectType;
 }
 
-export const menuPortalCSS = ({ rect, offset, position }: PortalStyleArgs) => ({
+export const menuPortalCSS = ({
+  rect,
+  offset,
+  position,
+}: PortalStyleArgs): Interpolation => ({
   left: rect.left,
   position: position,
   top: offset,

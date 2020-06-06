@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { MouseEventHandler, ReactNode, TouchEventHandler } from 'react';
-import { jsx, keyframes } from '@emotion/core';
+import { Interpolation, jsx, keyframes } from '@emotion/core';
 
 import { CommonProps, OptionTypeBase } from '../types';
 
@@ -64,7 +64,9 @@ const baseCSS = <OptionType extends OptionTypeBase>({
     spacing: { baseUnit },
     colors,
   },
-}: DropdownIndicatorProps<OptionType>) => ({
+}:
+  | DropdownIndicatorProps<OptionType>
+  | ClearIndicatorProps<OptionType>): Interpolation => ({
   label: 'indicatorContainer',
   color: isFocused ? colors.neutral60 : colors.neutral20,
   display: 'flex',
@@ -148,7 +150,7 @@ export const indicatorSeparatorCSS = <OptionType extends OptionTypeBase>({
     spacing: { baseUnit },
     colors,
   },
-}: IndicatorSeparatorProps<OptionType>) => ({
+}: IndicatorSeparatorProps<OptionType>): Interpolation => ({
   label: 'indicatorSeparator',
   alignSelf: 'stretch',
   backgroundColor: isDisabled ? colors.neutral10 : colors.neutral20,
@@ -195,7 +197,7 @@ export const loadingIndicatorCSS = <OptionType extends OptionTypeBase>({
     colors,
     spacing: { baseUnit },
   },
-}: LoadingIndicatorProps<OptionType>) => ({
+}: LoadingIndicatorProps<OptionType>): Interpolation => ({
   label: 'loadingIndicator',
   color: isFocused ? colors.neutral60 : colors.neutral20,
   display: 'flex',

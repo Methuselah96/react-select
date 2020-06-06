@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { KeyboardEventHandler, ReactNode } from 'react';
-import { jsx } from '@emotion/core';
+import { Interpolation, jsx } from '@emotion/core';
 import { CommonProps, OptionTypeBase } from '../types';
 
 // ==============================
@@ -22,10 +22,10 @@ export interface ContainerProps<OptionType extends OptionTypeBase>
 export const containerCSS = <OptionType extends OptionTypeBase>({
   isDisabled,
   isRtl,
-}: ContainerProps<OptionType>) => ({
+}: ContainerProps<OptionType>): Interpolation => ({
   label: 'container',
-  direction: isRtl ? 'rtl' : null,
-  pointerEvents: isDisabled ? 'none' : null, // cancel mouse events when disabled
+  direction: isRtl ? 'rtl' : undefined,
+  pointerEvents: isDisabled ? 'none' : undefined, // cancel mouse events when disabled
   position: 'relative',
 });
 
@@ -71,7 +71,7 @@ export interface ValueContainerProps<OptionType extends OptionTypeBase>
 
 export const valueContainerCSS = <OptionType extends OptionTypeBase>({
   theme: { spacing },
-}: ValueContainerProps<OptionType>) => ({
+}: ValueContainerProps<OptionType>): Interpolation => ({
   alignItems: 'center',
   display: 'flex',
   flex: 1,
@@ -108,10 +108,6 @@ export const ValueContainer = <OptionType extends OptionTypeBase>(
 // Indicator Container
 // ==============================
 
-interface IndicatorContainerClassNamesState {
-  indicators: true;
-}
-
 export interface IndicatorContainerProps<OptionType extends OptionTypeBase>
   extends CommonProps<OptionType> {
   isDisabled: boolean;
@@ -119,7 +115,7 @@ export interface IndicatorContainerProps<OptionType extends OptionTypeBase>
   children: ReactNode;
 }
 
-export const indicatorsContainerCSS = () => ({
+export const indicatorsContainerCSS = (): Interpolation => ({
   alignItems: 'center',
   alignSelf: 'stretch',
   display: 'flex',

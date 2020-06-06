@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { MouseEventHandler, ReactNode, TouchEventHandler } from 'react';
-import { jsx, ClassNames } from '@emotion/core';
+import { jsx, ClassNames, Interpolation } from '@emotion/core';
 import { CrossIcon } from './indicators';
 import { CommonProps, OptionTypeBase } from '../types';
 
@@ -22,7 +22,7 @@ export interface MultiValueProps<OptionType extends OptionTypeBase>
 
 export const multiValueCSS = <OptionType extends OptionTypeBase>({
   theme: { spacing, borderRadius, colors },
-}: MultiValueProps<OptionType>) => ({
+}: MultiValueProps<OptionType>): Interpolation => ({
   label: 'multiValue',
   backgroundColor: colors.neutral10,
   borderRadius: borderRadius / 2,
@@ -34,24 +34,24 @@ export const multiValueCSS = <OptionType extends OptionTypeBase>({
 export const multiValueLabelCSS = <OptionType extends OptionTypeBase>({
   theme: { borderRadius, colors },
   cropWithEllipsis,
-}: MultiValueProps<OptionType>) => ({
+}: MultiValueProps<OptionType>): Interpolation => ({
   borderRadius: borderRadius / 2,
   color: colors.neutral80,
   fontSize: '85%',
   overflow: 'hidden',
   padding: 3,
   paddingLeft: 6,
-  textOverflow: cropWithEllipsis ? 'ellipsis' : null,
+  textOverflow: cropWithEllipsis ? 'ellipsis' : undefined,
   whiteSpace: 'nowrap',
 });
 
 export const multiValueRemoveCSS = <OptionType extends OptionTypeBase>({
   theme: { spacing, borderRadius, colors },
   isFocused,
-}: MultiValueProps<OptionType>) => ({
+}: MultiValueProps<OptionType>): Interpolation => ({
   alignItems: 'center',
   borderRadius: borderRadius / 2,
-  backgroundColor: isFocused && colors.dangerLight,
+  backgroundColor: isFocused ? colors.dangerLight : undefined,
   display: 'flex',
   paddingLeft: spacing.baseUnit,
   paddingRight: spacing.baseUnit,

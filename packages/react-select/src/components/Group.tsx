@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { ComponentType, ReactNode } from 'react';
-import { jsx } from '@emotion/core';
+import { Interpolation, jsx } from '@emotion/core';
 
 import { CommonProps, OptionTypeBase } from '../types';
 
@@ -29,7 +29,7 @@ export interface GroupProps<OptionType extends OptionTypeBase>
 
 export const groupCSS = <OptionType extends OptionTypeBase>({
   theme: { spacing },
-}: GroupProps<OptionType>) => ({
+}: GroupProps<OptionType>): Interpolation => ({
   paddingBottom: spacing.baseUnit * 2,
   paddingTop: spacing.baseUnit * 2,
 });
@@ -67,23 +67,19 @@ const Group = <OptionType extends OptionTypeBase>(
   );
 };
 
-interface GroupHeadingClassNamesState {
-  'group-heading': true;
-}
-
 export type GroupHeadingProps<
   OptionType extends OptionTypeBase
 > = ForwardedHeadingProps<OptionType> & JSX.IntrinsicElements['div'];
 
 export const groupHeadingCSS = <OptionType extends OptionTypeBase>({
   theme: { spacing },
-}: GroupHeadingProps<OptionType>) => ({
+}: GroupHeadingProps<OptionType>): Interpolation => ({
   label: 'group',
   color: '#999',
   cursor: 'default',
   display: 'block',
   fontSize: '75%',
-  fontWeight: '500',
+  fontWeight: 500,
   marginBottom: '0.25em',
   paddingLeft: spacing.baseUnit * 3,
   paddingRight: spacing.baseUnit * 3,

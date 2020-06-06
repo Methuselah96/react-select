@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { ReactNode } from 'react';
-import { jsx } from '@emotion/core';
+import { Interpolation, jsx } from '@emotion/core';
 import { CommonProps, OptionTypeBase } from '../types';
 
 export interface PlaceholderProps<OptionType extends OptionTypeBase>
@@ -13,7 +13,7 @@ export interface PlaceholderProps<OptionType extends OptionTypeBase>
 
 export const placeholderCSS = <OptionType extends OptionTypeBase>({
   theme: { spacing, colors },
-}: PlaceholderProps<OptionType>) => ({
+}: PlaceholderProps<OptionType>): Interpolation => ({
   label: 'placeholder',
   color: colors.neutral50,
   marginLeft: spacing.baseUnit / 2,

@@ -1,6 +1,6 @@
 /** @jsx jsx */
 import { MouseEventHandler, ReactNode, Ref, TouchEventHandler } from 'react';
-import { jsx } from '@emotion/core';
+import { Interpolation, jsx } from '@emotion/core';
 
 import { CommonProps, OptionTypeBase } from '../types';
 
@@ -26,7 +26,7 @@ export const css = <OptionType extends OptionTypeBase>({
   isDisabled,
   isFocused,
   theme: { colors, borderRadius, spacing },
-}: ControlProps<OptionType>) => ({
+}: ControlProps<OptionType>): Interpolation => ({
   label: 'control',
   alignItems: 'center',
   backgroundColor: isDisabled ? colors.neutral5 : colors.neutral0,
@@ -38,7 +38,7 @@ export const css = <OptionType extends OptionTypeBase>({
   borderRadius: borderRadius,
   borderStyle: 'solid',
   borderWidth: 1,
-  boxShadow: isFocused ? `0 0 0 1px ${colors.primary}` : null,
+  boxShadow: isFocused ? `0 0 0 1px ${colors.primary}` : undefined,
   cursor: 'default',
   display: 'flex',
   flexWrap: 'wrap',
