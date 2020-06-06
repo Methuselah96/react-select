@@ -1,19 +1,19 @@
-// @flow
 /** @jsx jsx */
-import { type Node } from 'react';
+import { ReactNode } from 'react';
 import { jsx } from '@emotion/core';
-import type { CommonProps } from '../types';
+import { CommonProps, OptionTypeBase } from '../types';
 
-export type PlaceholderProps = CommonProps & {
+export interface PlaceholderProps<OptionType extends OptionTypeBase>
+  extends CommonProps<OptionType> {
   /** The children to be rendered. */
-  children: Node,
-  /** props passed to the wrapping element for the group. */
-  innerProps: { [string]: any },
-};
+  children: ReactNode;
+  isDisabled: boolean;
+  isFocused: boolean;
+}
 
-export const placeholderCSS = ({
+export const placeholderCSS = <OptionType extends OptionTypeBase>({
   theme: { spacing, colors },
-}: PlaceholderProps) => ({
+}: PlaceholderProps<OptionType>) => ({
   label: 'placeholder',
   color: colors.neutral50,
   marginLeft: spacing.baseUnit / 2,
@@ -23,7 +23,9 @@ export const placeholderCSS = ({
   transform: 'translateY(-50%)',
 });
 
-const Placeholder = (props: PlaceholderProps) => {
+const Placeholder = <OptionType extends OptionTypeBase>(
+  props: PlaceholderProps<OptionType>
+) => {
   const { children, className, cx, getStyles, innerProps } = props;
   return (
     <div

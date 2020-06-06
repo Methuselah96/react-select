@@ -1,26 +1,22 @@
-// @flow
 /** @jsx jsx */
-import type { CommonProps } from '../types';
+import { ReactNode } from 'react';
+import type { CommonProps, OptionTypeBase } from '../types';
 import { jsx } from '@emotion/core';
 
-type State = {
-  /** Whether this is disabled. */
-  isDisabled: boolean,
-};
-type ValueProps = {
+interface SingleValueProps<OptionType extends OptionTypeBase>
+  extends CommonProps<OptionType> {
   /** The children to be rendered. */
-  children: React$Node,
-  /* The data of the selected option rendered in the Single Value component. */
-  data: any,
-  /** Props passed to the wrapping element for the group. */
-  innerProps: any,
-};
-export type SingleValueProps = CommonProps & ValueProps & State;
+  children: ReactNode;
+  /** The data of the selected option rendered in the Single Value component. */
+  data: OptionType;
+  /** Whether this is disabled. */
+  isDisabled: boolean;
+}
 
-export const css = ({
+export const css = <OptionType extends OptionTypeBase>({
   isDisabled,
   theme: { spacing, colors },
-}: SingleValueProps) => ({
+}: SingleValueProps<OptionType>) => ({
   label: 'singleValue',
   color: isDisabled ? colors.neutral40 : colors.neutral80,
   marginLeft: spacing.baseUnit / 2,
@@ -34,7 +30,9 @@ export const css = ({
   transform: 'translateY(-50%)',
 });
 
-const SingleValue = (props: SingleValueProps) => {
+const SingleValue = <OptionType extends OptionTypeBase>(
+  props: SingleValueProps<OptionType>
+) => {
   const { children, className, cx, getStyles, isDisabled, innerProps } = props;
   return (
     <div

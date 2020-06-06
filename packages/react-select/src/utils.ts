@@ -1,6 +1,4 @@
-// @flow
-
-import { type ElementRef } from 'react';
+// import { type ElementRef } from 'react';
 import type {
   ClassNamesState,
   InputActionMeta,
@@ -53,8 +51,8 @@ export function classNames(
   }
 
   return arr
-    .filter(i => i)
-    .map(i => String(i).trim())
+    .filter((i) => i)
+    .map((i) => String(i).trim())
     .join(' ');
 }
 // ==============================
@@ -94,7 +92,7 @@ export function isDocumentElement(el: Element) {
 // Normalized Scroll Top
 // ------------------------------
 
-export function normalizedHeight(el: Element): number {
+export function normalizedHeight(el: Element) {
   if (isDocumentElement(el)) {
     return window.innerHeight;
   }
@@ -105,14 +103,14 @@ export function normalizedHeight(el: Element): number {
 // Normalized scrollTo & scrollTop
 // ------------------------------
 
-export function getScrollTop(el: Element): number {
+export function getScrollTop(el: Element) {
   if (isDocumentElement(el)) {
     return window.pageYOffset;
   }
   return el.scrollTop;
 }
 
-export function scrollTo(el: Element, top: number): void {
+export function scrollTo(el: Element, top: number) {
   // with a scroll distance, we perform scroll on the element
   if (isDocumentElement(el)) {
     window.scrollTo(0, top);
@@ -125,15 +123,19 @@ export function scrollTo(el: Element, top: number): void {
 // Get Scroll Parent
 // ------------------------------
 
-export function getScrollParent(element: ElementRef<*>): Element {
+export function getScrollParent(element: Element) {
   let style = getComputedStyle(element);
   const excludeStaticParent = style.position === 'absolute';
   const overflowRx = /(auto|scroll)/;
-  const docEl = ((document.documentElement: any): Element); // suck it, flow...
+  const docEl = document.documentElement;
 
   if (style.position === 'fixed') return docEl;
 
-  for (let parent = element; (parent = parent.parentElement); ) {
+  for (
+    let parent: Element | null = element;
+    (parent = parent.parentElement);
+
+  ) {
     style = getComputedStyle(parent);
     if (excludeStaticParent && style.position === 'static') {
       continue;
@@ -155,7 +157,7 @@ export function getScrollParent(element: ElementRef<*>): Element {
   @param c: amount of change
   @param d: duration
 */
-function easeOutCubic(t: number, b: number, c: number, d: number): number {
+function easeOutCubic(t: number, b: number, c: number, d: number) {
   return c * ((t = t / d - 1) * t * t + 1) + b;
 }
 
@@ -163,7 +165,7 @@ export function animatedScrollTo(
   element: Element,
   to: number,
   duration: number = 200,
-  callback: Element => void = noop
+  callback: (element: Element) => void = noop
 ) {
   const start = getScrollTop(element);
   const change = to - start;
@@ -186,10 +188,7 @@ export function animatedScrollTo(
 // Scroll Into View
 // ------------------------------
 
-export function scrollIntoView(
-  menuEl: HTMLElement,
-  focusedEl: HTMLElement
-): void {
+export function scrollIntoView(menuEl: HTMLElement, focusedEl: HTMLElement) {
   const menuRect = menuEl.getBoundingClientRect();
   const focusedRect = focusedEl.getBoundingClientRect();
   const overScroll = focusedEl.offsetHeight / 3;
@@ -226,19 +225,19 @@ export function getBoundingClientObj(element: HTMLElement) {
     width: rect.width,
   };
 }
-export type RectType = {
-  left: number,
-  right: number,
-  bottom: number,
-  height: number,
-  width: number,
-};
+export interface RectType {
+  left: number;
+  right: number;
+  bottom: number;
+  height: number;
+  width: number;
+}
 
 // ==============================
 // String to Key (kebabify)
 // ==============================
 
-export function toKey(str: string): string {
+export function toKey(str: string) {
   return str.replace(/\W/g, '-');
 }
 
