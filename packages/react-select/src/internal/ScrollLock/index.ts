@@ -1,4 +1,3 @@
-// @flow
 import { Component } from 'react';
 
 import { LOCK_STYLES, STYLE_KEYS } from './constants';
@@ -17,13 +16,10 @@ const canUseDOM = !!(
 
 let activeScrollLocks = 0;
 
-type Props = {
-  accountForScrollbars: boolean,
-  touchScrollTarget?: HTMLElement,
-};
-type TargetStyle = {
-  [key: string]: string | null,
-};
+interface Props {
+  accountForScrollbars: boolean;
+  touchScrollTarget?: HTMLElement;
+}
 
 export default class ScrollLock extends Component<Props> {
   originalStyles = {};
@@ -39,11 +35,11 @@ export default class ScrollLock extends Component<Props> {
 
     const { accountForScrollbars, touchScrollTarget } = this.props;
     const target = document.body;
-    const targetStyle = target && (target.style: TargetStyle);
+    const targetStyle = target && target.style;
 
     if (accountForScrollbars) {
       // store any styles already applied to the body
-      STYLE_KEYS.forEach(key => {
+      STYLE_KEYS.forEach((key) => {
         const val = targetStyle && targetStyle[key];
         this.originalStyles[key] = val;
       });
@@ -57,7 +53,7 @@ export default class ScrollLock extends Component<Props> {
       const adjustedPadding =
         window.innerWidth - clientWidth + currentPadding || 0;
 
-      Object.keys(LOCK_STYLES).forEach(key => {
+      Object.keys(LOCK_STYLES).forEach((key) => {
         const val = LOCK_STYLES[key];
         if (targetStyle) {
           targetStyle[key] = val;
@@ -101,14 +97,14 @@ export default class ScrollLock extends Component<Props> {
 
     const { accountForScrollbars, touchScrollTarget } = this.props;
     const target = document.body;
-    const targetStyle = target && (target.style: TargetStyle);
+    const targetStyle = target && target.style;
 
     // safely decrement active scroll locks
     activeScrollLocks = Math.max(activeScrollLocks - 1, 0);
 
     // reapply original body styles, if any
     if (accountForScrollbars && activeScrollLocks < 1) {
-      STYLE_KEYS.forEach(key => {
+      STYLE_KEYS.forEach((key) => {
         const val = this.originalStyles[key];
         if (targetStyle) {
           targetStyle[key] = val;

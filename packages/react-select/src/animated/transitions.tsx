@@ -1,24 +1,30 @@
-// @flow
-
-import React, { Component, type ComponentType, type ElementRef } from 'react';
+import React, {
+  Component,
+  ComponentType,
+  CSSProperties,
+  RefCallback,
+} from 'react';
 import { Transition } from 'react-transition-group';
+import {
+  ExitHandler,
+  TransitionStatus,
+} from 'react-transition-group/Transition';
 
-export type fn = () => void;
-export type BaseTransition = {
+export interface BaseTransition {
   /** Whether we are in a transition. */
-  in: boolean,
+  in: boolean;
   /** Function to be called once transition finishes. */
-  onExited: fn
-};
+  onExited: ExitHandler;
+}
 
 // ==============================
 // Fade Transition
 // ==============================
 
-type FadeProps = BaseTransition & {
-  component: ComponentType<any>,
-  duration: number,
-};
+interface FadeProps extends BaseTransition {
+  component: ComponentType<unknown>;
+  duration: number;
+}
 export const Fade = ({
   component: Tag,
   duration = 1,
@@ -26,7 +32,7 @@ export const Fade = ({
   onExited, // eslint-disable-line no-unused-vars
   ...props
 }: FadeProps) => {
-  const transition = {
+  const transition: { [Status in TransitionStatus]: CSSProperties } = {
     entering: { opacity: 0 },
     entered: { opacity: 1, transition: `opacity ${duration}ms` },
     exiting: { opacity: 0 },
@@ -35,11 +41,11 @@ export const Fade = ({
 
   return (
     <Transition mountOnEnter unmountOnExit in={inProp} timeout={duration}>
-      {state => {
+      {(state) => {
         const innerProps = {
           style: {
             ...transition[state],
-          }
+          },
         };
         return <Tag innerProps={innerProps} {...props} />;
       }}
@@ -55,27 +61,32 @@ export const collapseDuration = 260;
 
 type TransitionState = 'exiting' | 'exited';
 type Width = number | 'auto';
-type CollapseProps = { children: any, in: boolean };
-type CollapseState = { width: Width };
+interface CollapseProps {
+  children: unknown;
+  in: boolean;
+}
+interface CollapseState {
+  width: Width;
+}
 
 // wrap each MultiValue with a collapse transition; decreases width until
 // finally removing from DOM
 export class Collapse extends Component<CollapseProps, CollapseState> {
   duration = collapseDuration;
-  rafID: number | null;
-  state = { width: 'auto' };
+  rafID?: number | null;
+  state: CollapseState = { width: 'auto' };
   transition = {
     exiting: { width: 0, transition: `width ${this.duration}ms ease-out` },
     exited: { width: 0 },
   };
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (this.rafID) {
       window.cancelAnimationFrame(this.rafID);
     }
   }
 
   // width must be calculated; cannot transition from `undefined` to `number`
-  getWidth = (ref: ElementRef<*>) => {
+  getWidth: RefCallback<HTMLDivElement> = (ref) => {
     if (ref && isNaN(this.state.width)) {
       /*
         Here we're invoking requestAnimationFrame with a callback invoking our
@@ -114,7 +125,7 @@ export class Collapse extends Component<CollapseProps, CollapseState> {
         in={inProp}
         timeout={this.duration}
       >
-        {state => {
+        {(state) => {
           const style = {
             ...this.getStyle(width),
             ...this.getTransition(state),
