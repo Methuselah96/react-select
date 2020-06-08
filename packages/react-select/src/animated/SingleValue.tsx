@@ -1,7 +1,5 @@
-// @flow
-
 import React, { type AbstractComponent } from 'react';
-import { type SingleValueProps } from '../components/SingleValue';
+import { SingleValueProps } from '../components/SingleValue';
 import { Fade } from './transitions';
 
 // instant fade; all transition-group children must be transitions
