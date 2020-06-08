@@ -16,6 +16,10 @@ type ForwardedHeadingProps<
   'selectProps' | 'theme' | 'getStyles' | 'cx'
 >;
 
+export interface GroupClassNamesState {
+  group: true;
+}
+
 export interface GroupProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,

@@ -2,11 +2,20 @@
 import { Interpolation, jsx } from '@emotion/core';
 import AutosizeInput, { AutosizeInputProps } from 'react-input-autosize';
 
-import { GroupTypeBase, OptionTypeBase, Theme } from '../types';
-import { DefaultStyles } from '../styles';
+import {
+  ClassNamesState,
+  GroupTypeBase,
+  OptionTypeBase,
+  Theme,
+} from '../types';
+import { StylesProps } from '../styles';
 import { Props } from '../Select';
 
-type GetStylesProps<
+export interface InputClassNamesState {
+  input: true;
+}
+
+export type InputStylesProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
@@ -26,8 +35,13 @@ export interface InputProps<
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 > extends AutosizeInputProps {
-  cx: (state: any, className?: string) => string;
-  getStyles: (key: keyof DefaultStyles, props: any) => Interpolation;
+  cx: (state: ClassNamesState, className?: string) => string;
+  getStyles: <
+    PropertyName extends keyof StylesProps<OptionType, GroupType, IsMultiType>
+  >(
+    propertyName: PropertyName,
+    props: StylesProps<OptionType, GroupType, IsMultiType>[PropertyName]
+  ) => Interpolation;
   /** Reference to the internal element */
   innerRef: (instance: HTMLInputElement | null) => void;
   /** Whether the input is disabled */
@@ -48,7 +62,7 @@ export const inputCSS = <
 >({
   isDisabled,
   theme: { spacing, colors },
-}: GetStylesProps<OptionType, GroupType, IsMultiType>) => ({
+}: InputStylesProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
   margin: spacing.baseUnit / 2,
   paddingBottom: spacing.baseUnit / 2,
   paddingTop: spacing.baseUnit / 2,

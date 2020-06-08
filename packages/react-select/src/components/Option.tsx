@@ -1,9 +1,16 @@
 /** @jsx jsx */
 import { ReactNode } from 'react';
-import { jsx } from '@emotion/core';
+import { Interpolation, jsx } from '@emotion/core';
 
 import { CommonProps, OptionTypeBase, GroupTypeBase } from '../types';
 import { OptionRenderType } from '../Select';
+
+export interface OptionClassNamesState {
+  option: true;
+  'option--is-disabled': boolean;
+  'option--is-focused': boolean;
+  'option--is-selected': boolean;
+}
 
 export interface OptionProps<
   OptionType extends OptionTypeBase,
@@ -26,7 +33,7 @@ export const optionCSS = <
   isFocused,
   isSelected,
   theme: { spacing, colors },
-}: OptionProps<OptionType, GroupType, IsMultiType>) => ({
+}: OptionProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
   label: 'option',
   backgroundColor: isSelected
     ? colors.primary
@@ -48,8 +55,11 @@ export const optionCSS = <
 
   // provide some affordance on touch devices
   ':active': {
-    backgroundColor:
-      !isDisabled && (isSelected ? colors.primary : colors.primary50),
+    backgroundColor: !isDisabled
+      ? isSelected
+        ? colors.primary
+        : colors.primary50
+      : undefined,
   },
 });
 

@@ -3,6 +3,10 @@ import { ReactNode } from 'react';
 import { Interpolation, jsx } from '@emotion/core';
 import { CommonProps, GroupTypeBase, OptionTypeBase } from '../types';
 
+export interface PlaceholderClassNamesState {
+  placeholder: true;
+}
+
 export interface PlaceholderProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,

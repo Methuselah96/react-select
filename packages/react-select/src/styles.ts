@@ -23,9 +23,9 @@ import {
   IndicatorSeparatorProps,
   LoadingIndicatorProps,
 } from './components/indicators';
-import { inputCSS } from './components/Input';
+import { InputStylesProps, inputCSS } from './components/Input';
 import { placeholderCSS, PlaceholderProps } from './components/Placeholder';
-import { optionCSS } from './components/Option';
+import { optionCSS, OptionProps } from './components/Option';
 import {
   menuCSS,
   menuListCSS,
@@ -47,38 +47,68 @@ import {
   MultiValueProps,
   multiValueRemoveCSS,
 } from './components/MultiValue';
-import { OptionTypeBase } from './types';
+import { GroupTypeBase, OptionTypeBase } from './types';
 import { Interpolation } from '@emotion/core';
 
-type StyleFunction<Props> = (props: Props) => Interpolation;
-
-export interface DefaultStyles {
-  clearIndicator: StyleFunction<ClearIndicatorProps<OptionTypeBase>>;
-  container: StyleFunction<ContainerProps<OptionTypeBase>>;
-  control: StyleFunction<ControlProps<OptionTypeBase>>;
-  dropdownIndicator: StyleFunction<DropdownIndicatorProps<OptionTypeBase>>;
-  group: StyleFunction<GroupProps<OptionTypeBase>>;
-  groupHeading: StyleFunction<GroupHeadingProps<OptionTypeBase>>;
-  indicatorsContainer: StyleFunction<IndicatorContainerProps<OptionTypeBase>>;
-  indicatorSeparator: StyleFunction<IndicatorSeparatorProps<OptionTypeBase>>;
-  input?: unknown;
-  loadingIndicator: StyleFunction<LoadingIndicatorProps<OptionTypeBase>>;
-  loadingMessage: StyleFunction<NoticeProps<OptionTypeBase>>;
-  menu: StyleFunction<MenuProps<OptionTypeBase>>;
-  menuList: StyleFunction<MenuListProps<OptionTypeBase>>;
-  menuPortal: StyleFunction<PortalStyleArgs>;
-  multiValue: StyleFunction<MultiValueProps<OptionTypeBase>>;
-  multiValueLabel: StyleFunction<MultiValueProps<OptionTypeBase>>;
-  multiValueRemove: StyleFunction<MultiValueProps<OptionTypeBase>>;
-  noOptionsMessage: StyleFunction<NoticeProps<OptionTypeBase>>;
-  option?: unknown;
-  placeholder: StyleFunction<PlaceholderProps<OptionTypeBase>>;
-  singleValue: StyleFunction<SingleValueProps<OptionTypeBase>>;
-  valueContainer: StyleFunction<ValueContainerProps<OptionTypeBase>>;
+export interface StylesProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> {
+  clearIndicator: ClearIndicatorProps<OptionType, GroupType, IsMultiType>;
+  container: ContainerProps<OptionType, GroupType, IsMultiType>;
+  control: ControlProps<OptionType, GroupType, IsMultiType>;
+  dropdownIndicator: DropdownIndicatorProps<OptionType, GroupType, IsMultiType>;
+  group: GroupProps<OptionType, GroupType, IsMultiType>;
+  groupHeading: GroupHeadingProps<OptionType, GroupType, IsMultiType>;
+  indicatorsContainer: IndicatorContainerProps<
+    OptionType,
+    GroupType,
+    IsMultiType
+  >;
+  indicatorSeparator: IndicatorSeparatorProps<
+    OptionType,
+    GroupType,
+    IsMultiType
+  >;
+  input: InputStylesProps<OptionType, GroupType, IsMultiType>;
+  loadingIndicator: LoadingIndicatorProps<OptionType, GroupType, IsMultiType>;
+  loadingMessage: NoticeProps<OptionType, GroupType, IsMultiType>;
+  menu: MenuProps<OptionType, GroupType, IsMultiType>;
+  menuList: MenuListProps<OptionType, GroupType, IsMultiType>;
+  menuPortal: PortalStyleArgs;
+  multiValue: MultiValueProps<OptionType, GroupType, IsMultiType>;
+  multiValueLabel: MultiValueProps<OptionType, GroupType, IsMultiType>;
+  multiValueRemove: MultiValueProps<OptionType, GroupType, IsMultiType>;
+  noOptionsMessage: NoticeProps<OptionType, GroupType, IsMultiType>;
+  option: OptionProps<OptionType, GroupType, IsMultiType>;
+  placeholder: PlaceholderProps<OptionType, GroupType, IsMultiType>;
+  singleValue: SingleValueProps<OptionType, GroupType, IsMultiType>;
+  valueContainer: ValueContainerProps<OptionType, GroupType, IsMultiType>;
 }
-export type StylesConfig = Partial<DefaultStyles>;
 
-export const defaultStyles: DefaultStyles = {
+type StylesFunction<Props> = (props: Props) => Interpolation;
+export type StylesFunctions<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> = {
+  [K in keyof StylesProps<OptionType, GroupType, IsMultiType>]: StylesFunction<
+    StylesProps<OptionType, GroupType, IsMultiType>[K]
+  >;
+};
+
+export type StylesConfig<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> = Partial<StylesFunctions<OptionType, GroupType, IsMultiType>>;
+
+export const defaultStyles: StylesFunctions<
+  OptionTypeBase,
+  GroupTypeBase<OptionTypeBase>,
+  boolean
+> = {
   clearIndicator: clearIndicatorCSS,
   container: containerCSS,
   control: controlCSS,
@@ -106,12 +136,24 @@ export const defaultStyles: DefaultStyles = {
 // Merge Utility
 // Allows consumers to extend a base Select with additional styles
 
-export function mergeStyles(source: Object, target: Object = {}) {
+export function mergeStyles<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  source: StylesConfig<OptionType, GroupType, IsMultiType>,
+  target: StylesConfig<OptionType, GroupType, IsMultiType> = {}
+) {
   // initialize with source styles
   const styles = { ...source };
 
   // massage in target styles
-  Object.keys(target).forEach((key) => {
+  Object.keys(target).forEach((keyAsString) => {
+    const key = keyAsString as keyof StylesConfig<
+      OptionType,
+      GroupType,
+      IsMultiType
+    >;
     if (source[key]) {
       styles[key] = (rsCss, props) => {
         return target[key](source[key](rsCss, props), props);

@@ -44,6 +44,11 @@ export const DownChevron = (props: JSX.IntrinsicElements['svg']) => (
 // Dropdown & Clear Buttons
 // ==============================
 
+export interface DropdownIndicatorClassNamesState {
+  indicator: true;
+  'dropdown-indicator': true;
+}
+
 export interface DropdownIndicatorProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
@@ -115,6 +120,11 @@ export const DropdownIndicator = <
   );
 };
 
+export interface ClearIndicatorClassNamesState {
+  indicator: true;
+  'clear-indicator': true;
+}
+
 export interface ClearIndicatorProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
@@ -159,6 +169,10 @@ export const ClearIndicator = <
 // ==============================
 // Separator
 // ==============================
+
+export interface IndicatorSeparatorClassNamesState {
+  'indicator-separator': true;
+}
 
 export interface IndicatorSeparatorProps<
   OptionType extends OptionTypeBase,
@@ -217,6 +231,11 @@ const loadingDotAnimations = keyframes`
   0%, 80%, 100% { opacity: 0; }
   40% { opacity: 1; }
 `;
+
+export interface LoadingIndicatorClassNamesState {
+  indicator: true;
+  'loading-indicator': true;
+}
 
 export interface LoadingIndicatorProps<
   OptionType extends OptionTypeBase,

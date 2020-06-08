@@ -4,6 +4,11 @@ import type { CommonProps, OptionTypeBase } from '../types';
 import { Interpolation, jsx } from '@emotion/core';
 import { GroupTypeBase } from '../types';
 
+export interface SingleValueClassNamesState {
+  'single-value': true;
+  'single-value--is-disabled': boolean;
+}
+
 export interface SingleValueProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,

@@ -9,6 +9,13 @@ import { Interpolation, jsx } from '@emotion/core';
 
 import { CommonProps, GroupTypeBase, OptionTypeBase } from '../types';
 
+export interface ControlClassNamesState {
+  control: true;
+  'control--is-disabled': boolean;
+  'control--is-focused': boolean;
+  'control--menu-is-open': boolean;
+}
+
 export interface ControlProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,

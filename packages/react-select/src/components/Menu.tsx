@@ -208,6 +208,10 @@ export function getMenuPlacement({
 // Menu Component
 // ------------------------------
 
+export interface MenuClassNamesState {
+  menu: true;
+}
+
 export interface MenuPlacementProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
@@ -391,6 +395,11 @@ export default Menu;
 // Menu List
 // ==============================
 
+export interface MenuListClassNamesState {
+  'menu-list': true;
+  'menu-list--is-multi': boolean;
+}
+
 export interface MenuListProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
@@ -452,6 +461,11 @@ export const MenuList = <
 // Menu Notices
 // ==============================
 
+export interface NoOptionsMessageClassNamesState {
+  'menu-notice': true;
+  'menu-notice--no-options': true;
+}
+
 const noticeCSS = <
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
@@ -506,6 +520,11 @@ export const NoOptionsMessage = <
 NoOptionsMessage.defaultProps = {
   children: 'No options',
 };
+
+export interface LoadingMessageClassNamesState {
+  'menu-notice': true;
+  'menu-notice--loading': true;
+}
 
 export const LoadingMessage = <
   OptionType extends OptionTypeBase,

@@ -1,8 +1,36 @@
 // import type { Ref } from 'react';
 
 import { Interpolation } from '@emotion/core';
-import { DefaultStyles } from './styles';
+import { StylesProps } from './styles';
 import { Props } from './Select';
+import {
+  ContainerClassNamesState,
+  IndicatorsClassNamesState,
+  ValueContainerClassNamesState,
+} from './components/containers';
+import { ControlClassNamesState } from './components/Control';
+import { GroupClassNamesState } from './components/Group';
+import {
+  ClearIndicatorClassNamesState,
+  DropdownIndicatorClassNamesState,
+  IndicatorSeparatorClassNamesState,
+  LoadingIndicatorClassNamesState,
+} from './components/indicators';
+import { InputClassNamesState } from './components/Input';
+import {
+  LoadingMessageClassNamesState,
+  MenuClassNamesState,
+  MenuListClassNamesState,
+  NoOptionsMessageClassNamesState,
+} from './components/Menu';
+import {
+  MultiValueClassNamesState,
+  MultiValueLabelClassNamesState,
+  MultiValueRemoveClassNamesState,
+} from './components/MultiValue';
+import { OptionClassNamesState } from './components/Option';
+import { PlaceholderClassNamesState } from './components/Placeholder';
+import { SingleValueClassNamesState } from './components/SingleValue';
 
 export interface OptionTypeBase {
   label?: string;
@@ -131,19 +159,46 @@ export interface Theme {
 // export type ClassNameList = Array<string>;
 // export type ClassNamesState = { [string]: boolean } | void;
 
+export type ClassNamesState =
+  | ContainerClassNamesState
+  | ValueContainerClassNamesState
+  | IndicatorsClassNamesState
+  | ControlClassNamesState
+  | GroupClassNamesState
+  | DropdownIndicatorClassNamesState
+  | ClearIndicatorClassNamesState
+  | IndicatorSeparatorClassNamesState
+  | LoadingIndicatorClassNamesState
+  | InputClassNamesState
+  | MenuClassNamesState
+  | MenuListClassNamesState
+  | NoOptionsMessageClassNamesState
+  | LoadingMessageClassNamesState
+  | MultiValueClassNamesState
+  | MultiValueLabelClassNamesState
+  | MultiValueRemoveClassNamesState
+  | OptionClassNamesState
+  | PlaceholderClassNamesState
+  | SingleValueClassNamesState;
+
 export interface CommonProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 > {
-  cx: (state: any, className?: string) => string;
+  cx: (state: ClassNamesState, className?: string) => string;
   clearValue: () => void;
   /**
     Get the styles of a particular part of the select. Pass in the name of the
     property as the first argument, and the current props as the second argument.
     See the `styles` object for the properties available.
   */
-  getStyles: (key: keyof DefaultStyles, props: any) => Interpolation;
+  getStyles: <
+    PropertyName extends keyof StylesProps<OptionType, GroupType, IsMultiType>
+  >(
+    propertyName: PropertyName,
+    props: StylesProps<OptionType, GroupType, IsMultiType>[PropertyName]
+  ) => Interpolation;
   getValue: () => OptionsType<OptionType>;
   /** Whether the value container currently holds a value. */
   hasValue: boolean;

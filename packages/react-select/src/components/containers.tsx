@@ -7,6 +7,11 @@ import { CommonProps, GroupTypeBase, OptionTypeBase } from '../types';
 // Root Container
 // ==============================
 
+export interface ContainerClassNamesState {
+  '--is-disabled': boolean;
+  '--is-rtl': boolean;
+}
+
 export interface ContainerProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
@@ -73,6 +78,12 @@ export const SelectContainer = <
 // Value Container
 // ==============================
 
+export interface ValueContainerClassNamesState {
+  'value-container': true;
+  'value-container--is-multi': boolean;
+  'value-container--has-value': boolean;
+}
+
 export interface ValueContainerProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
@@ -130,7 +141,11 @@ export const ValueContainer = <
 // Indicator Container
 // ==============================
 
-export interface IndicatorContainerProps<
+export interface IndicatorsClassNamesState {
+  indicators: true;
+}
+
+export interface IndicatorsContainerProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
@@ -152,7 +167,7 @@ export const IndicatorsContainer = <
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 >(
-  props: IndicatorContainerProps<OptionType, GroupType, IsMultiType>
+  props: IndicatorsContainerProps<OptionType, GroupType, IsMultiType>
 ) => {
   const { children, className, cx, getStyles } = props;
 

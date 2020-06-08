@@ -4,6 +4,19 @@ import { jsx, ClassNames, Interpolation } from '@emotion/core';
 import { CrossIcon } from './indicators';
 import { CommonProps, GroupTypeBase, OptionTypeBase } from '../types';
 
+export interface MultiValueClassNamesState {
+  'multi-value': true;
+  'multi-value--is-disabled': boolean;
+}
+
+export interface MultiValueLabelClassNamesState {
+  'multi-value__label': true;
+}
+
+export interface MultiValueRemoveClassNamesState {
+  'multi-value__remove': true;
+}
+
 export interface MultiValueProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
