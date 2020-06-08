@@ -2,7 +2,7 @@
 import { MouseEventHandler, ReactNode, TouchEventHandler } from 'react';
 import { Interpolation, jsx, keyframes } from '@emotion/core';
 
-import { CommonProps, OptionTypeBase } from '../types';
+import { CommonProps, GroupTypeBase, OptionTypeBase } from '../types';
 
 // ==============================
 // Dropdown & Clear Icons
@@ -44,8 +44,11 @@ export const DownChevron = (props: JSX.IntrinsicElements['svg']) => (
 // Dropdown & Clear Buttons
 // ==============================
 
-export interface DropdownIndicatorProps<OptionType extends OptionTypeBase>
-  extends CommonProps<OptionType> {
+export interface DropdownIndicatorProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends CommonProps<OptionType, GroupType, IsMultiType> {
   innerProps: {
     onMouseDown: MouseEventHandler<HTMLDivElement>;
     onTouchEnd: TouchEventHandler<HTMLDivElement>;
@@ -58,15 +61,23 @@ export interface DropdownIndicatorProps<OptionType extends OptionTypeBase>
   children: ReactNode;
 }
 
-const baseCSS = <OptionType extends OptionTypeBase>({
+const baseCSS = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   isFocused,
   theme: {
     spacing: { baseUnit },
     colors,
   },
 }:
-  | DropdownIndicatorProps<OptionType>
-  | ClearIndicatorProps<OptionType>): Interpolation => ({
+  | DropdownIndicatorProps<OptionType, GroupType, IsMultiType>
+  | ClearIndicatorProps<
+      OptionType,
+      GroupType,
+      IsMultiType
+    >): Interpolation => ({
   label: 'indicatorContainer',
   color: isFocused ? colors.neutral60 : colors.neutral20,
   display: 'flex',
@@ -79,8 +90,12 @@ const baseCSS = <OptionType extends OptionTypeBase>({
 });
 
 export const dropdownIndicatorCSS = baseCSS;
-export const DropdownIndicator = <OptionType extends OptionTypeBase>(
-  props: DropdownIndicatorProps<OptionType>
+export const DropdownIndicator = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  props: DropdownIndicatorProps<OptionType, GroupType, IsMultiType>
 ) => {
   const { children, className, cx, getStyles, innerProps } = props;
   return (
@@ -100,8 +115,11 @@ export const DropdownIndicator = <OptionType extends OptionTypeBase>(
   );
 };
 
-export interface ClearIndicatorProps<OptionType extends OptionTypeBase>
-  extends CommonProps<OptionType> {
+export interface ClearIndicatorProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends CommonProps<OptionType, GroupType, IsMultiType> {
   innerProps: {
     onMouseDown: MouseEventHandler<HTMLDivElement>;
     onTouchEnd: TouchEventHandler<HTMLDivElement>;
@@ -113,8 +131,12 @@ export interface ClearIndicatorProps<OptionType extends OptionTypeBase>
 }
 
 export const clearIndicatorCSS = baseCSS;
-export const ClearIndicator = <OptionType extends OptionTypeBase>(
-  props: ClearIndicatorProps<OptionType>
+export const ClearIndicator = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  props: ClearIndicatorProps<OptionType, GroupType, IsMultiType>
 ) => {
   const { children, className, cx, getStyles, innerProps } = props;
   return (
@@ -138,19 +160,30 @@ export const ClearIndicator = <OptionType extends OptionTypeBase>(
 // Separator
 // ==============================
 
-export interface IndicatorSeparatorProps<OptionType extends OptionTypeBase>
-  extends CommonProps<OptionType> {
+export interface IndicatorSeparatorProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends CommonProps<OptionType, GroupType, IsMultiType> {
   isDisabled: boolean;
   isFocused: boolean;
 }
 
-export const indicatorSeparatorCSS = <OptionType extends OptionTypeBase>({
+export const indicatorSeparatorCSS = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   isDisabled,
   theme: {
     spacing: { baseUnit },
     colors,
   },
-}: IndicatorSeparatorProps<OptionType>): Interpolation => ({
+}: IndicatorSeparatorProps<
+  OptionType,
+  GroupType,
+  IsMultiType
+>): Interpolation => ({
   label: 'indicatorSeparator',
   alignSelf: 'stretch',
   backgroundColor: isDisabled ? colors.neutral10 : colors.neutral20,
@@ -159,8 +192,12 @@ export const indicatorSeparatorCSS = <OptionType extends OptionTypeBase>({
   width: 1,
 });
 
-export const IndicatorSeparator = <OptionType extends OptionTypeBase>(
-  props: IndicatorSeparatorProps<OptionType>
+export const IndicatorSeparator = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  props: IndicatorSeparatorProps<OptionType, GroupType, IsMultiType>
 ) => {
   const { className, cx, getStyles, innerProps } = props;
   return (
@@ -181,8 +218,11 @@ const loadingDotAnimations = keyframes`
   40% { opacity: 1; }
 `;
 
-export interface LoadingIndicatorProps<OptionType extends OptionTypeBase>
-  extends CommonProps<OptionType> {
+export interface LoadingIndicatorProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends CommonProps<OptionType, GroupType, IsMultiType> {
   /** Props that will be passed on to the children. */
   innerProps: { 'aria-hidden': 'true' };
   isDisabled: boolean;
@@ -190,14 +230,22 @@ export interface LoadingIndicatorProps<OptionType extends OptionTypeBase>
   isFocused: boolean;
 }
 
-export const loadingIndicatorCSS = <OptionType extends OptionTypeBase>({
+export const loadingIndicatorCSS = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   isFocused,
   size,
   theme: {
     colors,
     spacing: { baseUnit },
   },
-}: LoadingIndicatorProps<OptionType>): Interpolation => ({
+}: LoadingIndicatorProps<
+  OptionType,
+  GroupType,
+  IsMultiType
+>): Interpolation => ({
   label: 'loadingIndicator',
   color: isFocused ? colors.neutral60 : colors.neutral20,
   display: 'flex',
@@ -230,8 +278,12 @@ const LoadingDot = ({ delay, offset }: LoadingDotProps) => (
   />
 );
 
-export const LoadingIndicator = <OptionType extends OptionTypeBase>(
-  props: LoadingIndicatorProps<OptionType>
+export const LoadingIndicator = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  props: LoadingIndicatorProps<OptionType, GroupType, IsMultiType>
 ) => {
   const { className, cx, getStyles, innerProps, isRtl } = props;
 

@@ -2,22 +2,30 @@
 import { ComponentType, ReactNode } from 'react';
 import { Interpolation, jsx } from '@emotion/core';
 
-import { CommonProps, OptionTypeBase } from '../types';
+import { CommonProps, GroupTypeBase, OptionTypeBase } from '../types';
 
 interface PassedHeadingProps {
   id: string;
 }
-type ForwardedHeadingProps<OptionType extends OptionTypeBase> = Pick<
-  GroupProps<OptionType>,
+type ForwardedHeadingProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> = Pick<
+  GroupProps<OptionType, GroupType, IsMultiType>,
   'selectProps' | 'theme' | 'getStyles' | 'cx'
 >;
 
-export interface GroupProps<OptionType extends OptionTypeBase>
-  extends CommonProps<OptionType> {
+export interface GroupProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends CommonProps<OptionType, GroupType, IsMultiType> {
   // TODO Spread Group type?
   /** Component to wrap the label, receives headingProps. */
   Heading: ComponentType<
-    PassedHeadingProps & ForwardedHeadingProps<OptionType>
+    PassedHeadingProps &
+      ForwardedHeadingProps<OptionType, GroupType, IsMultiType>
   >;
   /** Props to pass to Heading. */
   headingProps: PassedHeadingProps;
@@ -27,15 +35,23 @@ export interface GroupProps<OptionType extends OptionTypeBase>
   children: ReactNode;
 }
 
-export const groupCSS = <OptionType extends OptionTypeBase>({
+export const groupCSS = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   theme: { spacing },
-}: GroupProps<OptionType>): Interpolation => ({
+}: GroupProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
   paddingBottom: spacing.baseUnit * 2,
   paddingTop: spacing.baseUnit * 2,
 });
 
-const Group = <OptionType extends OptionTypeBase>(
-  props: GroupProps<OptionType>
+const Group = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  props: GroupProps<OptionType, GroupType, IsMultiType>
 ) => {
   const {
     children,
@@ -68,12 +84,19 @@ const Group = <OptionType extends OptionTypeBase>(
 };
 
 export type GroupHeadingProps<
-  OptionType extends OptionTypeBase
-> = ForwardedHeadingProps<OptionType> & JSX.IntrinsicElements['div'];
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> = ForwardedHeadingProps<OptionType, GroupType, IsMultiType> &
+  JSX.IntrinsicElements['div'];
 
-export const groupHeadingCSS = <OptionType extends OptionTypeBase>({
+export const groupHeadingCSS = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   theme: { spacing },
-}: GroupHeadingProps<OptionType>): Interpolation => ({
+}: GroupHeadingProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
   label: 'group',
   color: '#999',
   cursor: 'default',
@@ -86,8 +109,12 @@ export const groupHeadingCSS = <OptionType extends OptionTypeBase>({
   textTransform: 'uppercase',
 });
 
-export const GroupHeading = <OptionType extends OptionTypeBase>(
-  props: GroupHeadingProps<OptionType>
+export const GroupHeading = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  props: GroupHeadingProps<OptionType, GroupType, IsMultiType>
 ) => {
   const { className, cx, getStyles, theme, selectProps, ...cleanProps } = props;
   return (

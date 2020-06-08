@@ -23,6 +23,7 @@ import {
   MenuPosition,
   CommonProps,
   OptionTypeBase,
+  GroupTypeBase,
 } from '../types';
 import { Theme } from '../types';
 
@@ -207,8 +208,11 @@ export function getMenuPlacement({
 // Menu Component
 // ------------------------------
 
-export interface MenuPlacementProps<OptionType extends OptionTypeBase>
-  extends CommonProps<OptionType> {
+export interface MenuPlacementProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends CommonProps<OptionType, GroupType, IsMultiType> {
   /** Set the minimum height of the menu. */
   minMenuHeight: number;
   /** Set the maximum height of the menu. */
@@ -225,8 +229,11 @@ export interface MenuPlacementProps<OptionType extends OptionTypeBase>
   // innerProps: {},
 }
 
-export interface MenuProps<OptionType extends OptionTypeBase>
-  extends MenuPlacementProps<OptionType> {
+export interface MenuProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends MenuPlacementProps<OptionType, GroupType, IsMultiType> {
   /** Reference to the internal element, consumed by the MenuPlacer component */
   innerRef: Ref<HTMLDivElement>;
   innerProps: {
@@ -239,21 +246,33 @@ export interface MenuProps<OptionType extends OptionTypeBase>
   children: ReactNode;
 }
 
-interface PlacerProps<OptionType extends OptionTypeBase>
-  extends MenuPlacerProps<OptionType> {
+interface PlacerProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends MenuPlacerProps<OptionType, GroupType, IsMultiType> {
   placement: 'top' | 'bottom';
   maxHeight: number;
 }
 
-interface ChildrenProps<OptionType extends OptionTypeBase> {
+interface ChildrenProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> {
   ref: Ref<HTMLDivElement>;
-  placerProps: PlacerProps<OptionType>;
+  placerProps: PlacerProps<OptionType, GroupType, IsMultiType>;
 }
 
-export interface MenuPlacerProps<OptionType extends OptionTypeBase>
-  extends MenuPlacementProps<OptionType> {
+export interface MenuPlacerProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends MenuPlacementProps<OptionType, GroupType, IsMultiType> {
   /** The children to be rendered. */
-  children: (childrenProps: ChildrenProps<OptionType>) => ReactNode;
+  children: (
+    childrenProps: ChildrenProps<OptionType, GroupType, IsMultiType>
+  ) => ReactNode;
 }
 
 function alignToControl(placement: 'top' | 'bottom') {
@@ -262,10 +281,14 @@ function alignToControl(placement: 'top' | 'bottom') {
 }
 const coercePlacement = (p: MenuPlacement) => (p === 'auto' ? 'bottom' : p);
 
-export const menuCSS = <OptionType extends OptionTypeBase>({
+export const menuCSS = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   placement,
   theme: { borderRadius, spacing, colors },
-}: MenuProps<OptionType>): Interpolation => ({
+}: MenuProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
   label: 'menu',
   [alignToControl(placement)]: '100%',
   backgroundColor: colors.neutral0,
@@ -279,8 +302,12 @@ export const menuCSS = <OptionType extends OptionTypeBase>({
 });
 
 // NOTE: internal only
-export class MenuPlacer<OptionType extends OptionTypeBase> extends Component<
-  MenuPlacerProps<OptionType>,
+export class MenuPlacer<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends Component<
+  MenuPlacerProps<OptionType, GroupType, IsMultiType>,
   MenuState
 > {
   state: MenuState = {
@@ -337,8 +364,12 @@ export class MenuPlacer<OptionType extends OptionTypeBase> extends Component<
   }
 }
 
-const Menu = <OptionType extends OptionTypeBase>(
-  props: MenuProps<OptionType>
+const Menu = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  props: MenuProps<OptionType, GroupType, IsMultiType>
 ) => {
   const { children, className, cx, getStyles, innerRef, innerProps } = props;
 
@@ -360,8 +391,11 @@ export default Menu;
 // Menu List
 // ==============================
 
-export interface MenuListProps<OptionType extends OptionTypeBase>
-  extends CommonProps<OptionType> {
+export interface MenuListProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends CommonProps<OptionType, GroupType, IsMultiType> {
   /** Inner ref to DOM Node */
   innerRef: RefCallback<HTMLDivElement>;
   isLoading: boolean;
@@ -371,12 +405,16 @@ export interface MenuListProps<OptionType extends OptionTypeBase>
   children: ReactNode;
 }
 
-export const menuListCSS = <OptionType extends OptionTypeBase>({
+export const menuListCSS = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   maxHeight,
   theme: {
     spacing: { baseUnit },
   },
-}: MenuListProps<OptionType>): Interpolation => ({
+}: MenuListProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
   maxHeight,
   overflowY: 'auto',
   paddingBottom: baseUnit,
@@ -385,8 +423,12 @@ export const menuListCSS = <OptionType extends OptionTypeBase>({
   WebkitOverflowScrolling: 'touch',
 });
 
-export const MenuList = <OptionType extends OptionTypeBase>(
-  props: MenuListProps<OptionType>
+export const MenuList = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  props: MenuListProps<OptionType, GroupType, IsMultiType>
 ) => {
   const { children, className, cx, getStyles, isMulti, innerRef } = props;
   return (
@@ -410,12 +452,16 @@ export const MenuList = <OptionType extends OptionTypeBase>(
 // Menu Notices
 // ==============================
 
-const noticeCSS = <OptionType extends OptionTypeBase>({
+const noticeCSS = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   theme: {
     spacing: { baseUnit },
     colors,
   },
-}: NoticeProps<OptionType>): Interpolation => ({
+}: NoticeProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
   color: colors.neutral40,
   padding: `${baseUnit * 2}px ${baseUnit * 3}px`,
   textAlign: 'center',
@@ -423,14 +469,21 @@ const noticeCSS = <OptionType extends OptionTypeBase>({
 export const noOptionsMessageCSS = noticeCSS;
 export const loadingMessageCSS = noticeCSS;
 
-export interface NoticeProps<OptionType extends OptionTypeBase>
-  extends CommonProps<OptionType> {
+export interface NoticeProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends CommonProps<OptionType, GroupType, IsMultiType> {
   /** The children to be rendered. */
   children: ReactNode;
 }
 
-export const NoOptionsMessage = <OptionType extends OptionTypeBase>(
-  props: NoticeProps<OptionType>
+export const NoOptionsMessage = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  props: NoticeProps<OptionType, GroupType, IsMultiType>
 ) => {
   const { children, className, cx, getStyles, innerProps } = props;
   return (
@@ -454,8 +507,12 @@ NoOptionsMessage.defaultProps = {
   children: 'No options',
 };
 
-export const LoadingMessage = <OptionType extends OptionTypeBase>(
-  props: NoticeProps<OptionType>
+export const LoadingMessage = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  props: NoticeProps<OptionType, GroupType, IsMultiType>
 ) => {
   const { children, className, cx, getStyles, innerProps } = props;
   return (
@@ -483,8 +540,11 @@ LoadingMessage.defaultProps = {
 // Menu Portal
 // ==============================
 
-export interface MenuPortalProps<OptionType extends OptionTypeBase>
-  extends CommonProps<OptionType> {
+export interface MenuPortalProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends CommonProps<OptionType, GroupType, IsMultiType> {
   appendTo: HTMLElement;
   controlElement: HTMLElement;
   menuPlacement: MenuPlacement;
@@ -514,8 +574,12 @@ export const menuPortalCSS = ({
   zIndex: 1,
 });
 
-export class MenuPortal<OptionType extends OptionTypeBase> extends Component<
-  MenuPortalProps<OptionType>,
+export class MenuPortal<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends Component<
+  MenuPortalProps<OptionType, GroupType, IsMultiType>,
   MenuPortalState
 > {
   state: MenuPortalState = { placement: null };

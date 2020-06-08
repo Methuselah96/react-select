@@ -2,9 +2,13 @@
 import { ReactNode } from 'react';
 import type { CommonProps, OptionTypeBase } from '../types';
 import { Interpolation, jsx } from '@emotion/core';
+import { GroupTypeBase } from '../types';
 
-export interface SingleValueProps<OptionType extends OptionTypeBase>
-  extends CommonProps<OptionType> {
+export interface SingleValueProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends CommonProps<OptionType, GroupType, IsMultiType> {
   /** The children to be rendered. */
   children: ReactNode;
   /** The data of the selected option rendered in the Single Value component. */
@@ -13,10 +17,14 @@ export interface SingleValueProps<OptionType extends OptionTypeBase>
   isDisabled: boolean;
 }
 
-export const css = <OptionType extends OptionTypeBase>({
+export const css = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   isDisabled,
   theme: { spacing, colors },
-}: SingleValueProps<OptionType>): Interpolation => ({
+}: SingleValueProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
   label: 'singleValue',
   color: isDisabled ? colors.neutral40 : colors.neutral80,
   marginLeft: spacing.baseUnit / 2,
@@ -30,8 +38,12 @@ export const css = <OptionType extends OptionTypeBase>({
   transform: 'translateY(-50%)',
 });
 
-const SingleValue = <OptionType extends OptionTypeBase>(
-  props: SingleValueProps<OptionType>
+const SingleValue = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  props: SingleValueProps<OptionType, GroupType, IsMultiType>
 ) => {
   const { children, className, cx, getStyles, isDisabled, innerProps } = props;
   return (

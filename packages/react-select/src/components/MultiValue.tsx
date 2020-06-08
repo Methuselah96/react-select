@@ -2,10 +2,13 @@
 import { MouseEventHandler, ReactNode, TouchEventHandler } from 'react';
 import { jsx, ClassNames, Interpolation } from '@emotion/core';
 import { CrossIcon } from './indicators';
-import { CommonProps, OptionTypeBase } from '../types';
+import { CommonProps, GroupTypeBase, OptionTypeBase } from '../types';
 
-export interface MultiValueProps<OptionType extends OptionTypeBase>
-  extends CommonProps<OptionType> {
+export interface MultiValueProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends CommonProps<OptionType, GroupType, IsMultiType> {
   components: unknown;
   isFocused: boolean;
   isDisabled: boolean;
@@ -20,9 +23,13 @@ export interface MultiValueProps<OptionType extends OptionTypeBase>
   children: ReactNode;
 }
 
-export const multiValueCSS = <OptionType extends OptionTypeBase>({
+export const multiValueCSS = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   theme: { spacing, borderRadius, colors },
-}: MultiValueProps<OptionType>): Interpolation => ({
+}: MultiValueProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
   label: 'multiValue',
   backgroundColor: colors.neutral10,
   borderRadius: borderRadius / 2,
@@ -31,10 +38,14 @@ export const multiValueCSS = <OptionType extends OptionTypeBase>({
   minWidth: 0, // resolves flex/text-overflow bug
 });
 
-export const multiValueLabelCSS = <OptionType extends OptionTypeBase>({
+export const multiValueLabelCSS = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   theme: { borderRadius, colors },
   cropWithEllipsis,
-}: MultiValueProps<OptionType>): Interpolation => ({
+}: MultiValueProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
   borderRadius: borderRadius / 2,
   color: colors.neutral80,
   fontSize: '85%',
@@ -45,10 +56,14 @@ export const multiValueLabelCSS = <OptionType extends OptionTypeBase>({
   whiteSpace: 'nowrap',
 });
 
-export const multiValueRemoveCSS = <OptionType extends OptionTypeBase>({
+export const multiValueRemoveCSS = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   theme: { spacing, borderRadius, colors },
   isFocused,
-}: MultiValueProps<OptionType>): Interpolation => ({
+}: MultiValueProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
   alignItems: 'center',
   borderRadius: borderRadius / 2,
   backgroundColor: isFocused ? colors.dangerLight : undefined,
@@ -92,8 +107,12 @@ export function MultiValueRemove({
   return <div {...innerProps}>{children || <CrossIcon size={14} />}</div>;
 }
 
-const MultiValue = <OptionType extends OptionTypeBase>(
-  props: MultiValueProps<OptionType>
+const MultiValue = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  props: MultiValueProps<OptionType, GroupType, IsMultiType>
 ) => {
   const {
     children,

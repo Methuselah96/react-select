@@ -2,6 +2,7 @@ import React, {
   Component,
   FocusEventHandler,
   FormEventHandler,
+  InputHTMLAttributes,
   KeyboardEventHandler,
   MouseEventHandler,
   ReactNode,
@@ -275,7 +276,7 @@ export interface Props<
   /* Theme modifier method */
   theme?: ThemeConfig;
   /* Sets the tabIndex attribute on the input */
-  tabIndex: string;
+  tabIndex: number;
   /* Select the currently focused option when the user presses tab */
   tabSelectsValue: boolean;
   /* The value of the select; reflected by the selected option */
@@ -320,16 +321,16 @@ export const defaultProps = {
   screenReaderStatus: ({ count }: { count: number }) =>
     `${count} result${count !== 1 ? 's' : ''} available`,
   styles: {},
-  tabIndex: '0',
+  tabIndex: 0,
   tabSelectsValue: true,
 };
 
-interface OptionRenderType<OptionType extends OptionTypeBase> {
+export interface OptionRenderType<OptionType extends OptionTypeBase> {
   innerProps: {
     id: string;
-    onClick?: (newValue: OptionType) => void;
-    onMouseMove?: (focusedOption: OptionType) => void;
-    onMouseOver?: (focusedOption: OptionType) => void;
+    onClick?: MouseEventHandler<HTMLDivElement>;
+    onMouseMove?: MouseEventHandler<HTMLDivElement>;
+    onMouseOver?: MouseEventHandler<HTMLDivElement>;
     tabIndex: number;
   };
   data: OptionType;
@@ -1550,7 +1551,7 @@ export default class Select<
     const id = inputId || this.getElementId('input');
 
     // aria attributes makes the JSX "noisy", separated for clarity
-    const ariaAttributes = {
+    const ariaAttributes: InputHTMLAttributes<HTMLInputElement> = {
       'aria-autocomplete': 'list',
       'aria-label': this.props['aria-label'],
       'aria-labelledby': this.props['aria-labelledby'],

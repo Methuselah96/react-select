@@ -1,15 +1,17 @@
 /** @jsx jsx */
-import { jsx } from '@emotion/core';
-import AutosizeInput from 'react-input-autosize';
+import { Interpolation, jsx } from '@emotion/core';
+import AutosizeInput, { AutosizeInputProps } from 'react-input-autosize';
 
-import { PropsWithStyles, Theme } from '../types';
+import { GroupTypeBase, OptionTypeBase, Theme } from '../types';
+import { DefaultStyles } from '../styles';
+import { Props } from '../Select';
 
-interface ClassNamesState {
-  input: true;
-}
-
-type GetStylesProps = Omit<
-  InputProps,
+type GetStylesProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> = Omit<
+  InputProps<OptionType, GroupType, IsMultiType>,
   | 'className'
   | 'cx'
   | 'getStyles'
@@ -19,23 +21,34 @@ type GetStylesProps = Omit<
   | 'selectProps'
 > & { theme: Theme };
 
-export interface InputProps extends PropsWithStyles<'input', GetStylesProps> {
-  cx: (state: ClassNamesState, className?: string) => string;
+export interface InputProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends AutosizeInputProps {
+  cx: (state: any, className?: string) => string;
+  getStyles: (key: keyof DefaultStyles, props: any) => Interpolation;
   /** Reference to the internal element */
   innerRef: (instance: HTMLInputElement | null) => void;
+  /** Whether the input is disabled */
+  isDisabled: boolean;
   /** Set whether the input should be visible. Does not affect input size. */
   isHidden: boolean;
-  /** Whether the input is disabled */
-  isDisabled?: boolean;
-  className?: string;
-  /** The ID of the form that the input belongs to */
-  form?: string;
+  selectProps: Props<OptionType, GroupType, IsMultiType>;
+  theme: Theme;
+  // className?: string;
+  // /** The ID of the form that the input belongs to */
+  // form?: string;
 }
 
-export const inputCSS = ({
+export const inputCSS = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   isDisabled,
   theme: { spacing, colors },
-}: GetStylesProps) => ({
+}: GetStylesProps<OptionType, GroupType, IsMultiType>) => ({
   margin: spacing.baseUnit / 2,
   paddingBottom: spacing.baseUnit / 2,
   paddingTop: spacing.baseUnit / 2,
@@ -53,7 +66,11 @@ const inputStyle = (isHidden: boolean) => ({
   color: 'inherit',
 });
 
-const Input = ({
+const Input = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   className,
   cx,
   getStyles,
@@ -63,7 +80,7 @@ const Input = ({
   theme,
   selectProps,
   ...props
-}: InputProps) => (
+}: InputProps<OptionType, GroupType, IsMultiType>) => (
   <div css={getStyles('input', { theme, ...props })}>
     <AutosizeInput
       className={cx({ input: true }, className)}

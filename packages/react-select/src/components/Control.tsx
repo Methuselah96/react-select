@@ -7,10 +7,13 @@ import {
 } from 'react';
 import { Interpolation, jsx } from '@emotion/core';
 
-import { CommonProps, OptionTypeBase } from '../types';
+import { CommonProps, GroupTypeBase, OptionTypeBase } from '../types';
 
-export interface ControlProps<OptionType extends OptionTypeBase>
-  extends CommonProps<OptionType> {
+export interface ControlProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends CommonProps<OptionType, GroupType, IsMultiType> {
   innerRef: RefCallback<HTMLDivElement>;
   /** The mouse down event and the innerRef to pass down to the controller element. */
   innerProps: {
@@ -27,11 +30,15 @@ export interface ControlProps<OptionType extends OptionTypeBase>
   children: ReactNode;
 }
 
-export const css = <OptionType extends OptionTypeBase>({
+export const css = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   isDisabled,
   isFocused,
   theme: { colors, borderRadius, spacing },
-}: ControlProps<OptionType>): Interpolation => ({
+}: ControlProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
   label: 'control',
   alignItems: 'center',
   backgroundColor: isDisabled ? colors.neutral5 : colors.neutral0,
@@ -58,8 +65,12 @@ export const css = <OptionType extends OptionTypeBase>({
   },
 });
 
-const Control = <OptionType extends OptionTypeBase>(
-  props: ControlProps<OptionType>
+const Control = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  props: ControlProps<OptionType, GroupType, IsMultiType>
 ) => {
   const {
     children,

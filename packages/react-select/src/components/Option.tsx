@@ -2,49 +2,31 @@
 import { ReactNode } from 'react';
 import { jsx } from '@emotion/core';
 
-import { CommonProps, PropsWithStyles, InnerRef } from '../types';
+import { CommonProps, OptionTypeBase, GroupTypeBase } from '../types';
+import { OptionRenderType } from '../Select';
 
-interface State {
-  /** Whether the option is disabled. */
-  isDisabled: boolean;
+export interface OptionProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>
+  extends CommonProps<OptionType, GroupType, IsMultiType>,
+    OptionRenderType<OptionType> {
   /** Whether the option is focused. */
   isFocused: boolean;
-  /** Whether the option is selected. */
-  isSelected: boolean;
+  children: ReactNode;
 }
 
-interface InnerProps {
-  id: string;
-  key: string;
-  onClick: MouseEventHandler;
-  onMouseOver: MouseEventHandler;
-  tabIndex: number;
-}
-
-export type OptionProps = PropsWithStyles &
-  CommonProps &
-  State & {
-    /** The children to be rendered. */
-    children: ReactNode;
-    /** Inner ref to DOM Node */
-    innerRef: InnerRef;
-    /** props passed to the wrapping element for the group. */
-    innerProps: InnerProps;
-    /* Text to be displayed representing the option. */
-    label: string;
-    /* Type is used by the menu to determine whether this is an option or a group.
-    In the case of option this is always `option`. */
-    type: 'option';
-    /* The data of the selected option. */
-    data: any;
-  };
-
-export const optionCSS = ({
+export const optionCSS = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   isDisabled,
   isFocused,
   isSelected,
   theme: { spacing, colors },
-}: OptionProps) => ({
+}: OptionProps<OptionType, GroupType, IsMultiType>) => ({
   label: 'option',
   backgroundColor: isSelected
     ? colors.primary
@@ -71,7 +53,13 @@ export const optionCSS = ({
   },
 });
 
-const Option = (props: OptionProps) => {
+const Option = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  props: OptionProps<OptionType, GroupType, IsMultiType>
+) => {
   const {
     children,
     className,

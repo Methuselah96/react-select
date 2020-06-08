@@ -1,19 +1,26 @@
 /** @jsx jsx */
 import { ReactNode } from 'react';
 import { Interpolation, jsx } from '@emotion/core';
-import { CommonProps, OptionTypeBase } from '../types';
+import { CommonProps, GroupTypeBase, OptionTypeBase } from '../types';
 
-export interface PlaceholderProps<OptionType extends OptionTypeBase>
-  extends CommonProps<OptionType> {
+export interface PlaceholderProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends CommonProps<OptionType, GroupType, IsMultiType> {
   /** The children to be rendered. */
   children: ReactNode;
   isDisabled: boolean;
   isFocused: boolean;
 }
 
-export const placeholderCSS = <OptionType extends OptionTypeBase>({
+export const placeholderCSS = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   theme: { spacing, colors },
-}: PlaceholderProps<OptionType>): Interpolation => ({
+}: PlaceholderProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
   label: 'placeholder',
   color: colors.neutral50,
   marginLeft: spacing.baseUnit / 2,
@@ -23,8 +30,12 @@ export const placeholderCSS = <OptionType extends OptionTypeBase>({
   transform: 'translateY(-50%)',
 });
 
-const Placeholder = <OptionType extends OptionTypeBase>(
-  props: PlaceholderProps<OptionType>
+const Placeholder = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  props: PlaceholderProps<OptionType, GroupType, IsMultiType>
 ) => {
   const { children, className, cx, getStyles, innerProps } = props;
   return (
