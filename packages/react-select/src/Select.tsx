@@ -53,7 +53,7 @@ import {
   SelectComponentsConfig,
 } from './components/index';
 
-import { defaultStyles, StylesConfig } from './styles';
+import { DefaultStyles, defaultStyles, StylesConfig } from './styles';
 import { defaultTheme, ThemeConfig } from './theme';
 
 import {
@@ -62,10 +62,10 @@ import {
   GroupTypeBase,
   isGroup,
   // ActionTypes,
-  // FocusDirection,
+  FocusDirection,
   // FocusEventHandler,
   // GroupType,
-  // InputActionMeta,
+  InputActionMeta,
   // KeyboardEventHandler,
   MenuPlacement,
   MenuPosition,
@@ -339,6 +339,7 @@ interface OptionRenderType<OptionType extends OptionTypeBase> {
   label: string;
   type: 'option';
   value: string;
+  innerRef?: RefCallback<HTMLDivElement>;
 }
 
 interface GroupRenderType<
@@ -366,7 +367,7 @@ interface State<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>
 > {
-  ariaLiveSelection: string;
+  ariaLiveSelection: string | undefined;
   ariaLiveContext: string | undefined;
   inputIsHidden: boolean;
   isFocused: boolean;
@@ -386,10 +387,10 @@ export default class Select<
   IsMultiType extends boolean
 > extends Component<
   Props<OptionType, GroupType, IsMultiType>,
-  State<OptionType>
+  State<OptionType, GroupType>
 > {
   static defaultProps = defaultProps;
-  state: State<OptionType> = {
+  state: State<OptionType, GroupType> = {
     ariaLiveSelection: '',
     ariaLiveContext: '',
     focusedOption: null,
@@ -440,7 +441,7 @@ export default class Select<
   // Lifecycle
   // ------------------------------
 
-  constructor(props: Props<OptionType, IsMultiType>) {
+  constructor(props: Props<OptionType, GroupType, IsMultiType>) {
     super(props);
     const { value } = props;
     this.cacheComponents = memoizeOne(this.cacheComponents, isEqual).bind(this);
@@ -483,7 +484,9 @@ export default class Select<
       this.focusInput();
     }
   }
-  UNSAFE_componentWillReceiveProps(nextProps: Props<OptionType, IsMultiType>) {
+  UNSAFE_componentWillReceiveProps(
+    nextProps: Props<OptionType, GroupType, IsMultiType>
+  ) {
     const { options, value, menuIsOpen, inputValue } = this.props;
     // re-cache custom components
     this.cacheComponents(nextProps.components);
@@ -510,7 +513,7 @@ export default class Select<
       delete this.inputIsHiddenAfterUpdate;
     }
   }
-  componentDidUpdate(prevProps: Props<OptionType, IsMultiType>) {
+  componentDidUpdate(prevProps: Props<OptionType, GroupType, IsMultiType>) {
     const { isDisabled, menuIsOpen } = this.props;
     const { isFocused } = this.state;
 
@@ -902,7 +905,7 @@ export default class Select<
   getOptionValue = (data: OptionType): string => {
     return this.props.getOptionValue(data);
   };
-  getStyles = (key: string, props: {}): {} => {
+  getStyles = (key: keyof DefaultStyles, props: {}): {} => {
     const base = defaultStyles[key](props);
     base.boxSizing = 'border-box';
     const custom = this.props.styles[key];
@@ -1048,17 +1051,15 @@ export default class Select<
       }
     } else {
       if (
-        // $FlowFixMe
-        event.target.tagName !== 'INPUT' &&
-        event.target.tagName !== 'TEXTAREA'
+        event.currentTarget.tagName !== 'INPUT' &&
+        event.currentTarget.tagName !== 'TEXTAREA'
       ) {
         this.onMenuClose();
       }
     }
     if (
-      // $FlowFixMe
-      event.target.tagName !== 'INPUT' &&
-      event.target.tagName !== 'TEXTAREA'
+      event.currentTarget.tagName !== 'INPUT' &&
+      event.currentTarget.tagName !== 'TEXTAREA'
     ) {
       event.preventDefault();
     }
@@ -1067,7 +1068,11 @@ export default class Select<
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
     // ignore mouse events that weren't triggered by the primary button
-    if (event && event.type === 'mousedown' && event.button !== 0) {
+    if (
+      event &&
+      event.type === 'mousedown' &&
+      (event as React.MouseEvent<HTMLDivElement>).button !== 0
+    ) {
       return;
     }
     if (this.props.isDisabled) return;
@@ -1086,7 +1091,11 @@ export default class Select<
     event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>
   ) => {
     // ignore mouse events that weren't triggered by the primary button
-    if (event && event.type === 'mousedown' && event.button !== 0) {
+    if (
+      event &&
+      event.type === 'mousedown' &&
+      (event as React.MouseEvent<HTMLDivElement>).button !== 0
+    ) {
       return;
     }
     this.clearValue();
@@ -1244,7 +1253,7 @@ export default class Select<
   };
   onInputBlur: FocusEventHandler<HTMLInputElement> = (event) => {
     if (this.menuListRef && this.menuListRef.contains(document.activeElement)) {
-      this.inputRef.focus();
+      this.inputRef!.focus();
       return;
     }
     if (this.props.onBlur) {
@@ -1414,7 +1423,7 @@ export default class Select<
   buildMenuOptions = (
     props: Props<OptionType, GroupType, IsMultiType>,
     selectValue: OptionsType<OptionType>
-  ): MenuOptions<OptionType> => {
+  ) => {
     const { inputValue = '', options } = props;
 
     const toOption = (option: OptionType, id: string) => {
@@ -1791,7 +1800,7 @@ export default class Select<
     if (!menuIsOpen) return null;
 
     // TODO: Internal Option Type here
-    const render = (props: OptionType) => {
+    const render = (props: OptionRenderType<OptionType>) => {
       // for performance, the menu options in state aren't changed when the
       // focused option changes so we calculate additional props based on that
       const isFocused = focusedOption === props.data;
@@ -1804,7 +1813,7 @@ export default class Select<
       );
     };
 
-    let menuUI;
+    let menuUI: ReactNode;
 
     if (this.hasOptions()) {
       menuUI = menuOptions.render.map((item) => {

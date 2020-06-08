@@ -1,8 +1,12 @@
 // import type { Ref } from 'react';
 
 import { Interpolation } from '@emotion/core';
+import { DefaultStyles } from './styles';
+import { Props } from './Select';
 
 export interface OptionTypeBase {
+  label?: string;
+  value?: string;
   isDisabled?: boolean;
 }
 
@@ -11,6 +15,7 @@ export type OptionsType<
 > = readonly OptionType[];
 
 export interface GroupTypeBase<OptionType extends OptionTypeBase> {
+  label?: string;
   options: OptionsType<OptionType>;
 }
 
@@ -126,7 +131,11 @@ export interface Theme {
 // export type ClassNameList = Array<string>;
 // export type ClassNamesState = { [string]: boolean } | void;
 
-export interface CommonProps<OptionType extends OptionTypeBase> {
+export interface CommonProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> {
   cx: (state: any, className?: string) => string;
   clearValue: () => void;
   /**
@@ -134,18 +143,22 @@ export interface CommonProps<OptionType extends OptionTypeBase> {
     property as the first argument, and the current props as the second argument.
     See the `styles` object for the properties available.
   */
-  getStyles: (key: string, props: any) => Interpolation;
-  // getValue: () => ValueType;
+  getStyles: (key: keyof DefaultStyles, props: any) => Interpolation;
+  getValue: () => OptionsType<OptionType>;
   /** Whether the value container currently holds a value. */
   hasValue: boolean;
   /** Set when the value container should hold multiple values */
   isMulti: boolean;
   /** Whether the text is right to left */
   isRtl: boolean;
-  options: OptionsType<OptionType>;
-  // selectOption: OptionType => void,
-  // setValue: (ValueType, ActionTypes) => void,
-  selectProps: any;
+  options: OptionsType<OptionType> | GroupsType<OptionType, GroupType>;
+  selectOption: (newValue: OptionType) => void;
+  setValue: (
+    newValue: ValueType<OptionType, IsMultiType>,
+    action: 'select-option' | 'deselect-option',
+    option: OptionType
+  ) => void;
+  selectProps: Props<OptionType, GroupType, IsMultiType>;
   theme: Theme;
 }
 
@@ -207,14 +220,14 @@ export interface InputActionMeta {
 export type MenuPlacement = 'auto' | 'bottom' | 'top';
 export type MenuPosition = 'absolute' | 'fixed';
 
-// export type FocusDirection =
-//   | 'up'
-//   | 'down'
-//   | 'pageup'
-//   | 'pagedown'
-//   | 'first'
-//   | 'last';
-//
+export type FocusDirection =
+  | 'up'
+  | 'down'
+  | 'pageup'
+  | 'pagedown'
+  | 'first'
+  | 'last';
+
 // export type OptionProps = PropsWithInnerRef & {
 //   data: any,
 //   id: number,

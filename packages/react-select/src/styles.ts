@@ -61,7 +61,7 @@ export interface DefaultStyles {
   groupHeading: StyleFunction<GroupHeadingProps<OptionTypeBase>>;
   indicatorsContainer: StyleFunction<IndicatorContainerProps<OptionTypeBase>>;
   indicatorSeparator: StyleFunction<IndicatorSeparatorProps<OptionTypeBase>>;
-  input?: StyleFn;
+  input?: unknown;
   loadingIndicator: StyleFunction<LoadingIndicatorProps<OptionTypeBase>>;
   loadingMessage: StyleFunction<NoticeProps<OptionTypeBase>>;
   menu: StyleFunction<MenuProps<OptionTypeBase>>;
@@ -71,11 +71,12 @@ export interface DefaultStyles {
   multiValueLabel: StyleFunction<MultiValueProps<OptionTypeBase>>;
   multiValueRemove: StyleFunction<MultiValueProps<OptionTypeBase>>;
   noOptionsMessage: StyleFunction<NoticeProps<OptionTypeBase>>;
-  option?: StyleFn;
+  option?: unknown;
   placeholder: StyleFunction<PlaceholderProps<OptionTypeBase>>;
   singleValue: StyleFunction<SingleValueProps<OptionTypeBase>>;
   valueContainer: StyleFunction<ValueContainerProps<OptionTypeBase>>;
 }
+export type StylesConfig = Partial<DefaultStyles>;
 
 export const defaultStyles: DefaultStyles = {
   clearIndicator: clearIndicatorCSS,
