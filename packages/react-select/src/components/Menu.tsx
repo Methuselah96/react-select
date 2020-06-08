@@ -6,7 +6,7 @@ import {
   Ref,
   RefCallback,
 } from 'react';
-import { Interpolation, jsx } from '@emotion/core';
+import { jsx } from '@emotion/core';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 
@@ -24,6 +24,7 @@ import {
   CommonProps,
   OptionTypeBase,
   GroupTypeBase,
+  CSSPropertiesWithLabel,
 } from '../types';
 import { Theme } from '../types';
 
@@ -58,7 +59,7 @@ export function getMenuPlacement({
   theme,
 }: PlacementArgs): MenuState {
   const { spacing } = theme;
-  const scrollParent = getScrollParent(menuEl);
+  const scrollParent = getScrollParent(menuEl!);
   const defaultState: MenuState = { placement: 'bottom', maxHeight };
 
   // something went wrong, return default state
@@ -238,6 +239,7 @@ export interface MenuProps<
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 > extends MenuPlacementProps<OptionType, GroupType, IsMultiType> {
+  className?: string;
   /** Reference to the internal element, consumed by the MenuPlacer component */
   innerRef: Ref<HTMLDivElement>;
   innerProps: {
@@ -292,7 +294,7 @@ export const menuCSS = <
 >({
   placement,
   theme: { borderRadius, spacing, colors },
-}: MenuProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
+}: MenuProps<OptionType, GroupType, IsMultiType>): CSSPropertiesWithLabel => ({
   label: 'menu',
   [alignToControl(placement)]: '100%',
   backgroundColor: colors.neutral0,
@@ -405,6 +407,7 @@ export interface MenuListProps<
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 > extends CommonProps<OptionType, GroupType, IsMultiType> {
+  className?: string;
   /** Inner ref to DOM Node */
   innerRef: RefCallback<HTMLDivElement>;
   isLoading: boolean;
@@ -423,7 +426,11 @@ export const menuListCSS = <
   theme: {
     spacing: { baseUnit },
   },
-}: MenuListProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
+}: MenuListProps<
+  OptionType,
+  GroupType,
+  IsMultiType
+>): CSSPropertiesWithLabel => ({
   maxHeight,
   overflowY: 'auto',
   paddingBottom: baseUnit,
@@ -475,7 +482,11 @@ const noticeCSS = <
     spacing: { baseUnit },
     colors,
   },
-}: NoticeProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
+}: NoticeProps<
+  OptionType,
+  GroupType,
+  IsMultiType
+>): CSSPropertiesWithLabel => ({
   color: colors.neutral40,
   padding: `${baseUnit * 2}px ${baseUnit * 3}px`,
   textAlign: 'center',
@@ -488,6 +499,8 @@ export interface NoticeProps<
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 > extends CommonProps<OptionType, GroupType, IsMultiType> {
+  className?: string;
+  innerProps?: {};
   /** The children to be rendered. */
   children: ReactNode;
 }
@@ -585,7 +598,7 @@ export const menuPortalCSS = ({
   rect,
   offset,
   position,
-}: PortalStyleArgs): Interpolation => ({
+}: PortalStyleArgs): CSSPropertiesWithLabel => ({
   left: rect.left,
   position: position,
   top: offset,

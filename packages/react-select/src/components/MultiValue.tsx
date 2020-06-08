@@ -1,8 +1,19 @@
 /** @jsx jsx */
-import { MouseEventHandler, ReactNode, TouchEventHandler } from 'react';
-import { jsx, ClassNames, Interpolation } from '@emotion/core';
+import {
+  ComponentType,
+  MouseEventHandler,
+  ReactNode,
+  TouchEventHandler,
+} from 'react';
+import { jsx, ClassNames } from '@emotion/core';
 import { CrossIcon } from './indicators';
-import { CommonProps, GroupTypeBase, OptionTypeBase } from '../types';
+import {
+  CommonProps,
+  CSSPropertiesWithLabel,
+  GroupTypeBase,
+  OptionTypeBase,
+} from '../types';
+import { Props as SelectProps } from '../Select';
 
 export interface MultiValueClassNamesState {
   'multi-value': true;
@@ -22,7 +33,18 @@ export interface MultiValueProps<
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 > extends CommonProps<OptionType, GroupType, IsMultiType> {
-  components: unknown;
+  className?: string;
+  components: {
+    Container: ComponentType<
+      MultiValueGenericProps<OptionType, GroupType, IsMultiType>
+    >;
+    Label: ComponentType<
+      MultiValueGenericProps<OptionType, GroupType, IsMultiType>
+    >;
+    Remove: ComponentType<
+      MultiValueRemoveProps<OptionType, GroupType, IsMultiType>
+    >;
+  };
   isFocused: boolean;
   isDisabled: boolean;
   index: number;
@@ -33,6 +55,7 @@ export interface MultiValueProps<
   };
   data: OptionType;
   cropWithEllipsis: boolean;
+  innerProps?: {};
   children: ReactNode;
 }
 
@@ -42,7 +65,11 @@ export const multiValueCSS = <
   IsMultiType extends boolean
 >({
   theme: { spacing, borderRadius, colors },
-}: MultiValueProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
+}: MultiValueProps<
+  OptionType,
+  GroupType,
+  IsMultiType
+>): CSSPropertiesWithLabel => ({
   label: 'multiValue',
   backgroundColor: colors.neutral10,
   borderRadius: borderRadius / 2,
@@ -58,7 +85,11 @@ export const multiValueLabelCSS = <
 >({
   theme: { borderRadius, colors },
   cropWithEllipsis,
-}: MultiValueProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
+}: MultiValueProps<
+  OptionType,
+  GroupType,
+  IsMultiType
+>): CSSPropertiesWithLabel => ({
   borderRadius: borderRadius / 2,
   color: colors.neutral80,
   fontSize: '85%',
@@ -76,7 +107,11 @@ export const multiValueRemoveCSS = <
 >({
   theme: { spacing, borderRadius, colors },
   isFocused,
-}: MultiValueProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
+}: MultiValueProps<
+  OptionType,
+  GroupType,
+  IsMultiType
+>): CSSPropertiesWithLabel => ({
   alignItems: 'center',
   borderRadius: borderRadius / 2,
   backgroundColor: isFocused ? colors.dangerLight : undefined,
@@ -89,34 +124,52 @@ export const multiValueRemoveCSS = <
   },
 });
 
-export interface MultiValueGenericProps {
+export interface MultiValueGenericProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> {
   children: ReactNode;
-  data: unknown;
+  data: OptionType;
   innerProps: { className?: string };
-  selectProps: unknown;
+  selectProps: SelectProps<OptionType, GroupType, IsMultiType>;
 }
-export const MultiValueGeneric = ({
+export const MultiValueGeneric = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   children,
   innerProps,
-}: MultiValueGenericProps) => <div {...innerProps}>{children}</div>;
+}: MultiValueGenericProps<OptionType, GroupType, IsMultiType>) => (
+  <div {...innerProps}>{children}</div>
+);
 
 export const MultiValueContainer = MultiValueGeneric;
 export const MultiValueLabel = MultiValueGeneric;
-export interface MultiValueRemoveProps {
-  children: ReactNode;
-  data: any;
+export interface MultiValueRemoveProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> {
+  children?: ReactNode;
+  data: OptionType;
   innerProps: {
     className: string;
     onTouchEnd: TouchEventHandler<HTMLDivElement>;
     onClick: MouseEventHandler<HTMLDivElement>;
     onMouseDown: MouseEventHandler<HTMLDivElement>;
   };
-  selectProps: unknown;
+  selectProps: SelectProps<OptionType, GroupType, IsMultiType>;
 }
-export function MultiValueRemove({
+export function MultiValueRemove<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>({
   children,
   innerProps,
-}: MultiValueRemoveProps) {
+}: MultiValueRemoveProps<OptionType, GroupType, IsMultiType>) {
   return <div {...innerProps}>{children || <CrossIcon size={14} />}</div>;
 }
 

@@ -1,7 +1,11 @@
 /** @jsx jsx */
 import { ReactNode } from 'react';
-import type { CommonProps, OptionTypeBase } from '../types';
-import { Interpolation, jsx } from '@emotion/core';
+import type {
+  CommonProps,
+  CSSPropertiesWithLabel,
+  OptionTypeBase,
+} from '../types';
+import { jsx } from '@emotion/core';
 import { GroupTypeBase } from '../types';
 
 export interface SingleValueClassNamesState {
@@ -14,12 +18,14 @@ export interface SingleValueProps<
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 > extends CommonProps<OptionType, GroupType, IsMultiType> {
+  className?: string;
   /** The children to be rendered. */
   children: ReactNode;
   /** The data of the selected option rendered in the Single Value component. */
   data: OptionType;
   /** Whether this is disabled. */
   isDisabled: boolean;
+  innerProps?: {};
 }
 
 export const css = <
@@ -29,7 +35,11 @@ export const css = <
 >({
   isDisabled,
   theme: { spacing, colors },
-}: SingleValueProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
+}: SingleValueProps<
+  OptionType,
+  GroupType,
+  IsMultiType
+>): CSSPropertiesWithLabel => ({
   label: 'singleValue',
   color: isDisabled ? colors.neutral40 : colors.neutral80,
   marginLeft: spacing.baseUnit / 2,

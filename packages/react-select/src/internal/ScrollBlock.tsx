@@ -1,11 +1,11 @@
 /** @jsx jsx */
-import { PureComponent } from 'react';
+import { PureComponent, ReactElement } from 'react';
 import { jsx } from '@emotion/core';
 import NodeResolver from './NodeResolver';
 import ScrollLock from './ScrollLock/index';
 
 interface Props {
-  children: Element<*>;
+  children: ReactElement;
   isEnabled: boolean;
 }
 interface State {
@@ -29,7 +29,7 @@ export default class ScrollBlock extends PureComponent<Props, State> {
   // this will close the menu when a user clicks outside
   blurSelectInput = () => {
     if (document.activeElement) {
-      document.activeElement.blur();
+      (document.activeElement as HTMLElement).blur();
     }
   };
 

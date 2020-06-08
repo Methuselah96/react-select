@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, ReactElement } from 'react';
 
 import NodeResolver from './NodeResolver';
 
 export interface CaptorProps {
-  children: Element<*>;
+  children: ReactElement;
   onBottomArrive?: (event: WheelEvent | TouchEvent) => void;
   onBottomLeave?: (event: WheelEvent | TouchEvent) => void;
   onTopArrive?: (event: WheelEvent | TouchEvent) => void;
@@ -17,10 +17,10 @@ class ScrollCaptor extends Component<CaptorProps> {
   touchStart?: number;
 
   componentDidMount() {
-    this.startListening(this.scrollTarget);
+    this.startListening(this.scrollTarget!);
   }
   componentWillUnmount() {
-    this.stopListening(this.scrollTarget);
+    this.stopListening(this.scrollTarget!);
   }
   startListening(el: HTMLElement) {
     // bail early if no element is available to attach to
@@ -61,7 +61,7 @@ class ScrollCaptor extends Component<CaptorProps> {
       onTopArrive,
       onTopLeave,
     } = this.props;
-    const { scrollTop, scrollHeight, clientHeight } = this.scrollTarget;
+    const { scrollTop, scrollHeight, clientHeight } = this.scrollTarget!;
     const target = this.scrollTarget;
     const isDeltaPositive = delta > 0;
     const availableScroll = scrollHeight - clientHeight - scrollTop;
@@ -82,7 +82,7 @@ class ScrollCaptor extends Component<CaptorProps> {
       if (onBottomArrive && !this.isBottom) {
         onBottomArrive(event);
       }
-      target.scrollTop = scrollHeight;
+      target!.scrollTop = scrollHeight;
       shouldCancelScroll = true;
       this.isBottom = true;
 
@@ -91,7 +91,7 @@ class ScrollCaptor extends Component<CaptorProps> {
       if (onTopArrive && !this.isTop) {
         onTopArrive(event);
       }
-      target.scrollTop = 0;
+      target!.scrollTop = 0;
       shouldCancelScroll = true;
       this.isTop = true;
     }
@@ -110,7 +110,7 @@ class ScrollCaptor extends Component<CaptorProps> {
     this.touchStart = event.changedTouches[0].clientY;
   };
   onTouchMove = (event: TouchEvent) => {
-    const deltaY = this.touchStart - event.changedTouches[0].clientY;
+    const deltaY = this.touchStart! - event.changedTouches[0].clientY;
     this.handleEventDelta(event, deltaY);
   };
 

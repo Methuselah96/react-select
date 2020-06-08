@@ -225,7 +225,9 @@ export const makeAsyncSelect = <
         <SelectComponent
           {...props}
           ref={(ref) => {
-            this.select = ref;
+            this.select = (ref as unknown) as InstanceType<
+              ReturnType<typeof manageState>
+            >;
           }}
           options={options}
           isLoading={isLoading || isLoadingProp}

@@ -5,9 +5,14 @@ import {
   RefCallback,
   TouchEventHandler,
 } from 'react';
-import { Interpolation, jsx } from '@emotion/core';
+import { jsx } from '@emotion/core';
 
-import { CommonProps, GroupTypeBase, OptionTypeBase } from '../types';
+import {
+  CommonProps,
+  CSSPropertiesWithLabel,
+  GroupTypeBase,
+  OptionTypeBase,
+} from '../types';
 
 export interface ControlClassNamesState {
   control: true;
@@ -21,6 +26,7 @@ export interface ControlProps<
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 > extends CommonProps<OptionType, GroupType, IsMultiType> {
+  className?: string;
   innerRef: RefCallback<HTMLDivElement>;
   /** The mouse down event and the innerRef to pass down to the controller element. */
   innerProps: {
@@ -45,7 +51,11 @@ export const css = <
   isDisabled,
   isFocused,
   theme: { colors, borderRadius, spacing },
-}: ControlProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
+}: ControlProps<
+  OptionType,
+  GroupType,
+  IsMultiType
+>): CSSPropertiesWithLabel => ({
   label: 'control',
   alignItems: 'center',
   backgroundColor: isDisabled ? colors.neutral5 : colors.neutral0,

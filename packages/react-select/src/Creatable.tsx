@@ -7,49 +7,68 @@ import React, {
   // type ElementRef,
   // type ElementConfig,
 } from 'react';
-import Select, { type Props as SelectProps } from './Select';
-import type { OptionType, OptionsType, ValueType, ActionMeta } from './types';
+import Select, { Props as SelectProps } from './Select';
+import type {
+  OptionsType,
+  ValueType,
+  ActionMeta,
+  OptionTypeBase,
+  GroupTypeBase,
+  GroupsType,
+} from './types';
 import { cleanValue } from './utils';
 import manageState from './stateManager';
+import { valueTernary } from './types';
 
-export type DefaultCreatableProps = {
+export interface CreatableProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>
+  extends JSX.LibraryManagedAttributes<
+    typeof Select,
+    SelectProps<OptionType, GroupType, IsMultiType>
+  > {
   /* Allow options to be created while the `isLoading` prop is true. Useful to
      prevent the "create new ..." option being displayed while async results are
      still being loaded. */
-  allowCreateWhileLoading: boolean,
+  allowCreateWhileLoading: boolean;
   /* Sets the position of the createOption element in your options list. Defaults to 'last' */
-  createOptionPosition: 'first' | 'last',
+  createOptionPosition: 'first' | 'last';
   /* Gets the label for the "create new ..." option in the menu. Is given the
      current input value. */
-  formatCreateLabel: string => ReactNode,
+  formatCreateLabel: (inputValue: string) => ReactNode;
   /* Determines whether the "create new ..." option should be displayed based on
      the current input value, select value and options array. */
-  isValidNewOption: (string, OptionsType, OptionsType) => boolean,
+  isValidNewOption: (
+    inputValue: string,
+    selectValue: OptionsType<OptionType>,
+    selectOptions: OptionsType<OptionType> | GroupsType<OptionType, GroupType>
+  ) => boolean;
   /* Returns the data for the new option when it is created. Used to display the
      value, and is passed to `onChange`. */
-  getNewOptionData: (string, ReactNode) => OptionType,
-}
-export type CreatableProps = {
-  ...DefaultCreatableProps,
+  getNewOptionData: (inputValue: string, optionLabel: ReactNode) => OptionType;
   /* If provided, this will be called with the input value when a new option is
      created, and `onChange` will **not** be called. Use this when you need more
      control over what happens when new options are created. */
-  onCreateOption?: string => void,
-  /* Sets the position of the createOption element in your options list. Defaults to 'last' */
-  createOptionPosition: 'first' | 'last',
+  onCreateOption?: (inputValue: string) => void;
   /* Name of the HTML Input (optional - without this, no input will be rendered) */
-  name?: string,
-  options?: OptionsType,
-  inputValue: string,
-  value: ValueType,
-  isLoading?: boolean,
-  isMulti?: boolean,
-  onChange: (ValueType, ActionMeta) => void,
-};
+  name?: string;
+  options?: OptionsType<OptionType> | GroupsType<OptionType, GroupType>;
+  inputValue: string;
+  value: ValueType<OptionType, IsMultiType>;
+  isLoading?: boolean;
+  isMulti?: IsMultiType;
+  onChange: (
+    newValue: ValueType<OptionType, IsMultiType>,
+    actionMeta: ActionMeta<OptionType>
+  ) => void;
+}
 
-export type Props = SelectProps & CreatableProps;
-
-const compareOption = (inputValue = '', option) => {
+const compareOption = <OptionType extends OptionTypeBase>(
+  inputValue = '',
+  option: OptionType
+) => {
   const candidate = String(inputValue).toLowerCase();
   const optionValue = String(option.value).toLowerCase();
   const optionLabel = String(option.label).toLowerCase();
@@ -58,15 +77,15 @@ const compareOption = (inputValue = '', option) => {
 
 const builtins = {
   formatCreateLabel: (inputValue: string) => `Create "${inputValue}"`,
-  isValidNewOption: (
+  isValidNewOption: <OptionType extends OptionTypeBase>(
     inputValue: string,
-    selectValue: OptionsType,
-    selectOptions: OptionsType
+    selectValue: OptionsType<OptionType>,
+    selectOptions: OptionsType<OptionType>
   ) =>
     !(
       !inputValue ||
-      selectValue.some(option => compareOption(inputValue, option)) ||
-      selectOptions.some(option => compareOption(inputValue, option))
+      selectValue.some((option) => compareOption(inputValue, option)) ||
+      selectOptions.some((option) => compareOption(inputValue, option))
     ),
   getNewOptionData: (inputValue: string, optionLabel: ReactNode) => ({
     label: optionLabel,
@@ -75,24 +94,34 @@ const builtins = {
   }),
 };
 
-export const defaultProps: DefaultCreatableProps = {
+export const defaultProps = {
   allowCreateWhileLoading: false,
   createOptionPosition: 'last',
   ...builtins,
 };
 
-type State = {
-  newOption: OptionType | void,
-  options: OptionsType,
-};
+interface State<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>
+> {
+  newOption: OptionType | GroupType | void;
+  options: OptionsType<OptionType> | GroupsType<OptionType, GroupType>;
+}
 
-export const makeCreatableSelect = <C: {}>(
-  SelectComponent: AbstractComponent<C>
-): AbstractComponent<C & Config<CreatableProps, DefaultCreatableProps>> =>
-  class Creatable extends Component<CreatableProps & C, State> {
+export const makeCreatableSelect = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  SelectComponent: typeof Select
+) =>
+  class Creatable extends Component<
+    CreatableProps<OptionType, GroupType, IsMultiType>,
+    State<OptionType, GroupType>
+  > {
     static defaultProps = defaultProps;
-    select: ElementRef<*>;
-    constructor(props: CreatableProps & C) {
+    select?: Select<OptionType, GroupType, IsMultiType>;
+    constructor(props: CreatableProps<OptionType, GroupType, IsMultiType>) {
       super(props);
       const options = props.options || [];
       this.state = {
@@ -100,7 +129,9 @@ export const makeCreatableSelect = <C: {}>(
         options: options,
       };
     }
-    UNSAFE_componentWillReceiveProps(nextProps: CreatableProps & C) {
+    UNSAFE_componentWillReceiveProps(
+      nextProps: CreatableProps<OptionType, GroupType, IsMultiType>
+    ) {
       const {
         allowCreateWhileLoading,
         createOptionPosition,
@@ -128,7 +159,10 @@ export const makeCreatableSelect = <C: {}>(
             : options,
       });
     }
-    onChange = (newValue: ValueType, actionMeta: ActionMeta) => {
+    onChange = (
+      newValue: ValueType<OptionType, IsMultiType>,
+      actionMeta: ActionMeta<OptionType>
+    ) => {
       const {
         getNewOptionData,
         inputValue,
@@ -148,29 +182,35 @@ export const makeCreatableSelect = <C: {}>(
         if (onCreateOption) onCreateOption(inputValue);
         else {
           const newOptionData = getNewOptionData(inputValue, inputValue);
-          const newActionMeta = { action: 'create-option', name };
-          if (isMulti) {
-            onChange([...cleanValue(value), newOptionData], newActionMeta);
-          } else {
-            onChange(newOptionData, newActionMeta);
-          }
+          const newActionMeta: ActionMeta<OptionType> = {
+            action: 'create-option',
+            name,
+          };
+          onChange(
+            valueTernary<OptionType, IsMultiType>(
+              isMulti!,
+              [...cleanValue(value), newOptionData],
+              newOptionData
+            ),
+            newActionMeta
+          );
         }
         return;
       }
       onChange(newValue, actionMeta);
     };
     focus() {
-      this.select.focus();
+      this.select!.focus();
     }
     blur() {
-      this.select.blur();
+      this.select!.blur();
     }
     render() {
       const { options } = this.state;
       return (
         <SelectComponent
           {...this.props}
-          ref={ref => {
+          ref={(ref) => {
             this.select = ref;
           }}
           options={options}
@@ -181,10 +221,6 @@ export const makeCreatableSelect = <C: {}>(
   };
 
 // TODO: do this in package entrypoint
-const SelectCreatable = makeCreatableSelect<ElementConfig<typeof Select>>(
-  Select
-);
+const SelectCreatable = makeCreatableSelect(Select);
 
-export default manageState<ElementConfig<typeof SelectCreatable>>(
-  SelectCreatable
-);
+export default manageState(SelectCreatable);

@@ -64,7 +64,7 @@ export const cleanValue = <
   OptionType extends OptionTypeBase,
   IsMultiType extends boolean
 >(
-  value: ValueType<OptionType, IsMultiType>
+  value: ValueType<OptionType, IsMultiType> | undefined
 ): OptionsType<OptionType> => {
   if (Array.isArray(value)) return value.filter(Boolean);
   if (typeof value === 'object' && value !== null) return [value as OptionType];

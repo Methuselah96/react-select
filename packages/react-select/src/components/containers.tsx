@@ -1,7 +1,12 @@
 /** @jsx jsx */
 import { KeyboardEventHandler, ReactNode } from 'react';
-import { Interpolation, jsx } from '@emotion/core';
-import { CommonProps, GroupTypeBase, OptionTypeBase } from '../types';
+import { jsx } from '@emotion/core';
+import {
+  CommonProps,
+  CSSPropertiesWithLabel,
+  GroupTypeBase,
+  OptionTypeBase,
+} from '../types';
 
 // ==============================
 // Root Container
@@ -34,7 +39,11 @@ export const containerCSS = <
 >({
   isDisabled,
   isRtl,
-}: ContainerProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
+}: ContainerProps<
+  OptionType,
+  GroupType,
+  IsMultiType
+>): CSSPropertiesWithLabel => ({
   label: 'container',
   direction: isRtl ? 'rtl' : undefined,
   pointerEvents: isDisabled ? 'none' : undefined, // cancel mouse events when disabled
@@ -89,6 +98,7 @@ export interface ValueContainerProps<
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 > extends CommonProps<OptionType, GroupType, IsMultiType> {
+  className?: string;
   isDisabled: boolean;
   /** The children to be rendered. */
   children: ReactNode;
@@ -100,7 +110,11 @@ export const valueContainerCSS = <
   IsMultiType extends boolean
 >({
   theme: { spacing },
-}: ValueContainerProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
+}: ValueContainerProps<
+  OptionType,
+  GroupType,
+  IsMultiType
+>): CSSPropertiesWithLabel => ({
   alignItems: 'center',
   display: 'flex',
   flex: 1,
@@ -150,12 +164,13 @@ export interface IndicatorsContainerProps<
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 > extends CommonProps<OptionType, GroupType, IsMultiType> {
+  className?: string;
   isDisabled: boolean;
   /** The children to be rendered. */
   children: ReactNode;
 }
 
-export const indicatorsContainerCSS = (): Interpolation => ({
+export const indicatorsContainerCSS = (): CSSPropertiesWithLabel => ({
   alignItems: 'center',
   alignSelf: 'stretch',
   display: 'flex',

@@ -1,4 +1,9 @@
-import { OptionTypeBase, OptionsType } from '../types';
+import {
+  OptionTypeBase,
+  OptionsType,
+  GroupTypeBase,
+  GroupsType,
+} from '../types';
 
 export interface InstructionsContext {
   isSearchable?: boolean;
@@ -64,18 +69,23 @@ export const valueFocusAriaMessage = <OptionType extends OptionTypeBase>({
     selectValue.indexOf(focusedValue) + 1
   } of ${selectValue.length}.`;
 
-export const optionFocusAriaMessage = <OptionType extends OptionTypeBase>({
+export const optionFocusAriaMessage = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>
+>({
   focusedOption,
   getOptionLabel,
   options,
 }: {
   focusedOption: OptionType;
   getOptionLabel: (option: OptionType) => string;
-  options: OptionsType<OptionType>;
+  options: OptionsType<OptionType> | GroupsType<OptionType, GroupType>;
 }) =>
   `option ${getOptionLabel(focusedOption)} focused${
     focusedOption.isDisabled ? ' disabled' : ''
-  }, ${options.indexOf(focusedOption) + 1} of ${options.length}.`;
+  }, ${options.indexOf(focusedOption as OptionType & GroupType) + 1} of ${
+    options.length
+  }.`;
 
 export const resultsAriaMessage = ({
   inputValue,

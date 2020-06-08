@@ -1,9 +1,9 @@
-import { Component, type Element, type ElementRef } from 'react';
+import { Component, ReactElement, RefCallback } from 'react';
 import { findDOMNode } from 'react-dom';
 
 interface Props {
-  children: Element<*>,
-  innerRef: ElementRef<*>,
+  children: ReactElement;
+  innerRef: RefCallback<Element | Text | null>;
 }
 
 export default class NodeResolver extends Component<Props> {

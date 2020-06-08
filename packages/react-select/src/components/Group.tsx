@@ -1,8 +1,14 @@
 /** @jsx jsx */
 import { ComponentType, ReactNode } from 'react';
-import { Interpolation, jsx } from '@emotion/core';
+import { jsx } from '@emotion/core';
 
-import { CommonProps, GroupTypeBase, OptionTypeBase } from '../types';
+import {
+  CommonProps,
+  CSSPropertiesWithLabel,
+  GroupTypeBase,
+  OptionTypeBase,
+  Theme,
+} from '../types';
 
 interface PassedHeadingProps {
   id: string;
@@ -25,6 +31,7 @@ export interface GroupProps<
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 > extends CommonProps<OptionType, GroupType, IsMultiType> {
+  className?: string;
   // TODO Spread Group type?
   /** Component to wrap the label, receives headingProps. */
   Heading: ComponentType<
@@ -45,7 +52,7 @@ export const groupCSS = <
   IsMultiType extends boolean
 >({
   theme: { spacing },
-}: GroupProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
+}: GroupProps<OptionType, GroupType, IsMultiType>): CSSPropertiesWithLabel => ({
   paddingBottom: spacing.baseUnit * 2,
   paddingTop: spacing.baseUnit * 2,
 });
@@ -87,6 +94,10 @@ const Group = <
   );
 };
 
+export interface GroupHeadingClassNamesState {
+  'group-heading': true;
+}
+
 export type GroupHeadingProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
@@ -94,13 +105,26 @@ export type GroupHeadingProps<
 > = ForwardedHeadingProps<OptionType, GroupType, IsMultiType> &
   JSX.IntrinsicElements['div'];
 
+export type GroupHeadingStylesProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> = Omit<
+  GroupHeadingProps<OptionType, GroupType, IsMultiType>,
+  'className' | 'cx' | 'getStyles' | 'theme' | 'selectProps'
+> & { theme: Theme };
+
 export const groupHeadingCSS = <
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 >({
   theme: { spacing },
-}: GroupHeadingProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
+}: GroupHeadingStylesProps<
+  OptionType,
+  GroupType,
+  IsMultiType
+>): CSSPropertiesWithLabel => ({
   label: 'group',
   color: '#999',
   cursor: 'default',

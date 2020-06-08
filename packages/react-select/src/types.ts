@@ -1,6 +1,6 @@
 // import type { Ref } from 'react';
 
-import { Interpolation } from '@emotion/core';
+import { CSSObject } from '@emotion/core';
 import { StylesProps } from './styles';
 import { Props as SelectProps } from './Select';
 import {
@@ -9,7 +9,10 @@ import {
   ValueContainerClassNamesState,
 } from './components/containers';
 import { ControlClassNamesState } from './components/Control';
-import { GroupClassNamesState } from './components/Group';
+import {
+  GroupClassNamesState,
+  GroupHeadingClassNamesState,
+} from './components/Group';
 import {
   ClearIndicatorClassNamesState,
   DropdownIndicatorClassNamesState,
@@ -165,6 +168,7 @@ export type ClassNamesState =
   | IndicatorsClassNamesState
   | ControlClassNamesState
   | GroupClassNamesState
+  | GroupHeadingClassNamesState
   | DropdownIndicatorClassNamesState
   | ClearIndicatorClassNamesState
   | IndicatorSeparatorClassNamesState
@@ -198,7 +202,7 @@ export interface CommonProps<
   >(
     propertyName: PropertyName,
     props: StylesProps<OptionType, GroupType, IsMultiType>[PropertyName]
-  ) => Interpolation;
+  ) => CSSPropertiesWithLabel;
   getValue: () => OptionsType<OptionType>;
   /** Whether the value container currently holds a value. */
   hasValue: boolean;
@@ -246,21 +250,18 @@ export interface ClearActionMeta {
   name?: string;
 }
 
-export type ActionTypes =
-  | 'select-option'
-  | 'deselect-option'
-  | 'remove-value'
-  | 'pop-value'
-  | 'set-value'
-  | 'clear'
-  | 'create-option';
+export interface CreateOptionActionMeta {
+  action: 'create-option';
+  name?: string;
+}
 
 export type ActionMeta<OptionType extends OptionTypeBase> =
   | SelectOptionActionMeta<OptionType>
   | DeselectOptionActionMeta<OptionType>
   | RemoveValueActionMeta<OptionType>
   | PopValueActionMeta<OptionType>
-  | ClearActionMeta;
+  | ClearActionMeta
+  | CreateOptionActionMeta;
 
 export type InputActionTypes =
   | 'set-value'
@@ -301,3 +302,5 @@ type Truthy<T> = T extends false | '' | 0 | null | undefined ? never : T;
 export function truthy<T>(value: T): value is Truthy<T> {
   return !!value;
 }
+
+export type CSSPropertiesWithLabel = CSSObject & { label?: string };

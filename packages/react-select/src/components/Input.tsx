@@ -1,9 +1,10 @@
 /** @jsx jsx */
-import { Interpolation, jsx } from '@emotion/core';
+import { jsx } from '@emotion/core';
 import AutosizeInput, { AutosizeInputProps } from 'react-input-autosize';
 
 import {
   ClassNamesState,
+  CSSPropertiesWithLabel,
   GroupTypeBase,
   OptionTypeBase,
   Theme,
@@ -35,13 +36,14 @@ export interface InputProps<
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 > extends AutosizeInputProps {
+  className?: string;
   cx: (state: ClassNamesState, className?: string) => string;
   getStyles: <
     PropertyName extends keyof StylesProps<OptionType, GroupType, IsMultiType>
   >(
     propertyName: PropertyName,
     props: StylesProps<OptionType, GroupType, IsMultiType>[PropertyName]
-  ) => Interpolation;
+  ) => CSSPropertiesWithLabel;
   /** Reference to the internal element */
   innerRef: (instance: HTMLInputElement | null) => void;
   /** Whether the input is disabled */
@@ -50,7 +52,6 @@ export interface InputProps<
   isHidden: boolean;
   selectProps: SelectProps<OptionType, GroupType, IsMultiType>;
   theme: Theme;
-  // className?: string;
   // /** The ID of the form that the input belongs to */
   // form?: string;
 }
@@ -62,7 +63,11 @@ export const inputCSS = <
 >({
   isDisabled,
   theme: { spacing, colors },
-}: InputStylesProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
+}: InputStylesProps<
+  OptionType,
+  GroupType,
+  IsMultiType
+>): CSSPropertiesWithLabel => ({
   margin: spacing.baseUnit / 2,
   paddingBottom: spacing.baseUnit / 2,
   paddingTop: spacing.baseUnit / 2,

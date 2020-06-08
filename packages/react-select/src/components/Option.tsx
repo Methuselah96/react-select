@@ -1,8 +1,13 @@
 /** @jsx jsx */
 import { ReactNode } from 'react';
-import { Interpolation, jsx } from '@emotion/core';
+import { jsx } from '@emotion/core';
 
-import { CommonProps, OptionTypeBase, GroupTypeBase } from '../types';
+import {
+  CommonProps,
+  OptionTypeBase,
+  GroupTypeBase,
+  CSSPropertiesWithLabel,
+} from '../types';
 import { OptionRenderType } from '../Select';
 
 export interface OptionClassNamesState {
@@ -19,6 +24,7 @@ export interface OptionProps<
 >
   extends CommonProps<OptionType, GroupType, IsMultiType>,
     OptionRenderType<OptionType> {
+  className?: string;
   /** Whether the option is focused. */
   isFocused: boolean;
   children: ReactNode;
@@ -33,7 +39,11 @@ export const optionCSS = <
   isFocused,
   isSelected,
   theme: { spacing, colors },
-}: OptionProps<OptionType, GroupType, IsMultiType>): Interpolation => ({
+}: OptionProps<
+  OptionType,
+  GroupType,
+  IsMultiType
+>): CSSPropertiesWithLabel => ({
   label: 'option',
   backgroundColor: isSelected
     ? colors.primary

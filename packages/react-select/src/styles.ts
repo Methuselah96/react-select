@@ -1,7 +1,7 @@
 import {
   containerCSS,
   ContainerProps,
-  IndicatorContainerProps,
+  IndicatorsContainerProps,
   indicatorsContainerCSS,
   valueContainerCSS,
   ValueContainerProps,
@@ -10,7 +10,7 @@ import { ControlProps, css as controlCSS } from './components/Control';
 import {
   groupCSS,
   groupHeadingCSS,
-  GroupHeadingProps,
+  GroupHeadingStylesProps,
   GroupProps,
 } from './components/Group';
 import {
@@ -47,8 +47,7 @@ import {
   MultiValueProps,
   multiValueRemoveCSS,
 } from './components/MultiValue';
-import { GroupTypeBase, OptionTypeBase } from './types';
-import { Interpolation } from '@emotion/core';
+import { CSSPropertiesWithLabel, GroupTypeBase, OptionTypeBase } from './types';
 
 export interface StylesProps<
   OptionType extends OptionTypeBase,
@@ -60,8 +59,8 @@ export interface StylesProps<
   control: ControlProps<OptionType, GroupType, IsMultiType>;
   dropdownIndicator: DropdownIndicatorProps<OptionType, GroupType, IsMultiType>;
   group: GroupProps<OptionType, GroupType, IsMultiType>;
-  groupHeading: GroupHeadingProps<OptionType, GroupType, IsMultiType>;
-  indicatorsContainer: IndicatorContainerProps<
+  groupHeading: GroupHeadingStylesProps<OptionType, GroupType, IsMultiType>;
+  indicatorsContainer: IndicatorsContainerProps<
     OptionType,
     GroupType,
     IsMultiType
@@ -87,7 +86,7 @@ export interface StylesProps<
   valueContainer: ValueContainerProps<OptionType, GroupType, IsMultiType>;
 }
 
-type StylesFunction<Props> = (props: Props) => Interpolation;
+type StylesFunction<Props> = (props: Props) => CSSPropertiesWithLabel;
 export type StylesFunctions<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
@@ -98,11 +97,21 @@ export type StylesFunctions<
   >;
 };
 
+type StylesConfigFunction<Props> = (
+  base: CSSPropertiesWithLabel,
+  props: Props
+) => CSSPropertiesWithLabel;
 export type StylesConfig<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
-> = Partial<StylesFunctions<OptionType, GroupType, IsMultiType>>;
+> = {
+  [K in keyof StylesProps<
+    OptionType,
+    GroupType,
+    IsMultiType
+  >]?: StylesConfigFunction<StylesProps<OptionType, GroupType, IsMultiType>[K]>;
+};
 
 export const defaultStyles: StylesFunctions<
   OptionTypeBase,

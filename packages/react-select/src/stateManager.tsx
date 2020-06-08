@@ -1,9 +1,4 @@
-import React, {
-  Component,
-  // type ElementRef,
-  // type AbstractComponent,
-  // type Config,
-} from 'react';
+import React, { Component } from 'react';
 
 import {
   ActionMeta,

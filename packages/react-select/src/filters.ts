@@ -1,7 +1,15 @@
-interface Config {
+import { OptionTypeBase } from './types';
+
+interface Option<OptionType extends OptionTypeBase> {
+  label: string;
+  value: string;
+  data: OptionType;
+}
+
+interface Config<OptionType extends OptionTypeBase> {
   ignoreCase?: boolean;
   ignoreAccents?: boolean;
-  stringify?: Object => string;
+  stringify?: (option: Option<OptionType>) => string;
   trim?: boolean;
   matchFrom?: 'any' | 'start';
 }
@@ -9,10 +17,14 @@ interface Config {
 import { stripDiacritics } from './diacritics';
 
 const trimString = (str: string) => str.replace(/^\s+|\s+$/g, '');
-const defaultStringify = option => `${option.label} ${option.value}`;
+const defaultStringify = <OptionType extends OptionTypeBase>(
+  option: OptionType
+) => `${option.label} ${option.value}`;
 
-export const createFilter = (config?: Config | null) => (
-  option: { label: string, value: string, data: any },
+export const createFilter = <OptionType extends OptionTypeBase>(
+  config?: Config<OptionType> | null
+) => (
+  option: { label: string; value: string; data: any },
   rawInput: string
 ): boolean => {
   const { ignoreCase, ignoreAccents, stringify, trim, matchFrom } = {

@@ -11,7 +11,7 @@ export default function DummyInput({
   innerRef,
   emotion,
   ...props
-}: unknown) {
+}: any) {
   return (
     <input
       ref={innerRef}

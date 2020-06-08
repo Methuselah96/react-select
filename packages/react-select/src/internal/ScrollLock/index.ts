@@ -18,11 +18,11 @@ let activeScrollLocks = 0;
 
 interface Props {
   accountForScrollbars: boolean;
-  touchScrollTarget?: HTMLElement;
+  touchScrollTarget?: HTMLElement | null;
 }
 
 export default class ScrollLock extends Component<Props> {
-  originalStyles = {};
+  originalStyles: CSSStyleDeclaration = {} as CSSStyleDeclaration;
   listenerOptions = {
     capture: false,
     passive: false,
@@ -54,9 +54,9 @@ export default class ScrollLock extends Component<Props> {
         window.innerWidth - clientWidth + currentPadding || 0;
 
       Object.keys(LOCK_STYLES).forEach((key) => {
-        const val = LOCK_STYLES[key];
+        const val = LOCK_STYLES[key as keyof typeof LOCK_STYLES];
         if (targetStyle) {
-          targetStyle[key] = val;
+          targetStyle[key as keyof typeof LOCK_STYLES] = val;
         }
       });
 

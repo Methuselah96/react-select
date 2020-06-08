@@ -54,7 +54,7 @@ import {
   SelectComponentsConfig,
 } from './components/index';
 
-import { DefaultStyles, defaultStyles, StylesConfig } from './styles';
+import { defaultStyles, StylesConfig, StylesProps } from './styles';
 import { defaultTheme, ThemeConfig } from './theme';
 
 import {
@@ -176,7 +176,7 @@ export interface Props<
   /* The id to set on the SelectContainer component. */
   id?: string;
   /* The value of the search input */
-  inputValue?: string;
+  inputValue: string;
   /* The id of the search input */
   inputId?: string;
   /* Define an id prefix for the select components e.g. {your-id}-value */
@@ -237,14 +237,14 @@ export interface Props<
   /* Handle blur events on the control */
   onBlur?: FocusEventHandler<HTMLInputElement>;
   /* Handle change events on the select */
-  onChange?: (
+  onChange: (
     newValue: ValueType<OptionType, IsMultiType>,
     actionMeta: ActionMeta<OptionType>
   ) => void;
   /* Handle focus events on the control */
   onFocus?: FocusEventHandler<HTMLInputElement>;
   /* Handle change events on the input */
-  onInputChange?: (newValue: string, actionMeta: InputActionMeta) => void;
+  onInputChange: (newValue: string, actionMeta: InputActionMeta) => void;
   /* Handle key down events on the select */
   onKeyDown?: KeyboardEventHandler<HTMLDivElement>;
   /* Handle the menu opening */
@@ -623,7 +623,7 @@ export default class Select<
       focusedOption: null,
     });
 
-    let focusedIndex = selectValue.indexOf(focusedValue);
+    let focusedIndex = selectValue.indexOf(focusedValue!);
     if (!focusedValue) {
       focusedIndex = -1;
       this.announceAriaLiveContext({ event: 'value' });
@@ -672,7 +672,7 @@ export default class Select<
 
     if (!options.length) return;
     let nextFocus = 0; // handles 'first'
-    let focusedIndex = options.indexOf(focusedOption);
+    let focusedIndex = options.indexOf(focusedOption!);
     if (!focusedOption) {
       focusedIndex = -1;
       this.announceAriaLiveContext({ event: 'menu' });
@@ -879,9 +879,9 @@ export default class Select<
       return null;
     }
     const { focusedValue, selectValue: lastSelectValue } = this.state;
-    const lastFocusedIndex = lastSelectValue.indexOf(focusedValue);
+    const lastFocusedIndex = lastSelectValue.indexOf(focusedValue!);
     if (lastFocusedIndex > -1) {
-      const nextFocusedIndex = nextSelectValue.indexOf(focusedValue);
+      const nextFocusedIndex = nextSelectValue.indexOf(focusedValue!);
       if (nextFocusedIndex > -1) {
         // the focused value is still in the selectValue, return it
         return focusedValue;
@@ -906,7 +906,12 @@ export default class Select<
   getOptionValue = (data: OptionType): string => {
     return this.props.getOptionValue(data);
   };
-  getStyles = (key: keyof DefaultStyles, props: {}): {} => {
+  getStyles = <
+    PropertyName extends keyof StylesProps<OptionType, GroupType, IsMultiType>
+  >(
+    key: PropertyName,
+    props: StylesProps<OptionType, GroupType, IsMultiType>[PropertyName]
+  ) => {
     const base = defaultStyles[key](props);
     base.boxSizing = 'border-box';
     const custom = this.props.styles[key];
@@ -1198,9 +1203,9 @@ export default class Select<
     // on events on child elements, not the document (which we've attached this handler to).
     if (
       this.controlRef &&
-      !this.controlRef.contains(event.target) &&
+      !this.controlRef.contains(event.target as Node | null) &&
       this.menuListRef &&
-      !this.menuListRef.contains(event.target)
+      !this.menuListRef.contains(event.target as Node | null)
     ) {
       this.blurInput();
     }
