@@ -10,13 +10,73 @@ export type OptionsType<
   OptionType extends OptionTypeBase
 > = readonly OptionType[];
 
-// export type GroupType = {
-//   options: OptionsType,
-//   [string]: any,
-// };
+export interface GroupTypeBase<OptionType extends OptionTypeBase> {
+  options: OptionsType<OptionType>;
+}
 
-// export type ValueType = OptionType | OptionsType | null | void;
-//
+export type GroupsType<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>
+> = readonly GroupType[];
+
+export function isGroup<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>
+>(item: OptionType | GroupType): item is GroupType {
+  return (item as GroupType).options !== undefined;
+}
+
+export type SingleValueType<
+  OptionType extends OptionTypeBase
+> = OptionType | null;
+export type MultiValueType<OptionType extends OptionTypeBase> = OptionsType<
+  OptionType
+>;
+
+export type ValueType<
+  OptionType extends OptionTypeBase,
+  IsMultiType extends boolean
+> = IsMultiType extends true ? OptionsType<OptionType> : OptionType | null;
+
+export function valueTernary<
+  OptionType extends OptionTypeBase,
+  IsMultiType extends boolean
+>(
+  isMulti: IsMultiType,
+  multiValue: MultiValueType<OptionType>,
+  singleValue: SingleValueType<OptionType>
+): ValueType<OptionType, IsMultiType> {
+  return (isMulti ? multiValue : singleValue) as ValueType<
+    OptionType,
+    IsMultiType
+  >;
+}
+
+export function multiValueAsValue<
+  OptionType extends OptionTypeBase,
+  IsMultiType extends boolean
+>(multiValue: MultiValueType<OptionType>) {
+  return multiValue as ValueType<OptionType, IsMultiType>;
+}
+
+export function singleValueAsValue<
+  OptionType extends OptionTypeBase,
+  IsMultiType extends boolean
+>(singleValue: SingleValueType<OptionType>) {
+  return singleValue as ValueType<OptionType, IsMultiType>;
+}
+
+// export function isMulti<
+//   OptionType extends OptionTypeBase,
+//   IsMultiType extends boolean
+// >(
+//   isMulti: IsMultiType,
+//   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+//   value: ValueType<OptionType, IsMultiType>
+// ): value is OptionsType<OptionType> & ValueType<OptionType, IsMultiType> {
+//   return isMulti;
+// }
+
 // export type FocusEventHandler = (SyntheticFocusEvent<HTMLElement>) => void;
 // export type MouseEventHandler = (SyntheticMouseEvent<HTMLElement>) => void;
 // export type KeyboardEventHandler = (
@@ -28,7 +88,7 @@ export type OptionsType<
 //   /** The inner reference. */
 //   innerRef: Ref<*>,
 // };
-//
+
 interface Colors {
   primary: string;
   primary75: string;
@@ -89,32 +149,64 @@ export interface CommonProps<OptionType extends OptionTypeBase> {
   theme: Theme;
 }
 
-// export type ActionTypes =
-//   | 'select-option'
-//   | 'deselect-option'
-//   | 'remove-value'
-//   | 'pop-value'
-//   | 'set-value'
-//   | 'clear'
-//   | 'create-option';
-//
-// export type ActionMeta = {
-//   action: ActionTypes,
-// };
-//
-// export type InputActionTypes =
-//   | 'set-value'
-//   | 'input-change'
-//   | 'input-blur'
-//   | 'menu-close';
-//
-// export type InputActionMeta = {|
-//   action: InputActionTypes,
-// |};
-//
+export interface SelectOptionActionMeta<OptionType extends OptionTypeBase> {
+  action: 'select-option';
+  option: OptionType;
+  name?: string;
+}
+
+export interface DeselectOptionActionMeta<OptionType extends OptionTypeBase> {
+  action: 'deselect-option';
+  option: OptionType;
+  name?: string;
+}
+
+export interface RemoveValueActionMeta<OptionType extends OptionTypeBase> {
+  action: 'remove-value';
+  removedValue: OptionType;
+  name?: string;
+}
+
+export interface PopValueActionMeta<OptionType extends OptionTypeBase> {
+  action: 'pop-value';
+  removedValue: OptionType;
+  name?: string;
+}
+
+export interface ClearActionMeta {
+  action: 'clear';
+  name?: string;
+}
+
+export type ActionTypes =
+  | 'select-option'
+  | 'deselect-option'
+  | 'remove-value'
+  | 'pop-value'
+  | 'set-value'
+  | 'clear'
+  | 'create-option';
+
+export type ActionMeta<OptionType extends OptionTypeBase> =
+  | SelectOptionActionMeta<OptionType>
+  | DeselectOptionActionMeta<OptionType>
+  | RemoveValueActionMeta<OptionType>
+  | PopValueActionMeta<OptionType>
+  | ClearActionMeta;
+
+export type InputActionTypes =
+  | 'set-value'
+  | 'input-change'
+  | 'input-blur'
+  | 'menu-close';
+
+export interface InputActionMeta {
+  action: InputActionTypes;
+}
+
 export type MenuPlacement = 'auto' | 'bottom' | 'top';
 export type MenuPosition = 'absolute' | 'fixed';
-//
+
 // export type FocusDirection =
 //   | 'up'
 //   | 'down'
@@ -135,3 +227,9 @@ export type MenuPosition = 'absolute' | 'fixed';
 //   onMouseOver: MouseEventHandler,
 //   value: any,
 // };
+
+type Truthy<T> = T extends false | '' | 0 | null | undefined ? never : T;
+
+export function truthy<T>(value: T): value is Truthy<T> {
+  return !!value;
+}

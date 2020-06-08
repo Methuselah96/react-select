@@ -3,6 +3,7 @@ import type {
   ClassNamesState,
   InputActionMeta,
   OptionsType,
+  OptionTypeBase,
   ValueType,
 } from './types';
 
@@ -59,9 +60,14 @@ export function classNames(
 // Clean Value
 // ==============================
 
-export const cleanValue = (value: ValueType): OptionsType => {
+export const cleanValue = <
+  OptionType extends OptionTypeBase,
+  IsMultiType extends boolean
+>(
+  value: ValueType<OptionType, IsMultiType>
+): OptionsType<OptionType> => {
   if (Array.isArray(value)) return value.filter(Boolean);
-  if (typeof value === 'object' && value !== null) return [value];
+  if (typeof value === 'object' && value !== null) return [value as OptionType];
   return [];
 };
 

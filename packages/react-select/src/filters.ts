@@ -11,7 +11,7 @@ import { stripDiacritics } from './diacritics';
 const trimString = (str: string) => str.replace(/^\s+|\s+$/g, '');
 const defaultStringify = option => `${option.label} ${option.value}`;
 
-export const createFilter = (config: ?Config) => (
+export const createFilter = (config?: Config | null) => (
   option: { label: string, value: string, data: any },
   rawInput: string
 ): boolean => {

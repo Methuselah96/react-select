@@ -1,12 +1,17 @@
 /** @jsx jsx */
-import { MouseEventHandler, ReactNode, Ref, TouchEventHandler } from 'react';
+import {
+  MouseEventHandler,
+  ReactNode,
+  RefCallback,
+  TouchEventHandler,
+} from 'react';
 import { Interpolation, jsx } from '@emotion/core';
 
 import { CommonProps, OptionTypeBase } from '../types';
 
 export interface ControlProps<OptionType extends OptionTypeBase>
   extends CommonProps<OptionType> {
-  innerRef: Ref<HTMLDivElement>;
+  innerRef: RefCallback<HTMLDivElement>;
   /** The mouse down event and the innerRef to pass down to the controller element. */
   innerProps: {
     onMouseDown: MouseEventHandler<HTMLDivElement>;

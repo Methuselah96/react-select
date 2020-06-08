@@ -363,7 +363,7 @@ export default Menu;
 export interface MenuListProps<OptionType extends OptionTypeBase>
   extends CommonProps<OptionType> {
   /** Inner ref to DOM Node */
-  innerRef: Ref<HTMLDivElement>;
+  innerRef: RefCallback<HTMLDivElement>;
   isLoading: boolean;
   /** Set the max height of the Menu component. */
   maxHeight: number;
