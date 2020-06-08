@@ -27,7 +27,7 @@ export const emptyString = () => '';
  - className('comp', { some: true, state: false })
    @returns 'react-select__comp react-select__comp--some'
 */
-function applyPrefixToName(prefix, name) {
+function applyPrefixToName(prefix: string, name: string) {
   if (!name) {
     return prefix;
   } else if (name[0] === '-') {
@@ -45,7 +45,7 @@ export function classNames(
   const arr = [className];
   if (state && prefix) {
     for (let key in state) {
-      if (state.hasOwnProperty(key) && state[key]) {
+      if (state.hasOwnProperty(key) && state[key as keyof ClassNamesState]) {
         arr.push(`${applyPrefixToName(prefix, key)}`);
       }
     }
@@ -78,7 +78,10 @@ export const cleanValue = <
 export function handleInputChange(
   inputValue: string,
   actionMeta: InputActionMeta,
-  onInputChange?: (string, InputActionMeta) => string | void
+  onInputChange?: (
+    newValue: string,
+    actionMeta: InputActionMeta
+  ) => string | void
 ) {
   if (onInputChange) {
     const newValue = onInputChange(inputValue, actionMeta);

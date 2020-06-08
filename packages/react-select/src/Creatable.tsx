@@ -1,19 +1,18 @@
-// @flow
-
 import React, {
   Component,
-  type Config,
-  type Node,
-  type AbstractComponent,
-  type ElementRef,
-  type ElementConfig,
+  ReactNode,
+  // type Config,
+  // type Node,
+  // type AbstractComponent,
+  // type ElementRef,
+  // type ElementConfig,
 } from 'react';
 import Select, { type Props as SelectProps } from './Select';
 import type { OptionType, OptionsType, ValueType, ActionMeta } from './types';
 import { cleanValue } from './utils';
 import manageState from './stateManager';
 
-export type DefaultCreatableProps = {|
+export type DefaultCreatableProps = {
   /* Allow options to be created while the `isLoading` prop is true. Useful to
      prevent the "create new ..." option being displayed while async results are
      still being loaded. */
@@ -22,14 +21,14 @@ export type DefaultCreatableProps = {|
   createOptionPosition: 'first' | 'last',
   /* Gets the label for the "create new ..." option in the menu. Is given the
      current input value. */
-  formatCreateLabel: string => Node,
+  formatCreateLabel: string => ReactNode,
   /* Determines whether the "create new ..." option should be displayed based on
      the current input value, select value and options array. */
   isValidNewOption: (string, OptionsType, OptionsType) => boolean,
   /* Returns the data for the new option when it is created. Used to display the
      value, and is passed to `onChange`. */
-  getNewOptionData: (string, Node) => OptionType,
-|};
+  getNewOptionData: (string, ReactNode) => OptionType,
+}
 export type CreatableProps = {
   ...DefaultCreatableProps,
   /* If provided, this will be called with the input value when a new option is
@@ -69,7 +68,7 @@ const builtins = {
       selectValue.some(option => compareOption(inputValue, option)) ||
       selectOptions.some(option => compareOption(inputValue, option))
     ),
-  getNewOptionData: (inputValue: string, optionLabel: Node) => ({
+  getNewOptionData: (inputValue: string, optionLabel: ReactNode) => ({
     label: optionLabel,
     value: inputValue,
     __isNew__: true,

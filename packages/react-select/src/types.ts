@@ -2,7 +2,7 @@
 
 import { Interpolation } from '@emotion/core';
 import { StylesProps } from './styles';
-import { Props } from './Select';
+import { Props as SelectProps } from './Select';
 import {
   ContainerClassNamesState,
   IndicatorsClassNamesState,
@@ -213,7 +213,7 @@ export interface CommonProps<
     action: 'select-option' | 'deselect-option',
     option: OptionType
   ) => void;
-  selectProps: Props<OptionType, GroupType, IsMultiType>;
+  selectProps: SelectProps<OptionType, GroupType, IsMultiType>;
   theme: Theme;
 }
 

@@ -1,40 +1,58 @@
-// @flow
-
 import React, {
   Component,
-  type Config,
-  type ElementConfig,
-  type AbstractComponent,
-  type ElementRef,
+  // ComponentType,
+  // ReactElement,
+  // type Config,
+  // type ElementConfig,
+  // type AbstractComponent,
+  // type ElementRef,
 } from 'react';
-import Select, { type Props as SelectProps } from './Select';
+import Select, { Props as SelectProps } from './Select';
 import { handleInputChange } from './utils';
 import manageState from './stateManager';
-import type { OptionsType, InputActionMeta } from './types';
+import type {
+  OptionsType,
+  InputActionMeta,
+  OptionTypeBase,
+  GroupTypeBase,
+  GroupsType,
+} from './types';
 
-type DefaultAsyncProps = {|
+export interface AsyncProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends SelectProps<OptionType, GroupType, IsMultiType> {
   /* The default set of options to show before the user starts searching. When
      set to `true`, the results for loadOptions('') will be autoloaded. */
-  defaultOptions: OptionsType | boolean,
+  defaultOptions:
+    | OptionsType<OptionType>
+    | GroupsType<OptionType, GroupType>
+    | boolean;
   /* If cacheOptions is truthy, then the loaded data will be cached. The cache
     will remain until `cacheOptions` changes value. */
-  cacheOptions: any,
-|};
-export type AsyncProps = {
-  ...DefaultAsyncProps,
+  cacheOptions: boolean;
   /* Function that returns a promise, which is the set of options to be used
      once the promise resolves. */
-  loadOptions: (string, (OptionsType) => void) => Promise<*> | void,
+  loadOptions: (
+    inputValue: string,
+    callback: (
+      options: OptionsType<OptionType> | GroupsType<OptionType, GroupType>
+    ) => void
+  ) => Promise<
+    OptionsType<OptionType> | GroupsType<OptionType, GroupType>
+  > | void;
   /* Same behaviour as for Select */
-  onInputChange?: (string, InputActionMeta) => void,
+  onInputChange?: (
+    newValue: string,
+    actionMeta: InputActionMeta
+  ) => string | void;
   /* Same behaviour as for Select */
-  inputValue?: string,
+  inputValue?: string;
   /* Will cause the select to be displayed in the loading state, even if the
      Async select is not currently waiting for loadOptions to resolve */
-  isLoading: boolean,
-};
-
-export type Props = SelectProps & AsyncProps;
+  isLoading: boolean;
+}
 
 export const defaultProps = {
   cacheOptions: false,
@@ -43,26 +61,40 @@ export const defaultProps = {
   isLoading: false,
 };
 
-type State = {
-  defaultOptions?: OptionsType,
-  inputValue: string,
-  isLoading: boolean,
-  loadedInputValue?: string,
-  loadedOptions: OptionsType,
-  passEmptyOptions: boolean,
-};
+export interface State<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>
+> {
+  defaultOptions?: OptionsType<OptionType> | GroupsType<OptionType, GroupType>;
+  inputValue: string;
+  isLoading: boolean;
+  loadedInputValue?: string;
+  loadedOptions: OptionsType<OptionType> | GroupsType<OptionType, GroupType>;
+  passEmptyOptions: boolean;
+}
 
-export const makeAsyncSelect = <C: {}>(
-  SelectComponent: AbstractComponent<C>
-): AbstractComponent<C & Config<AsyncProps, DefaultAsyncProps>> =>
-  class Async extends Component<C & AsyncProps, State> {
+export const makeAsyncSelect = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  SelectComponent: ReturnType<typeof manageState>
+) =>
+  class Async extends Component<
+    AsyncProps<OptionType, GroupType, IsMultiType>,
+    State<OptionType, GroupType>
+  > {
     static defaultProps = defaultProps;
-    select: ElementRef<*>;
-    lastRequest: {};
+    select?: InstanceType<ReturnType<typeof manageState>> | null;
+    lastRequest?: {};
     mounted: boolean = false;
-    optionsCache: { [string]: OptionsType } = {};
-    constructor(props: C & AsyncProps) {
-      super();
+    optionsCache: {
+      [inputValue: string]:
+        | OptionsType<OptionType>
+        | GroupsType<OptionType, GroupType>;
+    } = {};
+    constructor(props: AsyncProps<OptionType, GroupType, IsMultiType>) {
+      super(props);
       this.state = {
         defaultOptions: Array.isArray(props.defaultOptions)
           ? props.defaultOptions
@@ -79,14 +111,16 @@ export const makeAsyncSelect = <C: {}>(
       const { defaultOptions } = this.props;
       const { inputValue } = this.state;
       if (defaultOptions === true) {
-        this.loadOptions(inputValue, options => {
+        this.loadOptions(inputValue, (options) => {
           if (!this.mounted) return;
           const isLoading = !!this.lastRequest;
           this.setState({ defaultOptions: options || [], isLoading });
         });
       }
     }
-    UNSAFE_componentWillReceiveProps(nextProps: C & AsyncProps) {
+    UNSAFE_componentWillReceiveProps(
+      nextProps: AsyncProps<OptionType, GroupType, IsMultiType>
+    ) {
       // if the cacheOptions prop changes, clear the cache
       if (nextProps.cacheOptions !== this.props.cacheOptions) {
         this.optionsCache = {};
@@ -103,12 +137,17 @@ export const makeAsyncSelect = <C: {}>(
       this.mounted = false;
     }
     focus() {
-      this.select.focus();
+      this.select!.focus();
     }
     blur() {
-      this.select.blur();
+      this.select!.blur();
     }
-    loadOptions(inputValue: string, callback: (?Array<*>) => void) {
+    loadOptions(
+      inputValue: string,
+      callback: (
+        options?: OptionsType<OptionType> | GroupsType<OptionType, GroupType>
+      ) => void
+    ) {
       const { loadOptions } = this.props;
       if (!loadOptions) return callback();
       const loader = loadOptions(inputValue, callback);
@@ -148,7 +187,7 @@ export const makeAsyncSelect = <C: {}>(
             passEmptyOptions: !this.state.loadedInputValue,
           },
           () => {
-            this.loadOptions(inputValue, options => {
+            this.loadOptions(inputValue, (options) => {
               if (!this.mounted) return;
               if (options) {
                 this.optionsCache[inputValue] = options;
@@ -185,7 +224,7 @@ export const makeAsyncSelect = <C: {}>(
       return (
         <SelectComponent
           {...props}
-          ref={ref => {
+          ref={(ref) => {
             this.select = ref;
           }}
           options={options}
@@ -196,6 +235,6 @@ export const makeAsyncSelect = <C: {}>(
     }
   };
 
-const SelectState = manageState<ElementConfig<typeof Select>>(Select);
+const SelectState = manageState(Select);
 
-export default makeAsyncSelect<ElementConfig<typeof SelectState>>(SelectState);
+export default makeAsyncSelect(SelectState);

@@ -176,7 +176,7 @@ export interface Props<
   /* The id to set on the SelectContainer component. */
   id?: string;
   /* The value of the search input */
-  inputValue: string;
+  inputValue?: string;
   /* The id of the search input */
   inputId?: string;
   /* Define an id prefix for the select components e.g. {your-id}-value */
@@ -237,14 +237,14 @@ export interface Props<
   /* Handle blur events on the control */
   onBlur?: FocusEventHandler<HTMLInputElement>;
   /* Handle change events on the select */
-  onChange: (
+  onChange?: (
     newValue: ValueType<OptionType, IsMultiType>,
     actionMeta: ActionMeta<OptionType>
   ) => void;
   /* Handle focus events on the control */
   onFocus?: FocusEventHandler<HTMLInputElement>;
   /* Handle change events on the input */
-  onInputChange: (newValue: string, actionMeta: InputActionMeta) => void;
+  onInputChange?: (newValue: string, actionMeta: InputActionMeta) => void;
   /* Handle key down events on the select */
   onKeyDown?: KeyboardEventHandler<HTMLDivElement>;
   /* Handle the menu opening */
@@ -272,7 +272,7 @@ export interface Props<
 
     A basic example can be found at the bottom of the [Replacing builtins](/advanced#replacing-builtins) documentation.
   */
-  styles: StylesConfig;
+  styles: StylesConfig<OptionType, GroupType, IsMultiType>;
   /* Theme modifier method */
   theme?: ThemeConfig;
   /* Sets the tabIndex attribute on the input */
@@ -280,7 +280,7 @@ export interface Props<
   /* Select the currently focused option when the user presses tab */
   tabSelectsValue: boolean;
   /* The value of the select; reflected by the selected option */
-  value: ValueType<OptionType, IsMultiType>;
+  value?: ValueType<OptionType, IsMultiType>;
   /* Sets the form attribute on the input */
   form?: string;
 }

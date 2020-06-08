@@ -9,7 +9,7 @@ import {
   Theme,
 } from '../types';
 import { StylesProps } from '../styles';
-import { Props } from '../Select';
+import { Props as SelectProps } from '../Select';
 
 export interface InputClassNamesState {
   input: true;
@@ -48,7 +48,7 @@ export interface InputProps<
   isDisabled: boolean;
   /** Set whether the input should be visible. Does not affect input size. */
   isHidden: boolean;
-  selectProps: Props<OptionType, GroupType, IsMultiType>;
+  selectProps: SelectProps<OptionType, GroupType, IsMultiType>;
   theme: Theme;
   // className?: string;
   // /** The ID of the form that the input belongs to */
