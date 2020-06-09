@@ -4,6 +4,7 @@
   "description": "A Select control built with and for ReactJS",
   "main": "dist/react-select.cjs.js",
   "module": "dist/react-select.esm.js",
+  "types": "dist/react-select.d.ts",
   "sideEffects": false,
   "author": "Jed Watson",
   "license": "MIT",
@@ -13,6 +14,9 @@
     "@emotion/cache": "^10.0.9",
     "@emotion/core": "^10.0.9",
     "@emotion/css": "^10.0.9",
+    "@types/prop-types": "^15.7.3",
+    "@types/react-input-autosize": "^2.0.2",
+    "@types/react-transition-group": "^4.4.0",
     "memoize-one": "^5.1.1",
     "prop-types": "^15.6.0",
     "react-input-autosize": "^2.2.2",
@@ -27,6 +31,8 @@
     "react-dom": "^16.13.0"
   },
   "peerDependencies": {
+    "@types/react": "^16.8.0",
+    "@types/react-dom": "^16.8.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0"
   },

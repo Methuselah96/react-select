@@ -1,11 +1,13 @@
-import type {
+import {
   ClassNamesState,
   InputActionMeta,
   OptionsType,
   OptionTypeBase,
   ValueType,
+  GroupTypeBase,
+  MultiValueType,
+  SingleValueType,
 } from './types';
-import { GroupTypeBase, MultiValueType, SingleValueType } from './types';
 
 // ==============================
 // NO OP

@@ -2,7 +2,7 @@
 import { ReactNode } from 'react';
 import { jsx } from '@emotion/core';
 
-import type {
+import {
   CommonProps,
   CSSPropertiesWithLabel,
   OptionTypeBase,
