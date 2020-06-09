@@ -75,9 +75,6 @@ import {
   ValueType,
 } from './types';
 
-// type MouseOrTouchEvent =
-//   | SyntheticMouseEvent<HTMLElement>
-//   | SyntheticTouchEvent<HTMLElement>;
 type FormatOptionLabelContext = 'menu' | 'value';
 interface FormatOptionLabelMeta<
   OptionType extends OptionTypeBase,
@@ -275,10 +272,19 @@ export interface Props<
   /* Select the currently focused option when the user presses tab */
   tabSelectsValue: boolean;
   /* The value of the select; reflected by the selected option */
-  value?: ValueType<OptionType, IsMultiType>;
+  value: ValueType<OptionType, IsMultiType>;
   /* Sets the form attribute on the input */
   form?: string;
 }
+
+export type PublicSelectProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> = JSX.LibraryManagedAttributes<
+  typeof Select,
+  Props<OptionType, GroupType, IsMultiType>
+>;
 
 export const defaultProps = {
   backspaceRemovesValue: true,
@@ -372,8 +378,6 @@ interface State<
   menuOptions: MenuOptions<OptionType, GroupType>;
   selectValue: OptionsType<OptionType>;
 }
-
-// type ElRef = ElementRef<*>;
 
 let instanceId = 1;
 

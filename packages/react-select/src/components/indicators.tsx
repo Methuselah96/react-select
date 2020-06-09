@@ -261,6 +261,7 @@ export interface LoadingIndicatorProps<
   isDisabled: boolean;
   /** The focused state of the select. */
   isFocused: boolean;
+  size?: number;
 }
 
 export const loadingIndicatorCSS = <

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, ComponentType } from 'react';
 
 import {
   ActionMeta,
@@ -7,28 +7,77 @@ import {
   OptionTypeBase,
   ValueType,
 } from './types';
-import Select, { Props as SelectProps } from './Select';
+import Select, { Props as SelectProps, PublicSelectProps } from './Select';
+import { makeCreatableSelect, PublicCreatableProps } from './Creatable';
+import { AsyncProps } from './Async';
 
-export interface Props<
+type BaseComponentProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean,
+  BaseProps extends
+    | PublicSelectProps<OptionType, GroupType, IsMultiType>
+    | PublicCreatableProps<OptionType, GroupType, IsMultiType>
+> = Omit<
+  BaseProps,
+  | 'inputValue'
+  | 'menuIsOpen'
+  | 'onChange'
+  | 'onInputChange'
+  | 'onMenuClose'
+  | 'onMenuOpen'
+  | 'value'
+>;
+
+// type BaseComponentType<
+//   OptionType extends OptionTypeBase,
+//   GroupType extends GroupTypeBase<OptionType>,
+//   IsMultiType extends boolean,
+//   BaseComponentType extends
+//     | typeof Select
+//     | ReturnType<typeof makeCreatableSelect>
+// > = Omit<
+//   JSX.LibraryManagedAttributes<
+//     BaseComponentType,
+//     ComponentProps<BaseComponentType>
+//   >,
+//   | 'inputValue'
+//   | 'menuIsOpen'
+//   | 'onChange'
+//   | 'onInputChange'
+//   | 'onMenuClose'
+//   | 'onMenuOpen'
+//   | 'value'
+// >;
+
+export interface StateMangerProps<
+  OptionType extends OptionTypeBase,
   IsMultiType extends boolean
->
-  extends JSX.LibraryManagedAttributes<
-    typeof Select,
-    SelectProps<OptionType, GroupType, IsMultiType>
-  > {
+> {
   defaultInputValue: string;
   defaultMenuIsOpen: boolean;
   defaultValue: ValueType<OptionType, IsMultiType>;
   inputValue?: string;
   menuIsOpen?: boolean;
-  value?: ValueType<OptionType, IsMultiType>;
   onChange?: (
     value: ValueType<OptionType, IsMultiType>,
     actionMeta: ActionMeta<OptionType>
   ) => void;
+  onInputChange?: (newValue: string, actionMeta: InputActionMeta) => void;
+  onMenuClose?: () => void;
+  onMenuOpen?: () => void;
+  value?: ValueType<OptionType, IsMultiType>;
 }
+
+type Props<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean,
+  BaseProps extends
+    | PublicSelectProps<OptionType, GroupType, IsMultiType>
+    | PublicCreatableProps<OptionType, GroupType, IsMultiType>
+> = BaseComponentProps<OptionType, GroupType, IsMultiType, BaseProps> &
+  StateMangerProps<OptionType, IsMultiType>;
 
 export interface State<
   OptionType extends OptionTypeBase,
@@ -45,13 +94,26 @@ export const defaultProps = {
   defaultValue: null,
 };
 
-const manageState = (SelectComponent: typeof Select) =>
+const manageState = <
+  BaseProps extends
+    | PublicSelectProps<OptionTypeBase, GroupTypeBase<OptionTypeBase>, boolean>
+    | PublicCreatableProps<
+        OptionTypeBase,
+        GroupTypeBase<OptionTypeBase>,
+        boolean
+      >
+>(
+  SelectComponent: ComponentType<BaseProps>
+) =>
   class StateManager<
     OptionType extends OptionTypeBase,
     GroupType extends GroupTypeBase<OptionType>,
-    IsMultiType extends boolean
+    IsMultiType extends boolean,
+    BaseProps extends
+      | PublicSelectProps<OptionType, GroupType, IsMultiType>
+      | PublicCreatableProps<OptionType, GroupType, IsMultiType>
   > extends Component<
-    Props<OptionType, GroupType, IsMultiType>,
+    Props<OptionType, GroupType, IsMultiType, BaseProps>,
     State<OptionType, IsMultiType>
   > {
     static defaultProps = defaultProps;
@@ -78,22 +140,21 @@ const manageState = (SelectComponent: typeof Select) =>
     blur() {
       this.select!.blur();
     }
-    getProp<Key extends keyof Props<OptionType, GroupType, IsMultiType>>(
+    getProp<Key extends keyof State<OptionType, IsMultiType>>(
       key: Key
-    ): Props<OptionType, GroupType, IsMultiType>[Key];
+    ): State<OptionType, IsMultiType>[Key];
     getProp<
       Key extends
-        | keyof Props<OptionType, GroupType, IsMultiType>
+        | keyof Props<OptionType, GroupType, IsMultiType, BaseProps>
         | keyof State<OptionType, IsMultiType>
     >(key: Key) {
       return this.props[key] !== undefined
         ? this.props[key]
         : this.state[key as keyof State<OptionType, IsMultiType>];
     }
-    callProp<Key extends keyof Props<OptionType, GroupType, IsMultiType>>(
-      name: Key,
-      ...args: any
-    ) {
+    callProp<
+      Key extends keyof Props<OptionType, GroupType, IsMultiType, BaseProps>
+    >(name: Key, ...args: any) {
       if (typeof this.props[name] === 'function') {
         return (this.props[name] as any)(...args);
       }

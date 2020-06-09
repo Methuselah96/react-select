@@ -57,6 +57,15 @@ export interface CreatableProps<
   ) => void;
 }
 
+export type PublicCreatableProps<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> = JSX.LibraryManagedAttributes<
+  ReturnType<typeof makeCreatableSelect>,
+  CreatableProps<OptionType, GroupType, IsMultiType>
+>;
+
 const compareOption = <OptionType extends OptionTypeBase>(
   inputValue = '',
   option: OptionType
@@ -92,7 +101,7 @@ export const defaultProps = {
   ...builtins,
 };
 
-interface State<
+export interface State<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>
 > {
@@ -100,19 +109,17 @@ interface State<
   options: OptionsType<OptionType> | GroupsType<OptionType, GroupType>;
 }
 
-export const makeCreatableSelect = <
-  OptionType extends OptionTypeBase,
-  GroupType extends GroupTypeBase<OptionType>,
-  IsMultiType extends boolean
->(
-  SelectComponent: typeof Select
-) =>
-  class Creatable extends Component<
+export const makeCreatableSelect = (SelectComponent: typeof Select) =>
+  class Creatable<
+    OptionType extends OptionTypeBase,
+    GroupType extends GroupTypeBase<OptionType>,
+    IsMultiType extends boolean
+  > extends Component<
     CreatableProps<OptionType, GroupType, IsMultiType>,
     State<OptionType, GroupType>
   > {
     static defaultProps = defaultProps;
-    select?: Select<OptionType, GroupType, IsMultiType>;
+    select?: Select<OptionType, GroupType, IsMultiType> | null;
     constructor(props: CreatableProps<OptionType, GroupType, IsMultiType>) {
       super(props);
       const options = props.options || [];
@@ -143,12 +150,13 @@ export const makeCreatableSelect = <
       }
       this.setState({
         newOption: newOption,
-        options:
-          (allowCreateWhileLoading || !isLoading) && newOption
-            ? createOptionPosition === 'first'
-              ? [newOption, ...options]
-              : [...options, newOption]
-            : options,
+        options: ((allowCreateWhileLoading || !isLoading) && newOption
+          ? createOptionPosition === 'first'
+            ? [newOption, ...options]
+            : [...options, newOption]
+          : options) as
+          | OptionsType<OptionType>
+          | GroupsType<OptionType, GroupType>,
       });
     }
     onChange = (
@@ -200,7 +208,7 @@ export const makeCreatableSelect = <
     render() {
       const { options } = this.state;
       return (
-        <SelectComponent
+        <SelectComponent<OptionType, GroupType, IsMultiType>
           {...this.props}
           ref={(ref) => {
             this.select = ref;

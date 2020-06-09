@@ -52,8 +52,6 @@ export interface InputProps<
   isHidden: boolean;
   selectProps: SelectProps<OptionType, GroupType, IsMultiType>;
   theme: Theme;
-  // /** The ID of the form that the input belongs to */
-  // form?: string;
 }
 
 export const inputCSS = <

@@ -23,7 +23,7 @@ export interface BaseTransition {
 
 export interface FadeProps extends BaseTransition {
   component: ComponentType<{ innerProps: { style: CSSProperties } }>;
-  duration: number;
+  duration?: number;
 }
 export const Fade = ({
   component: Tag,

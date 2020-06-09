@@ -102,7 +102,7 @@ export interface ValueContainerProps<
   className?: string;
   isDisabled: boolean;
   /** The children to be rendered. */
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export const valueContainerCSS = <

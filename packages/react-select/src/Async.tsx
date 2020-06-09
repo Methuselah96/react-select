@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import Select, { Props as SelectProps } from './Select';
+import Select from './Select';
 import { handleInputChange } from './utils';
-import manageState from './stateManager';
+import manageState, { Props as SelectStateProps } from './stateManager';
 import {
   OptionsType,
   InputActionMeta,
@@ -15,7 +15,7 @@ export interface AsyncProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
-> extends SelectProps<OptionType, GroupType, IsMultiType> {
+> extends SelectStateProps<OptionType, GroupType, IsMultiType> {
   /* The default set of options to show before the user starts searching. When
      set to `true`, the results for loadOptions('') will be autoloaded. */
   defaultOptions:
@@ -35,13 +35,6 @@ export interface AsyncProps<
   ) => Promise<
     OptionsType<OptionType> | GroupsType<OptionType, GroupType>
   > | void;
-  /* Same behaviour as for Select */
-  onInputChange?: (
-    newValue: string,
-    actionMeta: InputActionMeta
-  ) => string | void;
-  /* Same behaviour as for Select */
-  inputValue?: string;
   /* Will cause the select to be displayed in the loading state, even if the
      Async select is not currently waiting for loadOptions to resolve */
   isLoading: boolean;

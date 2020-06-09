@@ -1,5 +1,5 @@
 /** @jsx jsx */
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import { jsx } from '@emotion/core';
 
 import {
@@ -26,7 +26,7 @@ export interface SingleValueProps<
   data: OptionType;
   /** Whether this is disabled. */
   isDisabled: boolean;
-  innerProps?: {};
+  innerProps?: { style: CSSProperties };
 }
 
 export const css = <
