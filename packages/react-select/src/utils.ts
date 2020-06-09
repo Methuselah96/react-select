@@ -1,4 +1,3 @@
-// import { type ElementRef } from 'react';
 import type {
   ClassNamesState,
   InputActionMeta,
@@ -6,6 +5,7 @@ import type {
   OptionTypeBase,
   ValueType,
 } from './types';
+import { GroupTypeBase, MultiValueType, SingleValueType } from './types';
 
 // ==============================
 // NO OP
@@ -275,4 +275,49 @@ export function isMobileDevice() {
   } catch (e) {
     return false;
   }
+}
+
+// ==============================
+// Type Utils
+// ==============================
+
+export function isGroup<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>
+>(item: OptionType | GroupType): item is GroupType {
+  return (item as GroupType).options !== undefined;
+}
+
+export function valueTernary<
+  OptionType extends OptionTypeBase,
+  IsMultiType extends boolean
+>(
+  isMulti: IsMultiType,
+  multiValue: MultiValueType<OptionType>,
+  singleValue: SingleValueType<OptionType>
+): ValueType<OptionType, IsMultiType> {
+  return (isMulti ? multiValue : singleValue) as ValueType<
+    OptionType,
+    IsMultiType
+  >;
+}
+
+export function multiValueAsValue<
+  OptionType extends OptionTypeBase,
+  IsMultiType extends boolean
+>(multiValue: MultiValueType<OptionType>) {
+  return multiValue as ValueType<OptionType, IsMultiType>;
+}
+
+export function singleValueAsValue<
+  OptionType extends OptionTypeBase,
+  IsMultiType extends boolean
+>(singleValue: SingleValueType<OptionType>) {
+  return singleValue as ValueType<OptionType, IsMultiType>;
+}
+
+type Truthy<T> = T extends false | '' | 0 | null | undefined ? never : T;
+
+export function truthy<T>(value: T): value is Truthy<T> {
+  return !!value;
 }

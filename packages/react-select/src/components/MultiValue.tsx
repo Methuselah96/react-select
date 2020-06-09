@@ -6,6 +6,7 @@ import {
   TouchEventHandler,
 } from 'react';
 import { jsx, ClassNames } from '@emotion/core';
+
 import { CrossIcon } from './indicators';
 import {
   CommonProps,

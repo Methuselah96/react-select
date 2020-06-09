@@ -1,8 +1,9 @@
 import React from 'react';
 import { TransitionGroup } from 'react-transition-group';
+import { TransitionGroupProps } from 'react-transition-group/TransitionGroup';
+
 import { ValueContainer, ValueContainerProps } from '../components/containers';
 import { GroupTypeBase, OptionTypeBase } from '../types';
-import { TransitionGroupProps } from 'react-transition-group/TransitionGroup';
 
 export type AnimatedValueContainerProps<
   OptionType extends OptionTypeBase,

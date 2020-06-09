@@ -10,9 +10,9 @@ import React, {
   TouchEventHandler,
 } from 'react';
 import memoizeOne from 'memoize-one';
+
 import { MenuPlacer } from './components/Menu';
 import isEqual from './internal/react-fast-compare';
-
 import { createFilter } from './filters';
 import {
   A11yText,
@@ -38,6 +38,11 @@ import {
   noop,
   scrollIntoView,
   isDocumentElement,
+  isGroup,
+  valueTernary,
+  multiValueAsValue,
+  singleValueAsValue,
+  truthy,
 } from './utils';
 
 import {
@@ -61,22 +66,12 @@ import {
   ActionMeta,
   GroupsType,
   GroupTypeBase,
-  isGroup,
-  // ActionTypes,
   FocusDirection,
-  // FocusEventHandler,
-  // GroupType,
   InputActionMeta,
-  // KeyboardEventHandler,
   MenuPlacement,
   MenuPosition,
-  multiValueAsValue,
   OptionsType,
-  // OptionType,
   OptionTypeBase,
-  singleValueAsValue,
-  truthy,
-  valueTernary,
   ValueType,
 } from './types';
 

@@ -1,6 +1,5 @@
-// import type { Ref } from 'react';
-
 import { CSSObject } from '@emotion/core';
+
 import { StylesProps } from './styles';
 import { Props as SelectProps } from './Select';
 import {
@@ -55,13 +54,6 @@ export type GroupsType<
   GroupType extends GroupTypeBase<OptionType>
 > = readonly GroupType[];
 
-export function isGroup<
-  OptionType extends OptionTypeBase,
-  GroupType extends GroupTypeBase<OptionType>
->(item: OptionType | GroupType): item is GroupType {
-  return (item as GroupType).options !== undefined;
-}
-
 export type SingleValueType<
   OptionType extends OptionTypeBase
 > = OptionType | null;
@@ -73,57 +65,6 @@ export type ValueType<
   OptionType extends OptionTypeBase,
   IsMultiType extends boolean
 > = IsMultiType extends true ? OptionsType<OptionType> : OptionType | null;
-
-export function valueTernary<
-  OptionType extends OptionTypeBase,
-  IsMultiType extends boolean
->(
-  isMulti: IsMultiType,
-  multiValue: MultiValueType<OptionType>,
-  singleValue: SingleValueType<OptionType>
-): ValueType<OptionType, IsMultiType> {
-  return (isMulti ? multiValue : singleValue) as ValueType<
-    OptionType,
-    IsMultiType
-  >;
-}
-
-export function multiValueAsValue<
-  OptionType extends OptionTypeBase,
-  IsMultiType extends boolean
->(multiValue: MultiValueType<OptionType>) {
-  return multiValue as ValueType<OptionType, IsMultiType>;
-}
-
-export function singleValueAsValue<
-  OptionType extends OptionTypeBase,
-  IsMultiType extends boolean
->(singleValue: SingleValueType<OptionType>) {
-  return singleValue as ValueType<OptionType, IsMultiType>;
-}
-
-// export function isMulti<
-//   OptionType extends OptionTypeBase,
-//   IsMultiType extends boolean
-// >(
-//   isMulti: IsMultiType,
-//   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-//   value: ValueType<OptionType, IsMultiType>
-// ): value is OptionsType<OptionType> & ValueType<OptionType, IsMultiType> {
-//   return isMulti;
-// }
-
-// export type FocusEventHandler = (SyntheticFocusEvent<HTMLElement>) => void;
-// export type MouseEventHandler = (SyntheticMouseEvent<HTMLElement>) => void;
-// export type KeyboardEventHandler = (
-//   SyntheticKeyboardEvent<HTMLElement>
-// ) => void;
-//
-// export type InnerRef = Ref<*>;
-// export type PropsWithInnerRef = {
-//   /** The inner reference. */
-//   innerRef: Ref<*>,
-// };
 
 interface Colors {
   primary: string;
@@ -283,24 +224,5 @@ export type FocusDirection =
   | 'pagedown'
   | 'first'
   | 'last';
-
-// export type OptionProps = PropsWithInnerRef & {
-//   data: any,
-//   id: number,
-//   index: number,
-//   isDisabled: boolean,
-//   isFocused: boolean,
-//   isSelected: boolean,
-//   label: string,
-//   onClick: MouseEventHandler,
-//   onMouseOver: MouseEventHandler,
-//   value: any,
-// };
-
-type Truthy<T> = T extends false | '' | 0 | null | undefined ? never : T;
-
-export function truthy<T>(value: T): value is Truthy<T> {
-  return !!value;
-}
 
 export type CSSPropertiesWithLabel = CSSObject & { label?: string };

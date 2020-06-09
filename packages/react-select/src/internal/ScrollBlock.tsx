@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { PureComponent, ReactElement } from 'react';
 import { jsx } from '@emotion/core';
+
 import NodeResolver from './NodeResolver';
 import ScrollLock from './ScrollLock/index';
 

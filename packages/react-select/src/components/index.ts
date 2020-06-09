@@ -1,4 +1,5 @@
 import { ReactComponentElement } from 'react';
+
 import {
   IndicatorsContainer,
   SelectContainer,
@@ -12,7 +13,6 @@ import {
   DownChevron,
   CrossIcon,
 } from './indicators';
-
 import Control from './Control';
 import Group, { GroupHeading } from './Group';
 import Input from './Input';

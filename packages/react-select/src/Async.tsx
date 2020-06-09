@@ -1,16 +1,9 @@
-import React, {
-  Component,
-  // ComponentType,
-  // ReactElement,
-  // type Config,
-  // type ElementConfig,
-  // type AbstractComponent,
-  // type ElementRef,
-} from 'react';
+import React, { Component } from 'react';
+
 import Select, { Props as SelectProps } from './Select';
 import { handleInputChange } from './utils';
 import manageState from './stateManager';
-import type {
+import {
   OptionsType,
   InputActionMeta,
   OptionTypeBase,

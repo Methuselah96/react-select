@@ -1,4 +1,5 @@
 import React from 'react';
+
 import MultiValue, { MultiValueProps } from '../components/MultiValue';
 import { Collapse, CollapseProps } from './transitions';
 import { GroupTypeBase, OptionTypeBase } from '../types';

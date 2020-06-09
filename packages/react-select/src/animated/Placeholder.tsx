@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Placeholder, { PlaceholderProps } from '../components/Placeholder';
 import { Fade, collapseDuration } from './transitions';
 import { GroupTypeBase, OptionTypeBase } from '../types';

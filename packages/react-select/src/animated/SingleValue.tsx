@@ -1,4 +1,5 @@
 import React from 'react';
+
 import SingleValue, { SingleValueProps } from '../components/SingleValue';
 import { Fade } from './transitions';
 import { GroupTypeBase, OptionTypeBase } from '../types';

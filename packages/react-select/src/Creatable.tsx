@@ -1,14 +1,7 @@
-import React, {
-  Component,
-  ReactNode,
-  // type Config,
-  // type Node,
-  // type AbstractComponent,
-  // type ElementRef,
-  // type ElementConfig,
-} from 'react';
+import React, { Component, ReactNode } from 'react';
+
 import Select, { Props as SelectProps } from './Select';
-import type {
+import {
   OptionsType,
   ValueType,
   ActionMeta,
@@ -16,9 +9,8 @@ import type {
   GroupTypeBase,
   GroupsType,
 } from './types';
-import { cleanValue } from './utils';
+import { cleanValue, valueTernary } from './utils';
 import manageState from './stateManager';
-import { valueTernary } from './types';
 
 export interface CreatableProps<
   OptionType extends OptionTypeBase,

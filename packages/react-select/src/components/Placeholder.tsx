@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import { CSSProperties, ReactNode } from 'react';
 import { jsx } from '@emotion/core';
+
 import {
   CommonProps,
   CSSPropertiesWithLabel,

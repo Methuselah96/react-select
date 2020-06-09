@@ -1,12 +1,13 @@
 /** @jsx jsx */
 import { ReactNode } from 'react';
+import { jsx } from '@emotion/core';
+
 import type {
   CommonProps,
   CSSPropertiesWithLabel,
   OptionTypeBase,
+  GroupTypeBase,
 } from '../types';
-import { jsx } from '@emotion/core';
-import { GroupTypeBase } from '../types';
 
 export interface SingleValueClassNamesState {
   'single-value': true;

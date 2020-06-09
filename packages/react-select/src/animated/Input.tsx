@@ -1,8 +1,9 @@
 import React from 'react';
+import { TransitionActions } from 'react-transition-group/Transition';
+
 import Input, { InputProps } from '../components/Input';
 import { GroupTypeBase, OptionTypeBase } from '../types';
 import { BaseTransition } from './transitions';
-import { TransitionActions } from 'react-transition-group/Transition';
 
 export type AnimatedInputProps<
   OptionType extends OptionTypeBase,
