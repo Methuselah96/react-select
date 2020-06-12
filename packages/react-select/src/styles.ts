@@ -164,11 +164,11 @@ export function mergeStyles<
       IsMultiType
     >;
     if (source[key]) {
-      styles[key] = (rsCss, props) => {
-        return target[key](source[key](rsCss, props), props);
+      styles[key] = (rsCss: any, props: any) => {
+        return target[key]!(source[key]!(rsCss, props), props);
       };
     } else {
-      styles[key] = target[key];
+      styles[key] = target[key] as any;
     }
   });
 

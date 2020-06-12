@@ -1,4 +1,4 @@
-import React, { Component, ComponentProps } from 'react';
+import React, { Component, ComponentProps, ComponentType } from 'react';
 
 import {
   ActionMeta,
@@ -167,18 +167,12 @@ const manageState = <
         defaultValue,
         ...props
       } = this.props;
-      const CastedSelectComponent = SelectComponent as
-        | typeof Select
-        | ReturnType<typeof makeCreatableSelect>;
+      const CastedSelectComponent = SelectComponent as ComponentType<any>;
       return (
         <CastedSelectComponent
           {...props}
-          ref={(ref) => {
-            this.select = ref as Select<
-              OptionType,
-              GroupType,
-              IsMultiType
-            > | null;
+          ref={(ref: Select<OptionType, GroupType, IsMultiType> | null) => {
+            this.select = ref;
           }}
           inputValue={this.getProp('inputValue')}
           menuIsOpen={this.getProp('menuIsOpen')}

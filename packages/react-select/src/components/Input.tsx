@@ -22,13 +22,7 @@ export type InputStylesProps<
   IsMultiType extends boolean
 > = Omit<
   InputProps<OptionType, GroupType, IsMultiType>,
-  | 'className'
-  | 'cx'
-  | 'getStyles'
-  | 'innerRef'
-  | 'isHidden'
-  | 'isDisabled'
-  | 'selectProps'
+  'className' | 'cx' | 'getStyles' | 'innerRef' | 'isHidden' | 'selectProps'
 > & { theme: Theme };
 
 export interface InputProps<
@@ -83,6 +77,8 @@ const inputStyle = (isHidden: boolean) => ({
   color: 'inherit',
 });
 
+const AutosizeInputAsAny: any = AutosizeInput;
+
 const Input = <
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
@@ -98,8 +94,8 @@ const Input = <
   selectProps,
   ...props
 }: InputProps<OptionType, GroupType, IsMultiType>) => (
-  <div css={getStyles('input', { theme, ...props })}>
-    <AutosizeInput
+  <div css={getStyles('input', { theme, isDisabled, ...props })}>
+    <AutosizeInputAsAny
       className={cx({ input: true }, className)}
       inputRef={innerRef}
       inputStyle={inputStyle(isHidden)}

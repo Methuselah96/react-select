@@ -911,10 +911,10 @@ export default class Select<
     key: PropertyName,
     props: StylesProps<OptionType, GroupType, IsMultiType>[PropertyName]
   ) => {
-    const base = defaultStyles[key](props);
+    const base = defaultStyles[key](props as any);
     base.boxSizing = 'border-box';
     const custom = this.props.styles[key];
-    return custom ? custom(base, props) : base;
+    return custom ? custom(base, props as any) : base;
   };
   getElementId = (element: 'group' | 'input' | 'listbox' | 'option') => {
     return `${this.instancePrefix}-${element}`;
@@ -1588,7 +1588,7 @@ export default class Select<
         autoComplete="off"
         autoCorrect="off"
         cx={cx}
-        getStyles={this.getStyles}
+        getStyles={this.getStyles as any}
         id={id}
         innerRef={this.getInputRef}
         isDisabled={isDisabled}
