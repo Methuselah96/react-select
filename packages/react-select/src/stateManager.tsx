@@ -1,4 +1,4 @@
-import React, { Component, ComponentType } from 'react';
+import React, { Component, ComponentProps } from 'react';
 
 import {
   ActionMeta,
@@ -7,19 +7,21 @@ import {
   OptionTypeBase,
   ValueType,
 } from './types';
-import Select, { Props as SelectProps, PublicSelectProps } from './Select';
-import { makeCreatableSelect, PublicCreatableProps } from './Creatable';
-import { AsyncProps } from './Async';
+import Select from './Select';
+import { makeCreatableSelect } from './Creatable';
 
 type BaseComponentProps<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean,
-  BaseProps extends
-    | PublicSelectProps<OptionType, GroupType, IsMultiType>
-    | PublicCreatableProps<OptionType, GroupType, IsMultiType>
+  BaseComponentType extends
+    | typeof Select
+    | ReturnType<typeof makeCreatableSelect>
 > = Omit<
-  BaseProps,
+  JSX.LibraryManagedAttributes<
+    BaseComponentType,
+    ComponentProps<BaseComponentType>
+  >,
   | 'inputValue'
   | 'menuIsOpen'
   | 'onChange'
@@ -28,27 +30,6 @@ type BaseComponentProps<
   | 'onMenuOpen'
   | 'value'
 >;
-
-// type BaseComponentType<
-//   OptionType extends OptionTypeBase,
-//   GroupType extends GroupTypeBase<OptionType>,
-//   IsMultiType extends boolean,
-//   BaseComponentType extends
-//     | typeof Select
-//     | ReturnType<typeof makeCreatableSelect>
-// > = Omit<
-//   JSX.LibraryManagedAttributes<
-//     BaseComponentType,
-//     ComponentProps<BaseComponentType>
-//   >,
-//   | 'inputValue'
-//   | 'menuIsOpen'
-//   | 'onChange'
-//   | 'onInputChange'
-//   | 'onMenuClose'
-//   | 'onMenuOpen'
-//   | 'value'
-// >;
 
 export interface StateMangerProps<
   OptionType extends OptionTypeBase,
@@ -69,14 +50,14 @@ export interface StateMangerProps<
   value?: ValueType<OptionType, IsMultiType>;
 }
 
-type Props<
+export type Props<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean,
-  BaseProps extends
-    | PublicSelectProps<OptionType, GroupType, IsMultiType>
-    | PublicCreatableProps<OptionType, GroupType, IsMultiType>
-> = BaseComponentProps<OptionType, GroupType, IsMultiType, BaseProps> &
+  BaseComponentType extends
+    | typeof Select
+    | ReturnType<typeof makeCreatableSelect>
+> = BaseComponentProps<OptionType, GroupType, IsMultiType, BaseComponentType> &
   StateMangerProps<OptionType, IsMultiType>;
 
 export interface State<
@@ -95,25 +76,18 @@ export const defaultProps = {
 };
 
 const manageState = <
-  BaseProps extends
-    | PublicSelectProps<OptionTypeBase, GroupTypeBase<OptionTypeBase>, boolean>
-    | PublicCreatableProps<
-        OptionTypeBase,
-        GroupTypeBase<OptionTypeBase>,
-        boolean
-      >
+  BaseComponentType extends
+    | typeof Select
+    | ReturnType<typeof makeCreatableSelect>
 >(
-  SelectComponent: ComponentType<BaseProps>
+  SelectComponent: BaseComponentType
 ) =>
   class StateManager<
     OptionType extends OptionTypeBase,
     GroupType extends GroupTypeBase<OptionType>,
-    IsMultiType extends boolean,
-    BaseProps extends
-      | PublicSelectProps<OptionType, GroupType, IsMultiType>
-      | PublicCreatableProps<OptionType, GroupType, IsMultiType>
+    IsMultiType extends boolean
   > extends Component<
-    Props<OptionType, GroupType, IsMultiType, BaseProps>,
+    Props<OptionType, GroupType, IsMultiType, BaseComponentType>,
     State<OptionType, IsMultiType>
   > {
     static defaultProps = defaultProps;
@@ -125,10 +99,9 @@ const manageState = <
         this.props.inputValue !== undefined
           ? this.props.inputValue
           : this.props.defaultInputValue,
-      menuIsOpen:
-        this.props.menuIsOpen !== undefined
-          ? this.props.menuIsOpen
-          : this.props.defaultMenuIsOpen,
+      menuIsOpen: (this.props.menuIsOpen !== undefined
+        ? this.props.menuIsOpen
+        : this.props.defaultMenuIsOpen) as boolean,
       value:
         this.props.value !== undefined
           ? this.props.value
@@ -145,7 +118,7 @@ const manageState = <
     ): State<OptionType, IsMultiType>[Key];
     getProp<
       Key extends
-        | keyof Props<OptionType, GroupType, IsMultiType, BaseProps>
+        | keyof Props<OptionType, GroupType, IsMultiType, BaseComponentType>
         | keyof State<OptionType, IsMultiType>
     >(key: Key) {
       return this.props[key] !== undefined
@@ -153,7 +126,12 @@ const manageState = <
         : this.state[key as keyof State<OptionType, IsMultiType>];
     }
     callProp<
-      Key extends keyof Props<OptionType, GroupType, IsMultiType, BaseProps>
+      Key extends keyof Props<
+        OptionType,
+        GroupType,
+        IsMultiType,
+        BaseComponentType
+      >
     >(name: Key, ...args: any) {
       if (typeof this.props[name] === 'function') {
         return (this.props[name] as any)(...args);
@@ -189,11 +167,18 @@ const manageState = <
         defaultValue,
         ...props
       } = this.props;
+      const CastedSelectComponent = SelectComponent as
+        | typeof Select
+        | ReturnType<typeof makeCreatableSelect>;
       return (
-        <SelectComponent
+        <CastedSelectComponent
           {...props}
           ref={(ref) => {
-            this.select = ref;
+            this.select = ref as Select<
+              OptionType,
+              GroupType,
+              IsMultiType
+            > | null;
           }}
           inputValue={this.getProp('inputValue')}
           menuIsOpen={this.getProp('menuIsOpen')}

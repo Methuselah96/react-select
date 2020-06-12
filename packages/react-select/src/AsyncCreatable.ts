@@ -6,4 +6,6 @@ import Select from './Select';
 const SelectCreatable = makeCreatableSelect(Select);
 const SelectCreatableState = manageState(SelectCreatable);
 
-export default makeAsyncSelect(SelectCreatableState);
+export default makeAsyncSelect<ReturnType<typeof makeCreatableSelect>>(
+  SelectCreatableState
+);

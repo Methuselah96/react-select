@@ -10,12 +10,12 @@ import {
   GroupTypeBase,
   GroupsType,
 } from './types';
+import { makeCreatableSelect } from './Creatable';
 
 export interface AsyncProps<
   OptionType extends OptionTypeBase,
-  GroupType extends GroupTypeBase<OptionType>,
-  IsMultiType extends boolean
-> extends SelectStateProps<OptionType, GroupType, IsMultiType> {
+  GroupType extends GroupTypeBase<OptionType>
+> {
   /* The default set of options to show before the user starts searching. When
      set to `true`, the results for loadOptions('') will be autoloaded. */
   defaultOptions:
@@ -40,6 +40,16 @@ export interface AsyncProps<
   isLoading: boolean;
 }
 
+type Props<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean,
+  BaseComponentType extends
+    | typeof Select
+    | ReturnType<typeof makeCreatableSelect>
+> = SelectStateProps<OptionType, GroupType, IsMultiType, BaseComponentType> &
+  AsyncProps<OptionType, GroupType>;
+
 export const defaultProps = {
   cacheOptions: false,
   defaultOptions: false,
@@ -60,14 +70,18 @@ export interface State<
 }
 
 export const makeAsyncSelect = <
-  OptionType extends OptionTypeBase,
-  GroupType extends GroupTypeBase<OptionType>,
-  IsMultiType extends boolean
+  BaseComponentType extends
+    | typeof Select
+    | ReturnType<typeof makeCreatableSelect>
 >(
   SelectComponent: ReturnType<typeof manageState>
 ) =>
-  class Async extends Component<
-    AsyncProps<OptionType, GroupType, IsMultiType>,
+  class Async<
+    OptionType extends OptionTypeBase,
+    GroupType extends GroupTypeBase<OptionType>,
+    IsMultiType extends boolean
+  > extends Component<
+    Props<OptionType, GroupType, IsMultiType, BaseComponentType>,
     State<OptionType, GroupType>
   > {
     static defaultProps = defaultProps;
@@ -79,7 +93,9 @@ export const makeAsyncSelect = <
         | OptionsType<OptionType>
         | GroupsType<OptionType, GroupType>;
     } = {};
-    constructor(props: AsyncProps<OptionType, GroupType, IsMultiType>) {
+    constructor(
+      props: Props<OptionType, GroupType, IsMultiType, BaseComponentType>
+    ) {
       super(props);
       this.state = {
         defaultOptions: Array.isArray(props.defaultOptions)
@@ -105,7 +121,7 @@ export const makeAsyncSelect = <
       }
     }
     UNSAFE_componentWillReceiveProps(
-      nextProps: AsyncProps<OptionType, GroupType, IsMultiType>
+      nextProps: Props<OptionType, GroupType, IsMultiType, BaseComponentType>
     ) {
       // if the cacheOptions prop changes, clear the cache
       if (nextProps.cacheOptions !== this.props.cacheOptions) {
@@ -225,4 +241,4 @@ export const makeAsyncSelect = <
 
 const SelectState = manageState(Select);
 
-export default makeAsyncSelect(SelectState);
+export default makeAsyncSelect<typeof Select>(SelectState);

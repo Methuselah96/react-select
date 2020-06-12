@@ -51,10 +51,6 @@ export interface CreatableProps<
   value: ValueType<OptionType, IsMultiType>;
   isLoading?: boolean;
   isMulti?: IsMultiType;
-  onChange: (
-    newValue: ValueType<OptionType, IsMultiType>,
-    actionMeta: ActionMeta<OptionType>
-  ) => void;
 }
 
 export type PublicCreatableProps<
