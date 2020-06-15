@@ -1,4 +1,9 @@
-import React, { Component, ComponentProps, ComponentType } from 'react';
+import React, {
+  Component,
+  ComponentClass,
+  ComponentProps,
+  ComponentType,
+} from 'react';
 
 import {
   ActionMeta,
@@ -68,6 +73,16 @@ export interface State<
   menuIsOpen: boolean;
   value: ValueType<OptionType, IsMultiType>;
 }
+
+export interface SelectElementRef<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>
+  extends ComponentClass<
+    Props<OptionType, GroupType, IsMultiType, typeof Select>,
+    State<OptionType, IsMultiType>
+  > {}
 
 export const defaultProps = {
   defaultInputValue: '',

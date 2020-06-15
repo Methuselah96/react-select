@@ -1,27 +1,32 @@
-import React, { Component, type ElementRef, Fragment } from 'react';
+import React, { Component, ElementRef, Fragment } from 'react';
 
-import Select from 'react-select';
+import Select, { SelectElementRef } from 'react-select';
 import AsyncSelect from 'react-select/async';
 import CreatableSelect from 'react-select/creatable';
 
 import { Note } from '../styled-components';
-import { colourOptions } from '../data';
+import { ColourOption, colourOptions } from '../data';
+import { GroupTypeBase } from 'react-select/src/types';
 
 const filterColors = (inputValue: string) => {
-  return colourOptions.filter(i =>
+  return colourOptions.filter((i) =>
     i.label.toLowerCase().includes(inputValue.toLowerCase())
   );
 };
 
-const promiseOptions = inputValue =>
-  new Promise(resolve => {
+const promiseOptions = (inputValue: string): Promise<readonly ColourOption[]> =>
+  new Promise((resolve) => {
     setTimeout(() => {
       resolve(filterColors(inputValue));
     }, 1000);
   });
 
-export default class AccessingInterals extends Component {
-  selectRef: ElementRef<*>;
+export default class AccessingInternals extends Component {
+  selectRef?: SelectElementRef<
+    ColourOption,
+    GroupTypeBase<ColourOption>,
+    boolean
+  > | null;
   asyncRef: ElementRef<*>;
   creatableRef: ElementRef<*>;
   focus = () => {
@@ -43,7 +48,7 @@ export default class AccessingInterals extends Component {
     this.creatableRef.blur();
   };
   blur = () => this.selectRef.blur();
-  onSelectRef = ref => {
+  onSelectRef = (ref) => {
     console.log(ref);
     this.selectRef = ref;
   };
@@ -52,11 +57,10 @@ export default class AccessingInterals extends Component {
       <Fragment>
         <h4>Creatable Select</h4>
         <CreatableSelect
-          ref={ref => {
+          ref={(ref) => {
             this.creatableRef = ref;
           }}
           isClearable
-          onChange={this.handleChange}
           options={colourOptions}
         />
         <Note Tag="label">
@@ -77,7 +81,7 @@ export default class AccessingInterals extends Component {
         </Note>
         <h4>Async Select</h4>
         <AsyncSelect
-          ref={ref => {
+          ref={(ref) => {
             this.asyncRef = ref;
           }}
           cacheOptions
@@ -102,7 +106,7 @@ export default class AccessingInterals extends Component {
         </Note>
         <h4>Select</h4>
         <Select
-          ref={ref => {
+          ref={(ref) => {
             this.selectRef = ref;
           }}
           defaultValue={colourOptions[2]}

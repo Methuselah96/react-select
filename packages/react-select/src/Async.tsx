@@ -47,7 +47,10 @@ type Props<
   BaseComponentType extends
     | typeof Select
     | ReturnType<typeof makeCreatableSelect>
-> = SelectStateProps<OptionType, GroupType, IsMultiType, BaseComponentType> &
+> = JSX.LibraryMangedAttributes<
+  ReturnType<typeof manageState>,
+  SelectStateProps<OptionType, GroupType, IsMultiType, BaseComponentType>
+> &
   AsyncProps<OptionType, GroupType>;
 
 export const defaultProps = {
