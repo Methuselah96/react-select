@@ -1,9 +1,4 @@
-import React, {
-  Component,
-  ComponentClass,
-  ComponentProps,
-  ComponentType,
-} from 'react';
+import React, { Component, ComponentProps, ComponentType } from 'react';
 
 import {
   ActionMeta,
@@ -12,8 +7,8 @@ import {
   OptionTypeBase,
   ValueType,
 } from './types';
-import Select from './Select';
-import { makeCreatableSelect } from './Creatable';
+import Select, { Props as SelectProps } from './Select';
+import { CreatableProps, makeCreatableSelect } from './Creatable';
 
 type BaseComponentProps<
   OptionType extends OptionTypeBase,
@@ -74,21 +69,74 @@ export interface State<
   value: ValueType<OptionType, IsMultiType>;
 }
 
-export interface SelectElementRef<
-  OptionType extends OptionTypeBase,
-  GroupType extends GroupTypeBase<OptionType>,
-  IsMultiType extends boolean
->
-  extends ComponentClass<
-    Props<OptionType, GroupType, IsMultiType, typeof Select>,
-    State<OptionType, IsMultiType>
-  > {}
-
 export const defaultProps = {
   defaultInputValue: '',
   defaultMenuIsOpen: false,
   defaultValue: null,
 };
+
+export class SelectComponentType<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends Component<
+  Omit<
+    JSX.LibraryManagedAttributes<
+      typeof Select,
+      SelectProps<OptionType, GroupType, IsMultiType>
+    >,
+    | 'inputValue'
+    | 'menuIsOpen'
+    | 'onChange'
+    | 'onInputChange'
+    | 'onMenuClose'
+    | 'onMenuOpen'
+    | 'value'
+  > &
+    StateMangerProps<OptionType, IsMultiType>,
+  State<OptionType, IsMultiType>
+> {
+  static defaultProps = defaultProps;
+  focus() {}
+  blur() {}
+  render() {
+    return null;
+  }
+}
+
+export class CreatableComponentType<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends Component<
+  Omit<
+    JSX.LibraryManagedAttributes<
+      ReturnType<typeof makeCreatableSelect>,
+      CreatableProps<OptionType, GroupType, IsMultiType>
+    >,
+    | 'inputValue'
+    | 'menuIsOpen'
+    | 'onChange'
+    | 'onInputChange'
+    | 'onMenuClose'
+    | 'onMenuOpen'
+    | 'value'
+  > &
+    StateMangerProps<OptionType, IsMultiType>,
+  State<OptionType, IsMultiType>
+> {
+  static defaultProps = defaultProps;
+  focus() {}
+  blur() {}
+}
+
+type ReturnComponentType<
+  BaseComponentType extends
+    | typeof Select
+    | ReturnType<typeof makeCreatableSelect>
+> = BaseComponentType extends typeof Select
+  ? typeof SelectComponentType
+  : typeof CreatableComponentType;
 
 const manageState = <
   BaseComponentType extends
@@ -96,7 +144,8 @@ const manageState = <
     | ReturnType<typeof makeCreatableSelect>
 >(
   SelectComponent: BaseComponentType
-) =>
+): ReturnComponentType<BaseComponentType> =>
+  // @ts-ignore
   class StateManager<
     OptionType extends OptionTypeBase,
     GroupType extends GroupTypeBase<OptionType>,

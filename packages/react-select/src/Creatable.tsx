@@ -53,14 +53,14 @@ export interface CreatableProps<
   isMulti?: IsMultiType;
 }
 
-export type PublicCreatableProps<
-  OptionType extends OptionTypeBase,
-  GroupType extends GroupTypeBase<OptionType>,
-  IsMultiType extends boolean
-> = JSX.LibraryManagedAttributes<
-  ReturnType<typeof makeCreatableSelect>,
-  CreatableProps<OptionType, GroupType, IsMultiType>
->;
+// export type PublicCreatableProps<
+//   OptionType extends OptionTypeBase,
+//   GroupType extends GroupTypeBase<OptionType>,
+//   IsMultiType extends boolean
+// > = JSX.LibraryManagedAttributes<
+//   ReturnType<typeof makeCreatableSelect>,
+//   CreatableProps<OptionType, GroupType, IsMultiType>
+// >;
 
 const compareOption = <OptionType extends OptionTypeBase>(
   inputValue = '',

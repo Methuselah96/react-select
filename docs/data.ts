@@ -6,7 +6,7 @@ export interface ColourOption {
   isDisabled?: boolean;
 }
 
-export const colourOptions: readonly ColourOption[] = [
+export const colourOptions: ColourOption[] = [
   { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
   { value: 'blue', label: 'Blue', color: '#0052CC', isDisabled: true },
   { value: 'purple', label: 'Purple', color: '#5243AA' },

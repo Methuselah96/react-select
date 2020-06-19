@@ -8,4 +8,6 @@ export { mergeStyles } from './styles';
 export { defaultTheme } from './theme';
 export { createFilter } from './filters';
 export { components } from './components';
-export { SelectElementRef } from './stateManager';
+
+export { SelectComponentType, CreatableComponentType } from './stateManager';
+export { AsyncElementRef, AsyncCreatableElementRef } from './Async';

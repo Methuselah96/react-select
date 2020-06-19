@@ -1,6 +1,10 @@
-import React, { Component, ElementRef, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 
-import Select, { SelectElementRef } from 'react-select';
+import Select, {
+  AsyncElementRef,
+  CreatableComponentType,
+  SelectComponentType,
+} from 'react-select';
 import AsyncSelect from 'react-select/async';
 import CreatableSelect from 'react-select/creatable';
 
@@ -14,7 +18,7 @@ const filterColors = (inputValue: string) => {
   );
 };
 
-const promiseOptions = (inputValue: string): Promise<readonly ColourOption[]> =>
+const promiseOptions = (inputValue: string): Promise<ColourOption[]> =>
   new Promise((resolve) => {
     setTimeout(() => {
       resolve(filterColors(inputValue));
@@ -22,36 +26,40 @@ const promiseOptions = (inputValue: string): Promise<readonly ColourOption[]> =>
   });
 
 export default class AccessingInternals extends Component {
-  selectRef?: SelectElementRef<
+  selectRef?: SelectComponentType<
     ColourOption,
     GroupTypeBase<ColourOption>,
     boolean
   > | null;
-  asyncRef: ElementRef<*>;
-  creatableRef: ElementRef<*>;
+  asyncRef?: AsyncElementRef<
+    ColourOption,
+    GroupTypeBase<ColourOption>,
+    boolean
+  > | null;
+  creatableRef?: CreatableComponentType<
+    ColourOption,
+    GroupTypeBase<ColourOption>,
+    boolean
+  > | null;
   focus = () => {
     console.log(this.selectRef);
-    this.selectRef.focus();
+    this.selectRef!.focus();
   };
   focusCreatable = () => {
     console.log(this.creatableRef);
-    this.creatableRef.focus();
+    this.creatableRef!.focus();
   };
   focusAsync = () => {
     console.log(this.asyncRef);
-    this.asyncRef.focus();
+    this.asyncRef!.focus();
   };
   blurAsync = () => {
-    this.asyncRef.blur();
+    this.asyncRef!.blur();
   };
   blurCreatable = () => {
-    this.creatableRef.blur();
+    this.creatableRef!.blur();
   };
-  blur = () => this.selectRef.blur();
-  onSelectRef = (ref) => {
-    console.log(ref);
-    this.selectRef = ref;
-  };
+  blur = () => this.selectRef!.blur();
   render() {
     return (
       <Fragment>
@@ -109,7 +117,6 @@ export default class AccessingInternals extends Component {
           ref={(ref) => {
             this.selectRef = ref;
           }}
-          defaultValue={colourOptions[2]}
           name="colors"
           options={colourOptions}
         />

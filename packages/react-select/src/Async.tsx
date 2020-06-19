@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 
 import Select from './Select';
 import { handleInputChange } from './utils';
-import manageState, { Props as SelectStateProps } from './stateManager';
+import manageState, {
+  Props as SelectStateProps,
+  SelectComponentType,
+} from './stateManager';
 import {
   OptionsType,
   InputActionMeta,
@@ -47,11 +50,42 @@ type Props<
   BaseComponentType extends
     | typeof Select
     | ReturnType<typeof makeCreatableSelect>
-> = JSX.LibraryMangedAttributes<
+> = JSX.LibraryManagedAttributes<
   ReturnType<typeof manageState>,
   SelectStateProps<OptionType, GroupType, IsMultiType, BaseComponentType>
 > &
   AsyncProps<OptionType, GroupType>;
+
+export interface AsyncElementRef<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>
+  extends Component<
+    Props<OptionType, GroupType, IsMultiType, typeof Select>,
+    State<OptionType, GroupType>
+  > {
+  focus(): void;
+  blur(): void;
+}
+
+export interface AsyncCreatableElementRef<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>
+  extends Component<
+    Props<
+      OptionType,
+      GroupType,
+      IsMultiType,
+      ReturnType<typeof makeCreatableSelect>
+    >,
+    State<OptionType, GroupType>
+  > {
+  focus(): void;
+  blur(): void;
+}
 
 export const defaultProps = {
   cacheOptions: false,
@@ -226,8 +260,9 @@ export const makeAsyncSelect = <
         : inputValue && loadedInputValue
         ? loadedOptions
         : defaultOptions || [];
+      const SelectComponentCasted = (SelectComponent as unknown) as typeof SelectComponentType;
       return (
-        <SelectComponent
+        <SelectComponentCasted
           {...props}
           ref={(ref) => {
             this.select = (ref as unknown) as InstanceType<
