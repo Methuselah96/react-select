@@ -1,4 +1,9 @@
 import { Component } from 'react';
-import { type GroupProps } from 'react-select/src/components/Group';
+import { GroupProps } from 'react-select/src/components/Group';
+import { GroupTypeBase, OptionTypeBase } from 'react-select/src';
 
-export default class Group extends Component<GroupProps> {}
+export default class Group<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends Component<GroupProps<OptionType, GroupType, IsMultiType>> {}

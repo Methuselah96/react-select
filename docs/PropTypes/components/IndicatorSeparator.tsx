@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { IndicatorSeparatorProps } from 'react-select/src/components/indicators';
 import { GroupTypeBase, OptionTypeBase } from 'react-select/src';
 
-export default class DropdownIndicator<
+export default class IndicatorSeparator<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean

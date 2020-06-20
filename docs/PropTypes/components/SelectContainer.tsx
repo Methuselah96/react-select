@@ -1,4 +1,9 @@
 import { Component } from 'react';
-import { type ContainerProps } from 'react-select/src/components/containers';
+import { ContainerProps } from 'react-select/src/components/containers';
+import { GroupTypeBase, OptionTypeBase } from 'react-select/src';
 
-export default class SelectContainer extends Component<ContainerProps> {}
+export default class SelectContainer<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends Component<ContainerProps<OptionType, GroupType, IsMultiType>> {}
