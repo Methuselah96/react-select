@@ -9,5 +9,6 @@ export { defaultTheme } from './theme';
 export { createFilter } from './filters';
 export { components } from './components';
 
+export * from './types';
 export { SelectComponentType, CreatableComponentType } from './stateManager';
-export { AsyncElementRef, AsyncCreatableElementRef } from './Async';
+export { AsyncComponentType, AsyncCreatableComponentType } from './Async';

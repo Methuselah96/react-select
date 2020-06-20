@@ -7,7 +7,7 @@ import SyntaxHighlighter, {
 } from 'react-syntax-highlighter/prism-light';
 import jsx from 'react-syntax-highlighter/languages/prism/jsx';
 import { tomorrow } from 'react-syntax-highlighter/styles/prism';
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 
 const customTomorrow = {
   ...tomorrow,
@@ -40,6 +40,7 @@ export const Note = ({
 }: {
   Tag?: string;
   children: ReactNode;
+  style?: CSSProperties;
 }) => (
   <Tag
     css={{

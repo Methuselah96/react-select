@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 
 import Select, {
-  AsyncElementRef,
+  AsyncComponentType,
   CreatableComponentType,
   SelectComponentType,
 } from 'react-select';
@@ -31,7 +31,7 @@ export default class AccessingInternals extends Component {
     GroupTypeBase<ColourOption>,
     boolean
   > | null;
-  asyncRef?: AsyncElementRef<
+  asyncRef?: AsyncComponentType<
     ColourOption,
     GroupTypeBase<ColourOption>,
     boolean

@@ -153,16 +153,16 @@ export interface Props<
 
     An example can be found in the [Replacing builtins](/advanced#replacing-builtins) documentation.
   */
-  formatGroupLabel: typeof formatGroupLabel;
+  formatGroupLabel: (group: GroupType) => ReactNode;
   /* Formats option labels in the menu and control as React components */
   formatOptionLabel?: (
     data: OptionType,
     formatOptionLabelMeta: FormatOptionLabelMeta<OptionType, IsMultiType>
   ) => ReactNode;
   /* Resolves option data to a string to be displayed as the label by components */
-  getOptionLabel: typeof getOptionLabel;
+  getOptionLabel: (option: OptionType) => string;
   /* Resolves option data to a string to compare options and specify value attributes */
-  getOptionValue: typeof getOptionValue;
+  getOptionValue: (option: OptionType) => string;
   /* Hide the selected option from the menu */
   hideSelectedOptions?: boolean;
   /* The id to set on the SelectContainer component. */
@@ -187,7 +187,7 @@ export interface Props<
   isOptionDisabled: (
     option: OptionType,
     selectValue: OptionsType<OptionType>
-  ) => boolean | false;
+  ) => boolean;
   /* Override the built-in logic to detect whether an option is selected */
   isOptionSelected?: (
     option: OptionType,

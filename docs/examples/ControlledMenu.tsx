@@ -1,22 +1,29 @@
 import React, { Component, Fragment } from 'react';
 
-import Select from 'react-select';
-import { colourOptions } from '../data';
+import Select, { SelectComponentType } from 'react-select';
+import { ColourOption, colourOptions } from '../data';
 import { Note } from '../styled-components';
+import { GroupTypeBase } from 'react-select/src/types';
 
-const Checkbox = props => <input type="checkbox" {...props} />;
+const Checkbox = (props: JSX.IntrinsicElements['input']) => (
+  <input type="checkbox" {...props} />
+);
 
-type State = {
-  menuIsOpen: boolean,
-};
+interface State {
+  menuIsOpen: boolean;
+}
 
-export default class controlledMenu extends Component<*, State> {
+export default class ControlledMenu extends Component<{}, State> {
   state = {
     menuIsOpen: false,
   };
-  select: ElementRef<*>;
+  select?: SelectComponentType<
+    ColourOption,
+    GroupTypeBase<ColourOption>,
+    boolean
+  > | null;
   toggleMenuIsOpen = () => {
-    this.setState(state => ({ menuIsOpen: !state.menuIsOpen }));
+    this.setState((state) => ({ menuIsOpen: !state.menuIsOpen }));
     if (this.select) {
       return !this.state.menuIsOpen ? this.select.focus() : this.select.blur();
     }
@@ -26,13 +33,13 @@ export default class controlledMenu extends Component<*, State> {
     return (
       <Fragment>
         <Select
-          ref={ref => {
+          ref={(ref) => {
             this.select = ref;
           }}
           defaultValue={colourOptions[0]}
           isClearable
           menuIsOpen={menuIsOpen}
-          styles={{ menu: base => ({ ...base, position: 'relative' }) }}
+          styles={{ menu: (base) => ({ ...base, position: 'relative' }) }}
           name="color"
           options={colourOptions}
         />

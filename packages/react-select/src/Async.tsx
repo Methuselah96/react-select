@@ -56,7 +56,7 @@ type Props<
 > &
   AsyncProps<OptionType, GroupType>;
 
-export interface AsyncElementRef<
+export interface AsyncComponentType<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
@@ -69,7 +69,7 @@ export interface AsyncElementRef<
   blur(): void;
 }
 
-export interface AsyncCreatableElementRef<
+export interface AsyncCreatableComponentType<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
@@ -116,7 +116,7 @@ export const makeAsyncSelect = <
   class Async<
     OptionType extends OptionTypeBase,
     GroupType extends GroupTypeBase<OptionType>,
-    IsMultiType extends boolean
+    IsMultiType extends boolean = false
   > extends Component<
     Props<OptionType, GroupType, IsMultiType, BaseComponentType>,
     State<OptionType, GroupType>

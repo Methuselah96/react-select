@@ -78,7 +78,7 @@ export const defaultProps = {
 export class SelectComponentType<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
-  IsMultiType extends boolean
+  IsMultiType extends boolean = false
 > extends Component<
   Omit<
     JSX.LibraryManagedAttributes<
@@ -107,7 +107,7 @@ export class SelectComponentType<
 export class CreatableComponentType<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
-  IsMultiType extends boolean
+  IsMultiType extends boolean = false
 > extends Component<
   Omit<
     JSX.LibraryManagedAttributes<

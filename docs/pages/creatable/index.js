@@ -55,8 +55,8 @@ export default function Creatable() {
       ${(
         <ExampleWrapper
           label="Advanced Example"
-          urlPath="docs/examples/CreatableAdvanced.js"
-          raw={require('!!raw-loader!../../examples/CreatableAdvanced.js')}
+          urlPath="docs/examples/CreatableAdvanced.tsx"
+          raw={require('!!raw-loader!../../examples/CreatableAdvanced.tsx')}
         >
           <CreatableAdvanced />
         </ExampleWrapper>
@@ -69,8 +69,8 @@ export default function Creatable() {
       ${(
         <ExampleWrapper
           label="Async Creatable Example"
-          urlPath="docs/examples/AsyncCreatable.js"
-          raw={require('!!raw-loader!../../examples/AsyncCreatable.js')}
+          urlPath="docs/examples/AsyncCreatable.tsx"
+          raw={require('!!raw-loader!../../examples/AsyncCreatable.tsx')}
         >
           <AsyncCreatable />
         </ExampleWrapper>

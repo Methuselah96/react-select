@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 
+import { ActionMeta, ValueType } from 'react-select';
 import CreatableSelect from 'react-select/creatable';
 
-type State = {
-  options: [{ [string]: string }],
-  value: string | void,
-};
+interface State {
+  isLoading: boolean;
+  options: Option[];
+  value: Option | null | undefined;
+}
+
+interface Option {
+  label: string;
+  value: string;
+}
 
 const createOption = (label: string) => ({
   label,
@@ -18,20 +25,23 @@ const defaultOptions = [
   createOption('Three'),
 ];
 
-export default class CreatableAdvanced extends Component<*, State> {
-  state = {
+export default class CreatableAdvanced extends Component<{}, State> {
+  state: State = {
     isLoading: false,
     options: defaultOptions,
     value: undefined,
   };
-  handleChange = (newValue: any, actionMeta: any) => {
+  handleChange = (
+    newValue: ValueType<Option, false>,
+    actionMeta: ActionMeta<Option>
+  ) => {
     console.group('Value Changed');
     console.log(newValue);
     console.log(`action: ${actionMeta.action}`);
     console.groupEnd();
     this.setState({ value: newValue });
   };
-  handleCreate = (inputValue: any) => {
+  handleCreate = (inputValue: string) => {
     this.setState({ isLoading: true });
     console.group('Option created');
     console.log('Wait a moment...');

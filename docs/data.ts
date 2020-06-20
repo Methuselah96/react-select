@@ -19,14 +19,25 @@ export const colourOptions: ColourOption[] = [
   { value: 'silver', label: 'Silver', color: '#666666' },
 ];
 
-export const flavourOptions = [
+export interface FlavourOption {
+  value: string;
+  label: string;
+  rating: string;
+}
+
+export const flavourOptions: FlavourOption[] = [
   { value: 'vanilla', label: 'Vanilla', rating: 'safe' },
   { value: 'chocolate', label: 'Chocolate', rating: 'good' },
   { value: 'strawberry', label: 'Strawberry', rating: 'wild' },
   { value: 'salted-caramel', label: 'Salted Caramel', rating: 'crazy' },
 ];
 
-export const stateOptions = [
+interface StateOption {
+  value: string;
+  label: string;
+}
+
+export const stateOptions: StateOption[] = [
   { value: 'AL', label: 'Alabama' },
   { value: 'AK', label: 'Alaska' },
   { value: 'AS', label: 'American Samoa' },
@@ -88,7 +99,12 @@ export const stateOptions = [
   { value: 'WY', label: 'Wyoming' },
 ];
 
-export const optionLength = [
+export interface OptionLength {
+  value: number;
+  label: string;
+}
+
+export const optionLength: OptionLength[] = [
   { value: 1, label: 'general' },
   {
     value: 2,
@@ -102,19 +118,24 @@ export const optionLength = [
   },
 ];
 
-export const dogOptions = [
+export interface DogOption {
+  id: number;
+  label: string;
+}
+
+export const dogOptions: DogOption[] = [
   { id: 1, label: 'Chihuahua' },
   { id: 2, label: 'Bulldog' },
   { id: 3, label: 'Dachshund' },
   { id: 4, label: 'Akita' },
 ];
 
-// let bigOptions = [];
-// for (let i = 0; i < 10000; i++) {
-// 	bigOptions = bigOptions.concat(colourOptions);
-// }
+export interface GroupedOption {
+  label: string;
+  options: (ColourOption | FlavourOption)[];
+}
 
-export const groupedOptions = [
+export const groupedOptions: GroupedOption[] = [
   {
     label: 'Colours',
     options: colourOptions,

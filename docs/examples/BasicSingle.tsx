@@ -4,18 +4,20 @@ import Select from 'react-select';
 import { colourOptions } from '../data';
 import { Note } from '../styled-components';
 
-const Checkbox = props => <input type="checkbox" {...props} />;
+const Checkbox = (props: JSX.IntrinsicElements['input']) => (
+  <input type="checkbox" {...props} />
+);
 
-type State = {
-  isClearable: boolean,
-  isDisabled: boolean,
-  isLoading: boolean,
-  isRtl: boolean,
-  isSearchable: boolean,
-};
+interface State {
+  isClearable: boolean;
+  isDisabled: boolean;
+  isLoading: boolean;
+  isRtl: boolean;
+  isSearchable: boolean;
+}
 
-export default class SingleSelect extends Component<*, State> {
-  state = {
+export default class SingleSelect extends Component<{}, State> {
+  state: State = {
     isClearable: true,
     isDisabled: false,
     isLoading: false,
@@ -24,14 +26,14 @@ export default class SingleSelect extends Component<*, State> {
   };
 
   toggleClearable = () =>
-    this.setState(state => ({ isClearable: !state.isClearable }));
+    this.setState((state) => ({ isClearable: !state.isClearable }));
   toggleDisabled = () =>
-    this.setState(state => ({ isDisabled: !state.isDisabled }));
+    this.setState((state) => ({ isDisabled: !state.isDisabled }));
   toggleLoading = () =>
-    this.setState(state => ({ isLoading: !state.isLoading }));
-  toggleRtl = () => this.setState(state => ({ isRtl: !state.isRtl }));
+    this.setState((state) => ({ isLoading: !state.isLoading }));
+  toggleRtl = () => this.setState((state) => ({ isRtl: !state.isRtl }));
   toggleSearchable = () =>
-    this.setState(state => ({ isSearchable: !state.isSearchable }));
+    this.setState((state) => ({ isSearchable: !state.isSearchable }));
   render() {
     const {
       isClearable,
