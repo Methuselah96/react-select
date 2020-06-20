@@ -1,26 +1,25 @@
-// @flow
-
 import React, {
   Component,
-  type ElementRef,
-  type Element as ReactElement,
+  ReactElement,
+  // type ElementRef,
+  // type Element as ReactElement,
 } from 'react';
 import rafSchedule from 'raf-schd';
 import NodeResolver from 'react-node-resolver';
 
-type Props = {
-  children: ReactElement<*>,
-  onChange: (Array<any>) => void,
-};
-type State = {
-  elements: Array<HTMLElement>,
-};
-
-function getStyle(el, prop, numeric = true) {
-  const val = window.getComputedStyle(el, null).getPropertyValue(prop);
-  return numeric ? parseFloat(val) : val;
+interface Props {
+  children: ReactElement;
+  onChange: (ids: string[]) => void;
 }
-function isInView(el) {
+interface State {
+  elements: HTMLElement[];
+}
+
+function getStyle(el: HTMLElement, prop: 'padding-top' | 'margin-top') {
+  const val = window.getComputedStyle(el, null).getPropertyValue(prop);
+  return parseFloat(val);
+}
+function isInView(el: HTMLElement) {
   let rect = el.getBoundingClientRect();
 
   const topOffset =
@@ -34,7 +33,7 @@ function isInView(el) {
 }
 
 export default class ScrollSpy extends Component<Props, State> {
-  nav: Element;
+  nav?: HTMLElement;
   allIds = [];
   state = { elements: [] };
   static defaultProps = { preserveHeight: false };
@@ -51,12 +50,14 @@ export default class ScrollSpy extends Component<Props, State> {
     const { elements } = this.state;
     if (!elements.length) return;
 
-    const idsInView = elements.filter(isInView).map(i => i.getAttribute('id'));
+    const idsInView = elements
+      .filter(isInView)
+      .map((i) => i.getAttribute('id'));
     if (idsInView.length) {
       onChange(idsInView);
     }
   });
-  getElements = (ref: ElementRef<*>) => {
+  getElements = (ref: HTMLElement) => {
     if (!ref) return;
     this.nav = ref;
   };
@@ -64,11 +65,9 @@ export default class ScrollSpy extends Component<Props, State> {
     if (!this.nav) return;
 
     const anchorList = this.nav.querySelectorAll('[data-hash]');
-    const els = Array.from(anchorList).map(i =>
+    const elements = Array.from(anchorList).map((i) =>
       document.querySelector(`#${i.dataset.hash}`)
     );
-
-    const elements = ((els: any): Array<HTMLElement>); // suck it flow...
 
     this.setState({ elements });
   };
