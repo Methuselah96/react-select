@@ -63,7 +63,7 @@ export type MultiValueType<OptionType extends OptionTypeBase> = OptionsType<
 
 export type ValueType<
   OptionType extends OptionTypeBase,
-  IsMultiType extends boolean
+  IsMultiType extends boolean | undefined
 > = IsMultiType extends true ? OptionsType<OptionType> : OptionType | null;
 
 interface Colors {
