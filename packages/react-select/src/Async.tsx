@@ -43,7 +43,7 @@ export interface AsyncProps<
   isLoading: boolean;
 }
 
-type Props<
+export type Props<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean,

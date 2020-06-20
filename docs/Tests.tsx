@@ -1,28 +1,41 @@
-// @flow
+import React, { ChangeEventHandler, Component } from 'react';
 
-import React, { Component, type ComponentType } from 'react';
-
-import Select from 'react-select';
-import type { MenuPlacement } from 'react-select/src/types';
+import Select, { GroupTypeBase, OptionTypeBase } from 'react-select';
+import { MenuPlacement } from 'react-select/src/types';
+import { default as SelectBase } from 'react-select/src/Select';
 import { H1, Note } from './styled-components';
-import { colourOptions, groupedOptions, optionLength } from './data';
+import {
+  ColourOption,
+  colourOptions,
+  FlavourOption,
+  GroupedOption,
+  groupedOptions,
+  optionLength,
+} from './data';
 
 import * as animatedComponents from 'react-select/animated';
+import { Props } from 'react-select/src/stateManager';
 
-type SuiteProps = {
-  selectComponent: ComponentType<any>,
-  idSuffix: string,
-};
-type SuiteState = {
-  isDisabled: boolean,
-  isFixed: boolean,
-  isLoading: boolean,
-  escapeClearsValue: boolean,
-  blockScroll: boolean,
-  portalPlacement: MenuPlacement,
-};
+interface SuiteProps {
+  selectComponent: typeof Select;
+  idSuffix: string;
+}
+interface SuiteState {
+  isDisabled: boolean;
+  isFixed: boolean;
+  isLoading: boolean;
+  escapeClearsValue: boolean;
+  blockScroll: boolean;
+  portalPlacement: MenuPlacement;
+}
 
-const AnimatedSelect = props => (
+const AnimatedSelect = <
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+>(
+  props: Props<OptionType, GroupType, IsMultiType, typeof SelectBase>
+) => (
   <Select
     {...props}
     components={{
@@ -33,7 +46,7 @@ const AnimatedSelect = props => (
 );
 
 class TestSuite extends Component<SuiteProps, SuiteState> {
-  state = {
+  state: SuiteState = {
     isDisabled: false,
     isFixed: false,
     isLoading: false,
@@ -42,22 +55,22 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
     blockScroll: true,
   };
   toggleDisabled = () => {
-    this.setState(state => ({ isDisabled: !state.isDisabled }));
+    this.setState((state) => ({ isDisabled: !state.isDisabled }));
   };
   toggleLoading = () => {
-    this.setState(state => ({ isLoading: !state.isLoading }));
+    this.setState((state) => ({ isLoading: !state.isLoading }));
   };
   toggleScroll = () => {
-    this.setState(state => ({ blockScroll: !state.blockScroll }));
+    this.setState((state) => ({ blockScroll: !state.blockScroll }));
   };
   toggleMode = () => {
-    this.setState(state => ({ isFixed: !state.isFixed }));
+    this.setState((state) => ({ isFixed: !state.isFixed }));
   };
   toggleEscapeClearsValue = () => {
-    this.setState(state => ({ escapeClearsValue: !state.escapeClearsValue }));
+    this.setState((state) => ({ escapeClearsValue: !state.escapeClearsValue }));
   };
 
-  setPlacement = ({ currentTarget }: SyntheticEvent<*>) => {
+  setPlacement: ChangeEventHandler<HTMLSelectElement> = ({ currentTarget }) => {
     const portalPlacement = currentTarget && currentTarget.value;
     this.setState({ portalPlacement });
   };
@@ -76,7 +89,7 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
             classNamePrefix="react-select"
             defaultValue={colourOptions[0]}
             styles={{
-              menuPortal: base => ({ ...base, zIndex: 999 }),
+              menuPortal: (base) => ({ ...base, zIndex: 999 }),
             }}
             isDisabled={this.state.isDisabled}
             isLoading={this.state.isLoading}
@@ -103,7 +116,7 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
 
         <h4>Grouped</h4>
         <div id={`cypress-${idSuffix}-grouped`}>
-          <SelectComp
+          <SelectComp<ColourOption | FlavourOption, GroupedOption, false>
             id={`grouped-options-${idSuffix}`}
             instancePrefix={`grouped-options-${idSuffix}`}
             classNamePrefix="react-select"
@@ -114,7 +127,7 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
 
         <h4>Clearable</h4>
         <div id={`cypress-${idSuffix}-clearable`}>
-          <SelectComp
+          <SelectComp<ColourOption | FlavourOption, GroupedOption, false>
             id={`clearable-select-${idSuffix}`}
             instancePrefix={`clearable-select-${idSuffix}`}
             isClearable
@@ -162,7 +175,6 @@ class TestSuite extends Component<SuiteProps, SuiteState> {
           />
           <Note Tag="label">
             <select
-              type="radio"
               onChange={this.setPlacement}
               value={portalPlacement}
               id="cypress-portalled__radio-bottom"
@@ -223,7 +235,10 @@ export default function Tests() {
       <h2>Single Select</h2>
       <TestSuite selectComponent={Select} idSuffix="single" />
       <h3>Animated components</h3>
-      <TestSuite selectComponent={AnimatedSelect} idSuffix="animated" />
+      <TestSuite
+        selectComponent={(AnimatedSelect as unknown) as typeof Select}
+        idSuffix="animated"
+      />
       <h2>Multi Select</h2>
       <div id="cypress-multi">
         <Select
