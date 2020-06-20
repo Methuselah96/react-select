@@ -1,8 +1,7 @@
-// @flow
 /** @jsx jsx */
 import { jsx } from '@emotion/core';
 
-const Svg = ({ size, ...props }: { size: number }) => (
+const Svg = ({ size, ...props }: { size: number } & JSX.IntrinsicElements['svg']) => (
   <svg
     focusable="false"
     height={size}
