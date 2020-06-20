@@ -34,7 +34,7 @@ export default class AccessingInternals extends Component {
   asyncRef?: AsyncComponentType<
     ColourOption,
     GroupTypeBase<ColourOption>,
-    boolean
+    false
   > | null;
   creatableRef?: CreatableComponentType<
     ColourOption,
