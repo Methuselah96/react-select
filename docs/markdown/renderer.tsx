@@ -1,4 +1,3 @@
-// @flow
 /** @jsx emotionJSX */
 import md from 'react-markings';
 import { jsx as emotionJSX } from '@emotion/core'; // eslint-disable-line no-unused-vars
@@ -16,6 +15,7 @@ import SyntaxHighlighter, {
 } from 'react-syntax-highlighter/prism-light';
 import jsx from 'react-syntax-highlighter/languages/prism/jsx';
 import { coy } from 'react-syntax-highlighter/styles/prism';
+import { ReactNode } from 'react';
 
 const customCoy = {
   ...coy,
@@ -43,7 +43,7 @@ function slugify(str: string): string {
 // Renderers
 // ==============================
 
-function getLabel(children) {
+function getLabel(children: unknown): string {
   let str = '';
 
   if (Array.isArray(children)) {
@@ -65,7 +65,7 @@ function getLabel(children) {
   return str;
 }
 
-const Chain = props => (
+const Chain = (props: { size?: number } & JSX.IntrinsicElements['svg']) => (
   <Svg
     alt="Link to"
     size={16}
@@ -84,10 +84,16 @@ const Chain = props => (
   </Svg>
 );
 
-const Heading = props => {
+interface HeadingProps {
+  children: ReactNode;
+  level: number;
+  nodeKey: string;
+}
+
+const Heading = (props: HeadingProps) => {
   const { children, level, nodeKey } = props;
 
-  const Tag = `h${level}`;
+  const Tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' = `h${level}` as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
   const label = getLabel(children);
   const slug = slugify(label);
   const linkify = [1, 2].includes(level);
@@ -120,8 +126,15 @@ const Heading = props => {
   );
 };
 
-// eslint-disable-next-line no-unused-vars
-export const Code = ({ children, inline, literal, nodeKey }: any) => (
+interface CodeProps {
+  children: ReactNode;
+  inline: boolean;
+  literal: string;
+  nodeKey: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const Code = ({ children, inline, literal, nodeKey }: CodeProps) => (
   <code
     css={{
       backgroundColor: 'rgba(38, 132, 255, 0.08)',
@@ -136,7 +149,13 @@ export const Code = ({ children, inline, literal, nodeKey }: any) => (
   </code>
 );
 
-export const CodeBlock = ({ codeinfo, literal, nodeKey, ...props }: any) => {
+interface CodeBlockProps {
+  codeinfo: string[];
+  literal: string;
+  nodeKey?: string;
+}
+
+export const CodeBlock = ({ codeinfo, literal, nodeKey, ...props }: CodeBlockProps) => {
   const language = codeinfo[0];
 
   return (
@@ -160,7 +179,11 @@ export const CodeBlock = ({ codeinfo, literal, nodeKey, ...props }: any) => {
 };
 CodeBlock.defaultProps = { codeinfo: [], language: 'jsx' };
 
-const Blockquote = ({ nodeKey, ...props }) => (
+interface BlockquoteProps {
+  nodeKey: string;
+}
+
+const Blockquote = ({ nodeKey, ...props }: BlockquoteProps) => (
   <blockquote
     css={{
       color: '#7A869A',
@@ -173,7 +196,12 @@ const Blockquote = ({ nodeKey, ...props }) => (
   />
 );
 
-const Link = ({ nodeKey, href, ...props }) =>
+interface LinkProps {
+  nodeKey: string;
+  href: string;
+}
+
+const Link = ({ nodeKey, href, ...props }: LinkProps) =>
   href[0] === '/' ? (
     <RRLink to={href} {...props} />
   ) : (

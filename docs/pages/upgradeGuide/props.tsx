@@ -1,11 +1,14 @@
-// @flow
+import React, { Component, Fragment, ReactNode } from 'react';
 
-import React, { Component, Fragment } from 'react';
-
-import Select, { components } from 'react-select';
+import Select, {
+  components,
+  GroupTypeBase,
+  OptionTypeBase,
+} from 'react-select';
 import md from '../../markdown/renderer';
+import { OptionProps } from 'react-select/src/components/Option';
 
-const Code = ({ children }) => <code>{children}</code>;
+const Code = ({ children }: { children: ReactNode }) => <code>{children}</code>;
 
 const propChangeData = [
   ['aria-describedby', 'unchanged'],
@@ -138,7 +141,7 @@ see \`createFilter()\`
   ['wrapperStyle', 'styles'],
 ];
 
-const Table = ({ children }) => (
+const Table = ({ children }: { children: ReactNode }) => (
   <table
     css={{
       width: '100%',
@@ -150,7 +153,7 @@ const Table = ({ children }) => (
   </table>
 );
 
-const Header = ({ children }) => (
+const Header = ({ children }: { children: ReactNode }) => (
   <td
     css={{
       fontWeight: 'bold',
@@ -162,7 +165,7 @@ const Header = ({ children }) => (
   </td>
 );
 
-const Cell = ({ children }) => (
+const Cell = ({ children }: { children: ReactNode }) => (
   <td
     css={{
       fontSize: '90%',
@@ -175,7 +178,13 @@ const Cell = ({ children }) => (
   </td>
 );
 
-class PropStatus extends Component<*> {
+interface PropStatusProps {
+  prop: string;
+  status: string;
+  note?: string;
+}
+
+class PropStatus extends Component<PropStatusProps> {
   renderStatus() {
     const { status, note } = this.props;
     switch (status) {
@@ -224,7 +233,18 @@ class PropStatus extends Component<*> {
   }
 }
 
-class InputOption extends Component<*, *> {
+interface InputOptionState {
+  isActive: boolean;
+}
+
+class InputOption<
+  OptionType extends OptionTypeBase,
+  GroupType extends GroupTypeBase<OptionType>,
+  IsMultiType extends boolean
+> extends Component<
+  OptionProps<OptionType, GroupType, IsMultiType>,
+  InputOptionState
+> {
   state = { isActive: false };
   onMouseDown = () => this.setState({ isActive: true });
   onMouseUp = () => this.setState({ isActive: false });
@@ -265,7 +285,7 @@ class InputOption extends Component<*, *> {
     };
 
     return (
-      <components.Option
+      <components.Option<OptionType, GroupType, IsMultiType>
         {...rest}
         isDisabled={isDisabled}
         isFocused={isFocused}
@@ -291,17 +311,19 @@ const filterOptions = [
   { value: 'status', label: 'status' },
 ];
 
-const getDisplayedStatus = status => {
+const getDisplayedStatus = (status: string) => {
   if (status === 'components' || status === 'styles') return 'removed';
   else return status;
 };
 
-class PropChanges extends Component<
-  *,
-  { selectedOptions: Array<string>, filterValue: string }
-> {
-  state = {
-    selectedOptions: (allOptions.map(opt => opt.value): Array<string>),
+interface PropChangesState {
+  selectedOptions: string[];
+  filterValue: string;
+}
+
+class PropChanges extends Component<{}, PropChangesState> {
+  state: PropChangesState = {
+    selectedOptions: allOptions.map((opt) => opt.value),
     filterValue: filterOptions[0].value,
   };
 
@@ -317,9 +339,11 @@ class PropChanges extends Component<
           isMulti
           closeMenuOnSelect={false}
           hideSelectedOptions={false}
-          onChange={options => {
+          onChange={(options) => {
             if (Array.isArray(options)) {
-              this.setState({ selectedOptions: options.map(opt => opt.value) });
+              this.setState({
+                selectedOptions: options.map((opt) => opt.value),
+              });
             }
           }}
           options={allOptions}
@@ -331,7 +355,7 @@ class PropChanges extends Component<
         <h4>Sort Props</h4>
         <Select
           defaultValue={filterOptions[0]}
-          onChange={option => {
+          onChange={(option) => {
             if (!Array.isArray(option)) {
               this.setState({ filterValue: option ? option.value : '' });
             }
@@ -357,7 +381,7 @@ class PropChanges extends Component<
                   );
                 }
               })
-              .map(data => {
+              .map((data) => {
                 const [prop, status, note] = data;
                 return selectedOptions.includes(getDisplayedStatus(status)) ? (
                   <PropStatus

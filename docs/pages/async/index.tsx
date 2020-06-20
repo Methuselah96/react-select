@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Fragment } from 'react';
 import Helmet from 'react-helmet';
 import ExampleWrapper from '../../ExampleWrapper';
@@ -56,7 +54,7 @@ export default function Async() {
       <ExampleWrapper
         label="Async MultiSelect"
         urlPath="docs/examples/AsyncMulti.tsx"
-        raw={require('!!raw-loader!../../examples/AsyncMulti.js')}
+        raw={require('!!raw-loader!../../examples/AsyncMulti.tsx')}
       >
         <AsyncMulti />
       </ExampleWrapper>
@@ -80,7 +78,7 @@ export default function Async() {
       <ExampleWrapper
         label="Async with defaultOptions as true"
         urlPath="docs/examples/AsyncPromises.tsx"
-        raw={require('!!raw-loader!../../examples/AsyncPromises.js')}
+        raw={require('!!raw-loader!../../examples/AsyncPromises.tsx')}
       >
         <AsyncPromises />
       </ExampleWrapper>

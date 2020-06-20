@@ -1,10 +1,9 @@
-// @flow
 import React, { Fragment } from 'react';
 import { Helmet } from 'react-helmet';
 import md from '../../markdown/renderer';
 import PrettyProps, { Prop } from 'pretty-proptypes';
 
-const Props = props => (
+const Props = (props) => (
   <PrettyProps
     heading=""
     components={{
@@ -88,7 +87,7 @@ export default function Api() {
       <Props
         props={require('!!extract-react-types-loader!../../PropTypes/Select')}
         overrides={{
-          components: props => (
+          components: (props) => (
             <Prop
               {...props}
               shapeComponent={() => null}
@@ -104,7 +103,11 @@ export default function Api() {
     These props are included with in both the Async and AsyncCreatable select. For
     more on using async selects, see the [async select documentation](/async)
 
-    ${(<Props props={require('!!extract-react-types-loader!../../PropTypes/Async')} />)}
+    ${(
+      <Props
+        props={require('!!extract-react-types-loader!../../PropTypes/Async')}
+      />
+    )}
 
     ## Creatable props
 
