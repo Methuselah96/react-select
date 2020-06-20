@@ -4,7 +4,12 @@ import React, { Fragment } from 'react';
 import Helmet from 'react-helmet';
 import ExampleWrapper from '../../ExampleWrapper';
 import md from '../../markdown/renderer';
-import { AsyncCallbacks, AsyncMulti, AsyncPromises } from '../../examples';
+import {
+  AsyncCallbacks,
+  AsyncMulti,
+  AsyncPromises,
+  DefaultOptions,
+} from '../../examples';
 
 export default function Async() {
   return (
@@ -64,10 +69,10 @@ export default function Async() {
     ${(
       <ExampleWrapper
         label="Async with defaultOptions provided"
-        urlPath="docs/examples/DefaultOptions.js"
-        raw={require('!!raw-loader!../../examples/DefaultOptions.js')}
+        urlPath="docs/examples/DefaultOptions.tsx"
+        raw={require('!!raw-loader!../../examples/DefaultOptions.tsx')}
       >
-        <AsyncMulti />
+        <DefaultOptions />
       </ExampleWrapper>
     )}
 

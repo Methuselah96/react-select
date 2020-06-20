@@ -32,7 +32,7 @@ export const flavourOptions: FlavourOption[] = [
   { value: 'salted-caramel', label: 'Salted Caramel', rating: 'crazy' },
 ];
 
-interface StateOption {
+export interface StateOption {
   value: string;
   label: string;
 }
@@ -132,7 +132,7 @@ export const dogOptions: DogOption[] = [
 
 export interface GroupedOption {
   label: string;
-  options: (ColourOption | FlavourOption)[];
+  options: readonly (ColourOption | FlavourOption)[];
 }
 
 export const groupedOptions: GroupedOption[] = [

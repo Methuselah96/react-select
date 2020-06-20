@@ -97,7 +97,7 @@ export type StylesFunctions<
   >;
 };
 
-type StylesConfigFunction<Props> = (
+export type StylesConfigFunction<Props> = (
   base: CSSPropertiesWithLabel,
   props: Props
 ) => CSSPropertiesWithLabel;

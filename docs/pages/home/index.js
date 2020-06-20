@@ -113,8 +113,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Single"
-      urlPath="docs/examples/StyledSingle.js"
-      raw={require('!!raw-loader!../../examples/StyledSingle.js')}
+      urlPath="docs/examples/StyledSingle.tsx"
+      raw={require('!!raw-loader!../../examples/StyledSingle.tsx')}
     >
       <StyledSingle />
     </ExampleWrapper>
@@ -123,8 +123,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Multi Select"
-      urlPath="docs/examples/StyledMulti.js"
-      raw={require('!!raw-loader!../../examples/StyledMulti.js')}
+      urlPath="docs/examples/StyledMulti.tsx"
+      raw={require('!!raw-loader!../../examples/StyledMulti.tsx')}
     >
       <StyledMulti />
     </ExampleWrapper>
@@ -171,8 +171,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Creatable Example"
-      urlPath="docs/home/examples/CreatableSingle.js"
-      raw={require('!!raw-loader!../../examples/CreatableSingle.js')}
+      urlPath="docs/home/examples/CreatableSingle.tsx"
+      raw={require('!!raw-loader!../../examples/CreatableSingle.tsx')}
     >
       <CreatableSingle />
     </ExampleWrapper>
@@ -185,8 +185,8 @@ export default function Home() {
   ${(
     <ExampleWrapper
       label="Fixed Options Example"
-      urlPath="docs/home/examples/FixedOptions.js"
-      raw={require('!!raw-loader!../../examples/FixedOptions.js')}
+      urlPath="docs/home/examples/FixedOptions.tsx"
+      raw={require('!!raw-loader!../../examples/FixedOptions.tsx')}
     >
       <FixedOptions />
     </ExampleWrapper>

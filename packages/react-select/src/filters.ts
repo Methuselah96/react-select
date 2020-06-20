@@ -6,7 +6,7 @@ interface Option<OptionType extends OptionTypeBase> {
   data: OptionType;
 }
 
-interface Config<OptionType extends OptionTypeBase> {
+export interface Config<OptionType extends OptionTypeBase> {
   ignoreCase?: boolean;
   ignoreAccents?: boolean;
   stringify?: (option: Option<OptionType>) => string;

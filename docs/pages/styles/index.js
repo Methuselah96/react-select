@@ -106,9 +106,9 @@ export default function Styles() {
           options={...}
         />
       );
-      ~~~ 
+      ~~~
 
-    
+
     ## Select Props
     In the second argument \`state\`, you have access to \`selectProps\` which will allow you to gain access to
     your own arguments passed into the \`Select\` body.
@@ -148,8 +148,8 @@ export default function Styles() {
       ${(
         <ExampleWrapper
           label="Customised Styles for Single Select"
-          urlPath="docs/examples/StyledSingle.js"
-          raw={require('!!raw-loader!../../examples/StyledSingle.js')}
+          urlPath="docs/examples/StyledSingle.tsx"
+          raw={require('!!raw-loader!../../examples/StyledSingle.tsx')}
         >
           <StyledSingle />
         </ExampleWrapper>
@@ -158,8 +158,8 @@ export default function Styles() {
       ${(
         <ExampleWrapper
           label="Customised styles for Multi Select"
-          urlPath="docs/examples/StyledMulti.js"
-          raw={require('!!raw-loader!../../examples/StyledMulti.js')}
+          urlPath="docs/examples/StyledMulti.tsx"
+          raw={require('!!raw-loader!../../examples/StyledMulti.tsx')}
         >
           <StyledMulti />
         </ExampleWrapper>
@@ -225,8 +225,8 @@ export default function Styles() {
     ${(
       <ExampleWrapper
         label="Style composition for custom components"
-        urlPath="docs/examples/StyleCompositionExample.js"
-        raw={require('!!raw-loader!../../examples/StyleCompositionExample.js')}
+        urlPath="docs/examples/StyleCompositionExample.tsx"
+        raw={require('!!raw-loader!../../examples/StyleCompositionExample.tsx')}
       >
         <StyleCompositionExample />
       </ExampleWrapper>
@@ -269,8 +269,8 @@ export default function Styles() {
     ${(
       <ExampleWrapper
         label="Customised theme"
-        urlPath="docs/examples/Theme.js"
-        raw={require('!!raw-loader!../../examples/Theme.js')}
+        urlPath="docs/examples/Theme.tsx"
+        raw={require('!!raw-loader!../../examples/Theme.tsx')}
       >
         <Theme />
       </ExampleWrapper>
@@ -280,7 +280,7 @@ export default function Styles() {
 
     ${(
       <div css={{ marginTop: '1em' }}>
-        {Object.keys(defaultTheme.colors).map(key => (
+        {Object.keys(defaultTheme.colors).map((key) => (
           <ColorSample key={key} name={key} color={defaultTheme.colors[key]} />
         ))}
       </div>
