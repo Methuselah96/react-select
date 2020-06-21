@@ -113,7 +113,7 @@ const Container = (props: JSX.IntrinsicElements['div']) => (
   />
 );
 
-type HeaderProps = RouteComponentProps & { children: Node };
+type HeaderProps = RouteComponentProps & { children: ReactNode };
 interface HeaderState {
   contentHeight: 'auto' | number;
   stars: number;

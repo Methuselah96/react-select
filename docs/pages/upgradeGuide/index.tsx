@@ -8,7 +8,7 @@ export default function UpgradeGuide() {
   return (
     <Fragment>
       <Helmet>
-        <title>React Select v1.x -> 2.x Upgrade Guide</title>
+        <title>React Select v1.x -{'>'} 2.x Upgrade Guide</title>
         <meta name="description" content="React-select v2 Upgrade Guide" />
       </Helmet>
       {md`
