@@ -37,7 +37,7 @@ test('instanceId prop > to have instanceId as id prefix for the select component
     <Select {...BASIC_PROPS} menuIsOpen instanceId={'custom-id'} />
   );
   expect(container.querySelector('input').id).toContain('custom-id');
-  container.querySelectorAll('div.react-select__option').forEach(opt => {
+  container.querySelectorAll('div.react-select__option').forEach((opt) => {
     expect(opt.id).toContain('custom-id');
   });
 });
@@ -72,7 +72,7 @@ test('isRtl boolean prop sets direction: rtl on container', () => {
 
 test('isOptionSelected() prop > single select > mark value as isSelected if isOptionSelected returns true for the option', () => {
   // Select all but option with label '1'
-  let isOptionSelected = jest.fn(option => option.label !== '1');
+  let isOptionSelected = jest.fn((option) => option.label !== '1');
   let { container } = render(
     <Select {...BASIC_PROPS} isOptionSelected={isOptionSelected} menuIsOpen />
   );
@@ -88,7 +88,7 @@ test('isOptionSelected() prop > single select > mark value as isSelected if isOp
 
 test('isOptionSelected() prop > multi select > to not show the selected options in Menu for multiSelect', () => {
   // Select all but option with label '1'
-  let isOptionSelected = jest.fn(option => option.label !== '1');
+  let isOptionSelected = jest.fn((option) => option.label !== '1');
   let { container } = render(
     <Select
       {...BASIC_PROPS}
@@ -200,7 +200,7 @@ cases(
         menuIsOpen: true,
         options: OPTIONS_ACCENTED,
       },
-      searchString: 'ecole',  // should match "école"
+      searchString: 'ecole', // should match "école"
       expectResultsLength: 1,
     },
     'single select > should ignore accented char in query': {
@@ -209,7 +209,7 @@ cases(
         menuIsOpen: true,
         options: OPTIONS_ACCENTED,
       },
-      searchString: 'schoöl',  // should match "school"
+      searchString: 'schoöl', // should match "school"
       expectResultsLength: 1,
     },
   }
@@ -480,7 +480,7 @@ cases(
 
     let selectOption = [
       ...container.querySelectorAll('div.react-select__option'),
-    ].find(n => n.textContent === optionsSelected.label);
+    ].find((n) => n.textContent === optionsSelected.label);
 
     fireEvent[eventName](selectOption, eventOptions);
     expect(onChangeSpy).toHaveBeenCalledWith(expectedSelectedOption, {
@@ -494,6 +494,7 @@ cases(
       event: ['click'],
       optionsSelected: { label: '2', value: 'two' },
       expectedSelectedOption: { label: '2', value: 'two' },
+      expectedActionMetaOption: { label: '2', value: 'two' },
     },
     'single select > option with number value > option is clicked > should call onChange() prop with selected option': {
       props: {
@@ -504,6 +505,7 @@ cases(
       event: ['click'],
       optionsSelected: { label: '0', value: 0 },
       expectedSelectedOption: { label: '0', value: 0 },
+      expectedActionMetaOption: { label: '0', value: 0 },
     },
     'single select > option with boolean value > option is clicked > should call onChange() prop with selected option': {
       props: {
@@ -514,24 +516,28 @@ cases(
       event: ['click'],
       optionsSelected: { label: 'true', value: true },
       expectedSelectedOption: { label: 'true', value: true },
+      expectedActionMetaOption: { label: 'true', value: true },
     },
     'single select > tab key is pressed while focusing option > should call onChange() prop with selected option': {
       event: ['keyDown', { keyCode: 9, key: 'Tab' }],
       optionsSelected: { label: '1', value: 'one' },
       focusedOption: { label: '1', value: 'one' },
       expectedSelectedOption: { label: '1', value: 'one' },
+      expectedActionMetaOption: { label: '1', value: 'one' },
     },
     'single select > enter key is pressed while focusing option > should call onChange() prop with selected option': {
       event: ['keyDown', { keyCode: 13, key: 'Enter' }],
       optionsSelected: { label: '3', value: 'three' },
       focusedOption: { label: '3', value: 'three' },
       expectedSelectedOption: { label: '3', value: 'three' },
+      expectedActionMetaOption: { label: '3', value: 'three' },
     },
     'single select > space key is pressed while focusing option > should call onChange() prop with selected option': {
       event: ['keyDown', { keyCode: 32, key: ' ' }],
       optionsSelected: { label: '1', value: 'one' },
       focusedOption: { label: '1', value: 'one' },
       expectedSelectedOption: { label: '1', value: 'one' },
+      expectedActionMetaOption: { label: '1', value: 'one' },
     },
     'multi select > option is clicked > should call onChange() prop with selected option': {
       props: {
@@ -629,13 +635,12 @@ cases(
       menuIsOpen: true,
       hideSelectedOptions: false,
       isMulti: true,
-      menuIsOpen: true,
     };
     let { container } = render(<Select {...props} />);
 
     let selectOption = [
       ...container.querySelectorAll('div.react-select__option'),
-    ].find(n => n.textContent === optionsSelected.label);
+    ].find((n) => n.textContent === optionsSelected.label);
     if (focusedOption) {
       focusOption(container, focusedOption, props.options);
     }
@@ -721,7 +726,9 @@ cases(
 );
 
 function focusOption(container, option, options) {
-  let indexOfSelectedOption = options.findIndex(o => o.value === option.value);
+  let indexOfSelectedOption = options.findIndex(
+    (o) => o.value === option.value
+  );
 
   for (let i = -1; i < indexOfSelectedOption; i++) {
     fireEvent.keyDown(container.querySelector('.react-select__menu'), {
@@ -754,7 +761,7 @@ cases(
 
     let selectOption = [
       ...container.querySelectorAll('div.react-select__option'),
-    ].find(n => n.textContent === optionsSelected.label);
+    ].find((n) => n.textContent === optionsSelected.label);
     focusOption(container, focusedOption, props.options);
 
     fireEvent[eventName](selectOption, eventOptions);
@@ -1195,7 +1202,7 @@ cases(
     let event;
     let { container } = render(
       <div
-        onKeyDown={_event => {
+        onKeyDown={(_event) => {
           event = _event;
           event.persist();
         }}
@@ -1390,20 +1397,20 @@ cases(
     const enabledOptionsValues = [
       ...container.querySelectorAll('.react-select__option'),
     ]
-      .filter(n => !n.classList.contains('react-select__option--is-disabled'))
-      .map(option => option.textContent);
+      .filter((n) => !n.classList.contains('react-select__option--is-disabled'))
+      .map((option) => option.textContent);
 
-    enabledOptionsValues.forEach(option => {
+    enabledOptionsValues.forEach((option) => {
       expect(expectedDisabledOption.indexOf(option)).toBe(-1);
     });
 
     const disabledOptionsValues = [
       ...container.querySelectorAll('.react-select__option'),
     ]
-      .filter(n => n.classList.contains('react-select__option--is-disabled'))
-      .map(option => option.textContent);
+      .filter((n) => n.classList.contains('react-select__option--is-disabled'))
+      .map((option) => option.textContent);
 
-    disabledOptionsValues.forEach(option => {
+    disabledOptionsValues.forEach((option) => {
       expect(expectedEnabledOption.indexOf(option)).toBe(-1);
     });
   },
@@ -1412,7 +1419,7 @@ cases(
       props: {
         ...BASIC_PROPS,
         menuIsOpen: true,
-        isOptionDisabled: option =>
+        isOptionDisabled: (option) =>
           ['zero', 'two', 'five', 'ten'].indexOf(option.value) > -1,
       },
       expectedEnabledOption: ['1', '3', '11'],
@@ -1423,7 +1430,7 @@ cases(
         ...BASIC_PROPS,
         isMulti: true,
         menuIsOpen: true,
-        isOptionDisabled: option =>
+        isOptionDisabled: (option) =>
           ['zero', 'two', 'five', 'ten'].indexOf(option.value) > -1,
       },
       expectedEnabledOption: ['1', '3', '11'],
@@ -1526,7 +1533,7 @@ test('multi select > to not show selected value in options', () => {
 
   let availableOptions = [
     ...container.querySelectorAll('.react-select__option'),
-  ].map(option => option.textContent);
+  ].map((option) => option.textContent);
   expect(availableOptions.indexOf('0') > -1).toBeTruthy();
 
   rerender(
@@ -1549,7 +1556,7 @@ test('multi select > to not show selected value in options', () => {
   );
   availableOptions = [
     ...container.querySelectorAll('.react-select__option'),
-  ].map(option => option.textContent);
+  ].map((option) => option.textContent);
 
   expect(availableOptions.indexOf('0') > -1).toBeFalsy();
 });
@@ -1644,8 +1651,8 @@ test('should not call onChange on hitting backspace even when backspaceRemovesVa
 });
 
 cases(
-  'should call onChange with `null` on hitting backspace when backspaceRemovesValue is true',
-  ({ props = { ...BASIC_PROPS }, expectedValue }) => {
+  'should call onChange with `null` or [] on hitting backspace when backspaceRemovesValue is true',
+  ({ props = { ...BASIC_PROPS }, expectedValue, expectedOnChangeValue }) => {
     let onChangeSpy = jest.fn();
     let { container } = render(
       <Select
@@ -1659,7 +1666,10 @@ cases(
       keyCode: 8,
       key: 'Backspace',
     });
-    expect(onChangeSpy).toHaveBeenCalledWith(null, expectedValue);
+    expect(onChangeSpy).toHaveBeenCalledWith(
+      expectedOnChangeValue,
+      expectedValue
+    );
   },
   {
     'and isMulti is false': {
@@ -1671,6 +1681,7 @@ cases(
         action: 'clear',
         name: 'test-input-name',
       },
+      expectedOnChangeValue: null,
     },
     'and isMulti is true': {
       props: {
@@ -1682,6 +1693,7 @@ cases(
         name: 'test-input-name',
         removedValue: undefined,
       },
+      expectedOnChangeValue: [],
     },
   }
 );
@@ -1703,7 +1715,7 @@ test('multi select > clicking on X next to option will call onChange with all op
 
   const selectValueElement = [
     ...container.querySelectorAll('.react-select__multi-value'),
-  ].find(multiValue => multiValue.textContent === '4');
+  ].find((multiValue) => multiValue.textContent === '4');
   userEvent.click(
     selectValueElement.querySelector('div.react-select__multi-value__remove')
   );
@@ -1802,7 +1814,7 @@ test('accessibility > to show the number of options available in A11yText when t
     <Select {...BASIC_PROPS} inputValue={''} autoFocus menuIsOpen />
   );
 
-  let setInputValue = val => {
+  let setInputValue = (val) => {
     rerender(<Select {...BASIC_PROPS} autoFocus menuIsOpen inputValue={val} />);
   };
 
@@ -1876,7 +1888,7 @@ test('accessibility > screenReaderStatus function prop > to pass custom text to 
     />
   );
 
-  let setInputValue = val => {
+  let setInputValue = (val) => {
     rerender(
       <Select
         {...BASIC_PROPS}
@@ -2138,7 +2150,7 @@ cases(
     let { container } = render(<Select {...props} menuIsOpen />);
     let selectOption = [
       ...container.querySelectorAll('div.react-select__option'),
-    ].find(n => n.textContent === optionsSelected);
+    ].find((n) => n.textContent === optionsSelected);
     userEvent.click(selectOption);
     expect(onChangeSpy).not.toHaveBeenCalled();
   },
@@ -2174,7 +2186,7 @@ cases(
     let { container } = render(<Select {...props} menuIsOpen />);
     let selectOption = [
       ...container.querySelectorAll('div.react-select__option'),
-    ].find(n => n.textContent === optionsSelected);
+    ].find((n) => n.textContent === optionsSelected);
     fireEvent.keyDown(selectOption, { keyCode: 13, key: 'Enter' });
     expect(onChangeSpy).not.toHaveBeenCalled();
   },
@@ -2349,7 +2361,8 @@ test('multi select >  calls onChange when option is selected and isSearchable is
 });
 
 test('getOptionLabel() prop > to format the option label', () => {
-  const getOptionLabel = option => `This a custom option ${option.label} label`;
+  const getOptionLabel = (option) =>
+    `This a custom option ${option.label} label`;
   const { container } = render(
     <Select {...BASIC_PROPS} menuIsOpen getOptionLabel={getOptionLabel} />
   );
@@ -2359,7 +2372,7 @@ test('getOptionLabel() prop > to format the option label', () => {
 });
 
 test('formatGroupLabel function prop > to format Group label', () => {
-  const formatGroupLabel = group => `This is custom ${group.label} header`;
+  const formatGroupLabel = (group) => `This is custom ${group.label} header`;
   const options = [
     {
       label: 'group 1',
@@ -2488,7 +2501,11 @@ test('hitting spacebar should select option if isSearchable is false', () => {
   });
   expect(onChangeSpy).toHaveBeenCalledWith(
     { label: '0', value: 'zero' },
-    { action: 'select-option', name: BASIC_PROPS.name }
+    {
+      action: 'select-option',
+      name: BASIC_PROPS.name,
+      option: { label: '0', value: 'zero' },
+    }
   );
 });
 
@@ -2529,7 +2546,7 @@ test('multi select > removes the selected option from the menu options when isSe
     />
   );
   // expect '0' to not be options
-  container.querySelectorAll('.react-select__option').forEach(option => {
+  container.querySelectorAll('.react-select__option').forEach((option) => {
     expect(option.textContent).not.toBe('0');
   });
   expect(container.querySelectorAll('.react-select__option').length).toBe(16);
@@ -2655,7 +2672,7 @@ test('renders with custom theme', () => {
       {...BASIC_PROPS}
       value={OPTIONS[0]}
       menuIsOpen
-      theme={theme => ({
+      theme={(theme) => ({
         ...theme,
         borderRadius: 180,
         colors: {
