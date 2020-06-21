@@ -28,7 +28,7 @@ test('to show the create option in menu', () => {
   let { container, rerender } = render(
     <AsyncCreatable className="react-select" classNamePrefix="react-select" />
   );
-  let input = container.querySelector('div.react-select__input input');
+  let input = container.querySelector('div.react-select__input input')!;
   rerender(
     <AsyncCreatable
       className="react-select"
@@ -37,7 +37,7 @@ test('to show the create option in menu', () => {
     />
   );
   userEvent.type(input, 'a');
-  expect(container.querySelector('.react-select__option').textContent).toBe(
+  expect(container.querySelector('.react-select__option')!.textContent).toBe(
     'Create "a"'
   );
 });
@@ -53,11 +53,11 @@ test('to show loading and then create option in menu', async () => {
       loadOptions={loadOptionsSpy}
     />
   );
-  let input = container.querySelector('div.react-select__input input');
+  let input = container.querySelector('div.react-select__input input')!;
   userEvent.type(input, 'a');
 
   // to show a loading message while loading options
-  expect(container.querySelector('.react-select__menu').textContent).toBe(
+  expect(container.querySelector('.react-select__menu')!.textContent).toBe(
     'Loading...'
   );
   await waitFor(() => {

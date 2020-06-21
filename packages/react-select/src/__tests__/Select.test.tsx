@@ -36,7 +36,7 @@ test('instanceId prop > to have instanceId as id prefix for the select component
   let { container } = render(
     <Select {...BASIC_PROPS} menuIsOpen instanceId={'custom-id'} />
   );
-  expect(container.querySelector('input').id).toContain('custom-id');
+  expect(container.querySelector('input')!.id).toContain('custom-id');
   container.querySelectorAll('div.react-select__option').forEach((opt) => {
     expect(opt.id).toContain('custom-id');
   });
@@ -58,7 +58,7 @@ test('single select > passing multiple values > should select the first value', 
   const props = { ...BASIC_PROPS, value: [OPTIONS[0], OPTIONS[4]] };
   let { container } = render(<Select {...props} />);
 
-  expect(container.querySelector('.react-select__control').textContent).toBe(
+  expect(container.querySelector('.react-select__control')!.textContent).toBe(
     '0'
   );
 });
@@ -99,7 +99,7 @@ test('isOptionSelected() prop > multi select > to not show the selected options 
   );
 
   expect(container.querySelectorAll('.react-select__option')).toHaveLength(1);
-  expect(container.querySelector('.react-select__option').textContent).toBe(
+  expect(container.querySelector('.react-select__option')!.textContent).toBe(
     '1'
   );
 });
@@ -140,7 +140,7 @@ cases(
   'name prop',
   ({ expectedName, props }) => {
     let { container } = render(<Select {...props} />);
-    let input = container.querySelector('input[type=hidden]');
+    let input = container.querySelector('input[type=hidden]')!;
 
     expect(input.name).toBe(expectedName);
   },
@@ -409,13 +409,13 @@ cases(
     expectedUpdatedValue,
   }) => {
     let { container, rerender } = render(<Select {...props} />);
-    expect(container.querySelector('input[type="hidden"]').value).toEqual(
+    expect(container.querySelector('input[type="hidden"]')!.value).toEqual(
       expectedInitialValue
     );
 
     rerender(<Select {...props} value={updateValueTo} />);
 
-    expect(container.querySelector('input[type="hidden"]').value).toEqual(
+    expect(container.querySelector('input[type="hidden"]')!.value).toEqual(
       expectedUpdatedValue
     );
   },
@@ -803,11 +803,11 @@ cases(
     );
 
     fireEvent.mouseDown(
-      container.querySelector('.react-select__dropdown-indicator'),
+      container.querySelector('.react-select__dropdown-indicator')!,
       { button: 0 }
     );
     expect(
-      container.querySelector('.react-select__option--is-focused').textContent
+      container.querySelector('.react-select__option--is-focused')!.textContent
     ).toEqual(expectedToFocus.label);
   },
   {
@@ -831,7 +831,7 @@ test('clicking when focused does not open select when openMenuOnClick=false', ()
   );
 
   // this will get updated on input click, though click on input is not bubbling up to control component
-  userEvent.click(container.querySelector('.react-select__input input'));
+  userEvent.click(container.querySelector('.react-select__input input')!);
   expect(spy).not.toHaveBeenCalled();
 });
 
@@ -845,22 +845,22 @@ cases(
     let indexOfSelectedOption = props.options.indexOf(selectedOption);
 
     for (let i = -1; i < indexOfSelectedOption; i++) {
-      fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+      fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
         keyCode: 40,
         key: 'ArrowDown',
       });
     }
 
     expect(
-      container.querySelector('.react-select__option--is-focused').textContent
+      container.querySelector('.react-select__option--is-focused')!.textContent
     ).toEqual(selectedOption.label);
 
     for (let event of keyEvent) {
-      fireEvent.keyDown(container.querySelector('.react-select__menu'), event);
+      fireEvent.keyDown(container.querySelector('.react-select__menu')!, event);
     }
 
     expect(
-      container.querySelector('.react-select__option--is-focused').textContent
+      container.querySelector('.react-select__option--is-focused')!.textContent
     ).toEqual(nextFocusOption.label);
   },
   {
@@ -1117,7 +1117,7 @@ cases(
       <Select {...props} onInputChange={spy} onMenuClose={jest.fn()} />
     );
 
-    fireEvent.keyDown(container.querySelector('.react-select'), {
+    fireEvent.keyDown(container.querySelector('.react-select')!, {
       keyCode: 27,
       key: 'Escape',
     });
@@ -1155,7 +1155,7 @@ cases(
       container.querySelector('.react-select__menu')
     ).not.toBeInTheDocument();
     fireEvent.mouseDown(
-      container.querySelector('div.react-select__dropdown-indicator'),
+      container.querySelector('div.react-select__dropdown-indicator')!,
       { button: 0 }
     );
     expect(onMenuOpenSpy).toHaveBeenCalled();
@@ -1180,7 +1180,7 @@ cases(
     // Menu is open
     expect(container.querySelector('.react-select__menu')).toBeInTheDocument();
     fireEvent.mouseDown(
-      container.querySelector('div.react-select__dropdown-indicator'),
+      container.querySelector('div.react-select__dropdown-indicator')!,
       { button: 0 }
     );
     expect(onMenuCloseSpy).toHaveBeenCalled();
@@ -1211,13 +1211,13 @@ cases(
       </div>
     );
     if (props.menuIsOpen) {
-      fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+      fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
         keyCode: 40,
         key: 'ArrowDown',
       });
     }
 
-    fireEvent.keyDown(container.querySelector('.react-select'), {
+    fireEvent.keyDown(container.querySelector('.react-select')!, {
       key: 'Enter',
       keyCode: 13,
     });
@@ -1291,7 +1291,7 @@ cases(
   'required on input is not there by default',
   ({ props = BASIC_PROPS }) => {
     let { container } = render(<Select {...props} onInputChange={jest.fn()} />);
-    let input = container.querySelector('.react-select__input input');
+    let input = container.querySelector('.react-select__input input')!;
     expect(input.required).toBe(false);
   },
   {
@@ -1304,7 +1304,7 @@ cases(
   'value of hidden input control',
   ({ props, expectedValue }) => {
     let { container } = render(<Select {...props} />);
-    let hiddenInput = container.querySelector('input[type="hidden"]');
+    let hiddenInput = container.querySelector('input[type="hidden"]')!;
     expect(hiddenInput.value).toEqual(expectedValue);
   },
   {
@@ -1449,7 +1449,7 @@ cases(
       control.classList.contains('react-select__control--is-disabled')
     ).toBeTruthy();
 
-    let input = container.querySelector('.react-select__control input');
+    let input = container.querySelector('.react-select__control input')!;
     expect(input.disabled).toBeTruthy();
   },
   {
@@ -1549,7 +1549,7 @@ test('multi select > to not show selected value in options', () => {
 
   // Re-open Menu
   fireEvent.mouseDown(
-    container.querySelector('div.react-select__dropdown-indicator'),
+    container.querySelector('div.react-select__dropdown-indicator')!,
     {
       button: 0,
     }
@@ -1596,11 +1596,11 @@ test('multi select > call onChange with all values but last selected value and r
       value={[OPTIONS[0], OPTIONS[1], OPTIONS[2]]}
     />
   );
-  expect(container.querySelector('.react-select__control').textContent).toBe(
+  expect(container.querySelector('.react-select__control')!.textContent).toBe(
     '012'
   );
 
-  fireEvent.keyDown(container.querySelector('.react-select__control'), {
+  fireEvent.keyDown(container.querySelector('.react-select__control')!, {
     keyCode: 8,
     key: 'Backspace',
   });
@@ -1626,7 +1626,7 @@ test('should not call onChange on hitting backspace when backspaceRemovesValue i
       onChange={onChangeSpy}
     />
   );
-  fireEvent.keyDown(container.querySelector('.react-select__control'), {
+  fireEvent.keyDown(container.querySelector('.react-select__control')!, {
     keyCode: 8,
     key: 'Backspace',
   });
@@ -1643,7 +1643,7 @@ test('should not call onChange on hitting backspace even when backspaceRemovesVa
       onChange={onChangeSpy}
     />
   );
-  fireEvent.keyDown(container.querySelector('.react-select__control'), {
+  fireEvent.keyDown(container.querySelector('.react-select__control')!, {
     keyCode: 8,
     key: 'Backspace',
   });
@@ -1662,7 +1662,7 @@ cases(
         onChange={onChangeSpy}
       />
     );
-    fireEvent.keyDown(container.querySelector('.react-select__control'), {
+    fireEvent.keyDown(container.querySelector('.react-select__control')!, {
       keyCode: 8,
       key: 'Backspace',
     });
@@ -1717,7 +1717,7 @@ test('multi select > clicking on X next to option will call onChange with all op
     ...container.querySelectorAll('.react-select__multi-value'),
   ].find((multiValue) => multiValue.textContent === '4');
   userEvent.click(
-    selectValueElement.querySelector('div.react-select__multi-value__remove')
+    selectValueElement.querySelector('div.react-select__multi-value__remove')!
   );
 
   expect(onChangeSpy).toHaveBeenCalledWith(
@@ -1741,13 +1741,13 @@ cases(
   ({ props = { ...BASIC_PROPS } }) => {
     let { container } = render(<Select {...props} menuIsOpen />);
 
-    fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+    fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
       keyCode: 40,
       key: 'ArrowDown',
     });
     expect(
       container
-        .querySelector('.react-select__input input')
+        .querySelector('.react-select__input input')!
         .getAttribute('aria-activedescendant')
     ).toBe('1');
   },
@@ -1771,7 +1771,7 @@ cases(
     let { container } = render(<Select {...props} />);
     expect(
       container
-        .querySelector('.react-select__input input')
+        .querySelector('.react-select__input input')!
         .getAttribute('aria-labelledby')
     ).toBe('testing');
   },
@@ -1793,7 +1793,7 @@ cases(
     let { container } = render(<Select {...props} />);
     expect(
       container
-        .querySelector('.react-select__input input')
+        .querySelector('.react-select__input input')!
         .getAttribute('aria-label')
     ).toBe('testing');
   },
@@ -1819,24 +1819,24 @@ test('accessibility > to show the number of options available in A11yText when t
   };
 
   const liveRegionId = '#aria-context';
-  fireEvent.focus(container.querySelector('.react-select__input input'));
+  fireEvent.focus(container.querySelector('.react-select__input input')!);
 
-  expect(container.querySelector(liveRegionId).textContent).toMatch(
+  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     /17 results available/
   );
 
   setInputValue('0');
-  expect(container.querySelector(liveRegionId).textContent).toMatch(
+  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     /2 results available/
   );
 
   setInputValue('10');
-  expect(container.querySelector(liveRegionId).textContent).toMatch(
+  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     /1 result available/
   );
 
   setInputValue('100');
-  expect(container.querySelector(liveRegionId).textContent).toMatch(
+  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     /0 results available/
   );
 });
@@ -1852,24 +1852,24 @@ test('accessibility > interacting with disabled options shows correct A11yText',
   );
   const liveRegionId = '#aria-context';
   const liveRegionEventId = '#aria-selection-event';
-  fireEvent.focus(container.querySelector('.react-select__input input'));
+  fireEvent.focus(container.querySelector('.react-select__input input')!);
 
   // navigate to disabled option
   let menu = container.querySelector('.react-select__menu');
   fireEvent.keyDown(menu, { keyCode: 40, key: 'ArrowDown' });
   fireEvent.keyDown(menu, { keyCode: 40, key: 'ArrowDown' });
 
-  expect(container.querySelector(liveRegionId).textContent).toMatch(
+  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     'option 1 focused disabled, 2 of 17. 17 results available. Use Up and Down to choose options, press Escape to exit the menu, press Tab to select the option and exit the menu.'
   );
 
   // attempt to select disabled option
-  fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+  fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
     keyCode: 13,
     key: 'Enter',
   });
 
-  expect(container.querySelector(liveRegionEventId).textContent).toMatch(
+  expect(container.querySelector(liveRegionEventId)!.textContent).toMatch(
     'option 1 is disabled. Select another option.'
   );
 });
@@ -1899,24 +1899,24 @@ test('accessibility > screenReaderStatus function prop > to pass custom text to 
     );
   };
 
-  fireEvent.focus(container.querySelector('.react-select__input input'));
+  fireEvent.focus(container.querySelector('.react-select__input input')!);
 
-  expect(container.querySelector(liveRegionId).textContent).toMatch(
+  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     'There are 17 options available'
   );
 
   setInputValue('0');
-  expect(container.querySelector(liveRegionId).textContent).toMatch(
+  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     'There are 2 options available'
   );
 
   setInputValue('10');
-  expect(container.querySelector(liveRegionId).textContent).toMatch(
+  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     'There are 1 options available'
   );
 
   setInputValue('100');
-  expect(container.querySelector(liveRegionId).textContent).toMatch(
+  expect(container.querySelector(liveRegionId)!.textContent).toMatch(
     'There are 0 options available'
   );
 });
@@ -1932,7 +1932,7 @@ test('closeMenuOnSelect prop > when passed as false it should not call onMenuClo
       blurInputOnSelect={false}
     />
   );
-  userEvent.click(container.querySelector('div.react-select__option'));
+  userEvent.click(container.querySelector('div.react-select__option')!);
   expect(onMenuCloseSpy).not.toHaveBeenCalled();
 });
 
@@ -1990,7 +1990,7 @@ cases(
   ({ props = { ...BASIC_PROPS } }) => {
     let onFocusSpy = jest.fn();
     let { container } = render(<Select {...props} onFocus={onFocusSpy} />);
-    fireEvent.focus(container.querySelector('.react-select__input input'));
+    fireEvent.focus(container.querySelector('.react-select__input input')!);
     expect(onFocusSpy).toHaveBeenCalledTimes(1);
   },
   {
@@ -2016,7 +2016,7 @@ cases(
         onMenuClose={jest.fn()}
       />
     );
-    fireEvent.blur(container.querySelector('.react-select__input input'));
+    fireEvent.blur(container.querySelector('.react-select__input input')!);
     expect(onBlurSpy).toHaveBeenCalledTimes(1);
   },
   {
@@ -2040,7 +2040,7 @@ test('onInputChange() function prop to be called on blur', () => {
       onMenuClose={jest.fn()}
     />
   );
-  fireEvent.blur(container.querySelector('.react-select__input input'));
+  fireEvent.blur(container.querySelector('.react-select__input input')!);
   // Once by blur and other time by menu-close
   expect(onInputChangeSpy).toHaveBeenCalledTimes(2);
 });
@@ -2055,7 +2055,7 @@ test('onMenuClose() function prop to be called on blur', () => {
       onMenuClose={onMenuCloseSpy}
     />
   );
-  fireEvent.blur(container.querySelector('.react-select__input input'));
+  fireEvent.blur(container.querySelector('.react-select__input input')!);
   expect(onMenuCloseSpy).toHaveBeenCalledTimes(1);
 });
 
@@ -2063,7 +2063,7 @@ cases(
   'placeholder',
   ({ props, expectPlaceholder = 'Select...' }) => {
     let { container } = render(<Select {...props} />);
-    expect(container.querySelector('.react-select__control').textContent).toBe(
+    expect(container.querySelector('.react-select__control')!.textContent).toBe(
       expectPlaceholder
     );
   },
@@ -2138,7 +2138,7 @@ test('renders a read only input when isSearchable is false', () => {
       isSearchable={false}
     />
   );
-  let input = container.querySelector('.react-select__value-container input');
+  let input = container.querySelector('.react-select__value-container input')!;
   expect(input.readOnly).toBe(true);
 });
 
@@ -2226,14 +2226,14 @@ test('does not select anything when a disabled option is the only item in the li
   );
   rerender(<Select {...props} menuIsOpen inputValue="opt" />);
 
-  fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+  fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
     keyCode: 13,
     key: 'Enter',
   });
 
   expect(onChangeSpy).not.toHaveBeenCalled();
   // Menu is still open
-  expect(container.querySelector('.react-select__option').textContent).toBe(
+  expect(container.querySelector('.react-select__option')!.textContent).toBe(
     'opt'
   );
 });
@@ -2314,7 +2314,7 @@ test('clear select by clicking on clear button > should not call onMenuOpen', ()
     1
   );
   fireEvent.mouseDown(
-    container.querySelector('.react-select__clear-indicator'),
+    container.querySelector('.react-select__clear-indicator')!,
     { button: 0 }
   );
   expect(onChangeSpy).toBeCalledWith([], {
@@ -2338,7 +2338,7 @@ test('clearing select using clear button to not call onMenuOpen or onMenuClose',
     1
   );
   fireEvent.mouseDown(
-    container.querySelector('.react-select__clear-indicator'),
+    container.querySelector('.react-select__clear-indicator')!,
     { button: 0 }
   );
   expect(onMenuOpenSpy).not.toHaveBeenCalled();
@@ -2351,7 +2351,7 @@ test('multi select >  calls onChange when option is selected and isSearchable is
   let { container } = render(
     <Select {...props} isMulti menuIsOpen delimiter="," isSearchable={false} />
   );
-  userEvent.click(container.querySelector('.react-select__option'));
+  userEvent.click(container.querySelector('.react-select__option')!);
   const selectedOption = { label: '0', value: 'zero' };
   expect(onChangeSpy).toHaveBeenCalledWith([selectedOption], {
     action: 'select-option',
@@ -2366,7 +2366,7 @@ test('getOptionLabel() prop > to format the option label', () => {
   const { container } = render(
     <Select {...BASIC_PROPS} menuIsOpen getOptionLabel={getOptionLabel} />
   );
-  expect(container.querySelector('.react-select__option').textContent).toBe(
+  expect(container.querySelector('.react-select__option')!.textContent).toBe(
     'This a custom option 0 label'
   );
 });
@@ -2391,7 +2391,7 @@ test('formatGroupLabel function prop > to format Group label', () => {
     />
   );
   expect(
-    container.querySelector('.react-select__group-heading').textContent
+    container.querySelector('.react-select__group-heading')!.textContent
   ).toBe('This is custom group 1 header');
 });
 
@@ -2424,7 +2424,7 @@ test('to only render groups with at least one match when filtering', () => {
   expect(container.querySelectorAll('.react-select__group').length).toBe(1);
   expect(
     container
-      .querySelector('.react-select__group')
+      .querySelector('.react-select__group')!
       .querySelectorAll('.react-select__option').length
   ).toBe(1);
 });
@@ -2467,7 +2467,7 @@ test('multi select > have default value delimiter seperated', () => {
       value={[OPTIONS[0], OPTIONS[1]]}
     />
   );
-  expect(container.querySelector('input[type="hidden"]').value).toBe(
+  expect(container.querySelector('input[type="hidden"]')!.value).toBe(
     'zero;one'
   );
 });
@@ -2481,7 +2481,7 @@ test('multi select > with multi character delimiter', () => {
       value={[OPTIONS[0], OPTIONS[1]]}
     />
   );
-  expect(container.querySelector('input[type="hidden"]').value).toBe(
+  expect(container.querySelector('input[type="hidden"]')!.value).toBe(
     'zero===&===one'
   );
 });
@@ -2491,11 +2491,11 @@ test('hitting spacebar should select option if isSearchable is false', () => {
   let props = { ...BASIC_PROPS, onChange: onChangeSpy };
   let { container } = render(<Select {...props} isSearchable menuIsOpen />);
   // focus the first option
-  fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+  fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
     keyCode: 40,
     key: 'ArrowDown',
   });
-  fireEvent.keyDown(container.querySelector('.react-select'), {
+  fireEvent.keyDown(container.querySelector('.react-select')!, {
     keyCode: 32,
     key: ' ',
   });
@@ -2517,7 +2517,7 @@ test('hitting escape does not call onChange if menu is Open', () => {
   );
 
   // focus the first option
-  fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+  fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
     keyCode: 40,
     key: 'ArrowDown',
   });
@@ -2555,13 +2555,13 @@ test('multi select > removes the selected option from the menu options when isSe
 test('hitting ArrowUp key on closed select should focus last element', () => {
   let { container } = render(<Select {...BASIC_PROPS} menuIsOpen />);
 
-  fireEvent.keyDown(container.querySelector('.react-select__control'), {
+  fireEvent.keyDown(container.querySelector('.react-select__control')!, {
     keyCode: 38,
     key: 'ArrowUp',
   });
 
   expect(
-    container.querySelector('.react-select__option--is-focused').textContent
+    container.querySelector('.react-select__option--is-focused')!.textContent
   ).toEqual('16');
 });
 
@@ -2577,12 +2577,12 @@ test('close menu on hitting escape and clear input value if menu is open even if
   let { container } = render(
     <Select {...props} menuIsOpen escapeClearsValue isClearable />
   );
-  fireEvent.keyDown(container.querySelector('.react-select'), {
+  fireEvent.keyDown(container.querySelector('.react-select')!, {
     keyCode: 27,
     key: 'Escape',
   });
   expect(
-    container.querySelector('.react-select__single-value').textContent
+    container.querySelector('.react-select__single-value')!.textContent
   ).toEqual('0');
 
   expect(onMenuCloseSpy).toHaveBeenCalled();
@@ -2601,7 +2601,7 @@ test('to not clear value when hitting escape if escapeClearsValue is false (defa
     <Select {...props} escapeClearsValue isClearable={false} />
   );
 
-  fireEvent.keyDown(container.querySelector('.react-select'), {
+  fireEvent.keyDown(container.querySelector('.react-select')!, {
     keyCode: 27,
     key: 'Escape',
   });
@@ -2615,7 +2615,7 @@ test('to not clear value when hitting escape if escapeClearsValue is true and is
     <Select {...props} escapeClearsValue isClearable={false} />
   );
 
-  fireEvent.keyDown(container.querySelector('.react-select'), {
+  fireEvent.keyDown(container.querySelector('.react-select')!, {
     keyCode: 27,
     key: 'Escape',
   });
@@ -2627,7 +2627,7 @@ test('to not clear value when hitting escape if escapeClearsValue is false (defa
   let props = { ...BASIC_PROPS, onChange: onChangeSpy, value: OPTIONS[0] };
   let { container } = render(<Select {...props} isClearable />);
 
-  fireEvent.keyDown(container.querySelector('.react-select'), {
+  fireEvent.keyDown(container.querySelector('.react-select')!, {
     keyCode: 27,
     key: 'Escape',
   });
@@ -2641,7 +2641,7 @@ test('to clear value when hitting escape if escapeClearsValue and isClearable ar
     <Select {...props} isClearable escapeClearsValue />
   );
 
-  fireEvent.keyDown(container.querySelector('.react-select'), {
+  fireEvent.keyDown(container.querySelector('.react-select')!, {
     keyCode: 27,
     key: 'Escape',
   });

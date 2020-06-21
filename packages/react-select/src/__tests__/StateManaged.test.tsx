@@ -112,7 +112,7 @@ cases(
     expect(container.querySelector(menuClass)).toBeTruthy();
 
     userEvent.click(
-      container.querySelector('div.react-select__dropdown-indicator')
+      container.querySelector('div.react-select__dropdown-indicator')!
     );
 
     expect(container.querySelector(menuClass)).toBeTruthy();
@@ -132,20 +132,20 @@ cases(
 test('multi select > selecting multiple values', () => {
   let { container } = render(<Select {...BASIC_PROPS} isMulti />);
   openMenu(container);
-  fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+  fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
     keyCode: 13,
     key: 'Enter',
   });
-  expect(container.querySelector('.react-select__control').textContent).toBe(
+  expect(container.querySelector('.react-select__control')!.textContent).toBe(
     '0'
   );
 
   openMenu(container);
-  fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+  fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
     keyCode: 13,
     key: 'Enter',
   });
-  expect(container.querySelector('.react-select__control').textContent).toBe(
+  expect(container.querySelector('.react-select__control')!.textContent).toBe(
     '01'
   );
 });
@@ -153,7 +153,7 @@ test('multi select > selecting multiple values', () => {
 test('defaultInputValue prop > should update the inputValue on change of input if defaultInputValue prop is provided', () => {
   const props = { ...BASIC_PROPS, defaultInputValue: '0' };
   let { container } = render(<Select {...props} />);
-  let input = container.querySelector('.react-select__control input');
+  let input = container.querySelector('.react-select__control input')!;
 
   expect(input.value).toBe('0');
   userEvent.type(input, 'A');
@@ -163,7 +163,7 @@ test('defaultInputValue prop > should update the inputValue on change of input i
 test('inputValue prop > should not update the inputValue when on change of input if inputValue prop is provided', () => {
   const props = { ...BASIC_PROPS, inputValue: '0' };
   let { container } = render(<Select {...props} />);
-  let input = container.querySelector('.react-select__control input');
+  let input = container.querySelector('.react-select__control input')!;
   expect(input.value).toBe('0');
   userEvent.type(input, 'A');
   expect(input.value).toBe('0');
@@ -172,17 +172,17 @@ test('inputValue prop > should not update the inputValue when on change of input
 test('defaultValue prop > should update the value on selecting option', () => {
   const props = { ...BASIC_PROPS, defaultValue: [OPTIONS[0]] };
   let { container } = render(<Select {...props} menuIsOpen />);
-  expect(container.querySelector('input[type="hidden"]').value).toBe('zero');
+  expect(container.querySelector('input[type="hidden"]')!.value).toBe('zero');
   userEvent.click(container.querySelectorAll('div.react-select__option')[1]);
-  expect(container.querySelector('input[type="hidden"]').value).toBe('one');
+  expect(container.querySelector('input[type="hidden"]')!.value).toBe('one');
 });
 
 test('value prop > should not update the value on selecting option', () => {
   const props = { ...BASIC_PROPS, value: [OPTIONS[0]] };
   let { container } = render(<Select {...props} menuIsOpen />);
-  expect(container.querySelector('input[type="hidden"]').value).toBe('zero');
+  expect(container.querySelector('input[type="hidden"]')!.value).toBe('zero');
   userEvent.click(container.querySelectorAll('div.react-select__option')[1]);
-  expect(container.querySelector('input[type="hidden"]').value).toBe('zero');
+  expect(container.querySelector('input[type="hidden"]')!.value).toBe('zero');
 });
 
 cases(
@@ -196,7 +196,7 @@ cases(
     let { container, getByText } = render(<Select {...props} />);
     let toSelectOption = getByText(selectOption.label);
     fireEvent[eventName](toSelectOption, eventArgs);
-    expect(container.querySelector('input[type="hidden"]').value).toBe(
+    expect(container.querySelector('input[type="hidden"]')!.value).toBe(
       expectSelectedOption
     );
   },
@@ -239,11 +239,11 @@ cases(
         eventArgs
       );
     });
-    fireEvent.keyDown(container.querySelector('.react-select__menu'), {
+    fireEvent.keyDown(container.querySelector('.react-select__menu')!, {
       keyCode: 13,
       key: 'Enter',
     });
-    expect(container.querySelector('input[type="hidden"]').value).toBe(
+    expect(container.querySelector('input[type="hidden"]')!.value).toBe(
       expectedSelectedOption
     );
   },

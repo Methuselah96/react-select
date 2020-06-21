@@ -28,7 +28,7 @@ cases(
     const { container, rerender } = render(<Creatable menuIsOpen {...props} />);
     rerender(<Creatable inputValue="one" menuIsOpen {...props} />);
     expect(
-      container.querySelector('.react-select__menu').textContent
+      container.querySelector('.react-select__menu')!.textContent
     ).not.toEqual(expect.stringContaining('create'));
   },
   {
@@ -61,7 +61,7 @@ cases(
     );
 
     expect(
-      container.querySelector('.react-select__menu-notice--no-options')
+      container.querySelector('.react-select__menu-notice--no-options')!
         .textContent
     ).toEqual(expect.stringContaining('No options'));
   },
@@ -86,7 +86,7 @@ cases(
       <Creatable menuIsOpen {...props} inputValue="option not is list" />
     );
 
-    expect(container.querySelector('.react-select__menu').textContent).toBe(
+    expect(container.querySelector('.react-select__menu')!.textContent).toBe(
       'Create "option not is list"'
     );
   },
@@ -105,7 +105,7 @@ cases(
   'isValidNewOption() prop',
   ({ props }) => {
     props = { ...BASIC_PROPS, ...props };
-    let isValidNewOption = jest.fn(options => options === 'new Option');
+    let isValidNewOption = jest.fn((options) => options === 'new Option');
 
     const { container, rerender } = render(
       <Creatable menuIsOpen isValidNewOption={isValidNewOption} {...props} />
@@ -120,7 +120,7 @@ cases(
       />
     );
 
-    expect(container.querySelector('.react-select__menu').textContent).toEqual(
+    expect(container.querySelector('.react-select__menu')!.textContent).toEqual(
       'Create "new Option"'
     );
 
@@ -137,7 +137,7 @@ cases(
       />
     );
     expect(
-      container.querySelector('.react-select__menu').textContent
+      container.querySelector('.react-select__menu')!.textContent
     ).not.toEqual('Create "invalid new Option"');
 
     expect(
@@ -162,7 +162,7 @@ cases(
     const { container, rerender } = render(<Creatable menuIsOpen {...props} />);
     rerender(<Creatable menuIsOpen inputValue="new Option" {...props} />);
     fireEvent.keyDown(container, { keyCode: 27, key: 'Escape' });
-    expect(container.querySelector('input').textContent).toEqual('');
+    expect(container.querySelector('input')!.textContent).toEqual('');
   },
   {
     'single select > should remove the search text': {},
@@ -181,14 +181,14 @@ test('should remove the new option after closing on blur', () => {
   );
   rerender(<Creatable menuIsOpen options={OPTIONS} inputValue="new Option" />);
   fireEvent.blur(container);
-  expect(container.querySelector('input').textContent).toEqual('');
+  expect(container.querySelector('input')!.textContent).toEqual('');
 });
 
 cases(
   'getNewOptionData() prop',
   ({ props }) => {
     props = { ...BASIC_PROPS, ...props };
-    let getNewOptionDataSpy = jest.fn(label => ({
+    let getNewOptionDataSpy = jest.fn((label) => ({
       label: `custom text ${label}`,
       value: label,
     }));
@@ -204,7 +204,7 @@ cases(
       />
     );
 
-    expect(container.querySelector('.react-select__menu').textContent).toEqual(
+    expect(container.querySelector('.react-select__menu')!.textContent).toEqual(
       'custom text new Option'
     );
   },
@@ -223,7 +223,7 @@ cases(
   'formatCreateLabel() prop',
   ({ props = { options: OPTIONS } }) => {
     props = { ...BASIC_PROPS, ...props };
-    let formatCreateLabelSpy = jest.fn(label => `custom label "${label}"`);
+    let formatCreateLabelSpy = jest.fn((label) => `custom label "${label}"`);
     const { container, rerender } = render(
       <Creatable
         menuIsOpen
@@ -240,7 +240,7 @@ cases(
         {...props}
       />
     );
-    expect(container.querySelector('.react-select__menu').textContent).toEqual(
+    expect(container.querySelector('.react-select__menu')!.textContent).toEqual(
       'custom label "new Option"'
     );
   },
