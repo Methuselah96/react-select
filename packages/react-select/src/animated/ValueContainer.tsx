@@ -13,13 +13,11 @@ export type AnimatedValueContainerProps<
 const TransitionGroupAsAny: any = TransitionGroup;
 
 // make ValueContainer a transition group
-const AnimatedValueContainer = <
+const AnimatedValueContainer = (WrappedComponent: typeof ValueContainer) => <
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 >(
-  WrappedComponent: typeof ValueContainer
-) => (
   props: AnimatedValueContainerProps<OptionType, GroupType, IsMultiType>
 ) => <TransitionGroupAsAny component={WrappedComponent} {...props} />;
 

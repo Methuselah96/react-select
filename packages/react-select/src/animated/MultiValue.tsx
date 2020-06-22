@@ -15,14 +15,12 @@ export type AnimatedMultiValueProps<
   CollapseProps;
 
 // strip transition props off before spreading onto actual component
-const AnimatedMultiValue = <
-  OptionType extends OptionTypeBase,
-  GroupType extends GroupTypeBase<OptionType>,
-  IsMultiType extends boolean
->(
-  WrappedComponent: typeof MultiValue
-) => {
-  return ({
+const AnimatedMultiValue = (WrappedComponent: typeof MultiValue) => {
+  return <
+    OptionType extends OptionTypeBase,
+    GroupType extends GroupTypeBase<OptionType>,
+    IsMultiType extends boolean
+  >({
     in: inProp,
     onExited,
     ...props

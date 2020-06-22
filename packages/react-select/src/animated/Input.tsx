@@ -15,14 +15,12 @@ export type AnimatedInputProps<
 
 // strip transition props off before spreading onto select component
 // note we need to be explicit about innerRef for flow
-const AnimatedInput = <
-  OptionType extends OptionTypeBase,
-  GroupType extends GroupTypeBase<OptionType>,
-  IsMultiType extends boolean
->(
-  WrappedComponent: typeof Input
-) => {
-  return ({
+const AnimatedInput = (WrappedComponent: typeof Input) => {
+  return <
+    OptionType extends OptionTypeBase,
+    GroupType extends GroupTypeBase<OptionType>,
+    IsMultiType extends boolean
+  >({
     in: inProp,
     onExited,
     appear,

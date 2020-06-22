@@ -11,13 +11,13 @@ export type AnimatedPlaceholderProps<
 > = PlaceholderProps<OptionType, GroupType, IsMultiType> & BaseTransition;
 
 // fade in when last multi-value removed, otherwise instant
-const AnimatedPlaceholder = <
+const AnimatedPlaceholder = (WrappedComponent: typeof Placeholder) => <
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 >(
-  WrappedComponent: typeof Placeholder
-) => (props: AnimatedPlaceholderProps<OptionType, GroupType, IsMultiType>) => (
+  props: AnimatedPlaceholderProps<OptionType, GroupType, IsMultiType>
+) => (
   <Fade
     component={
       WrappedComponent as ComponentType<{

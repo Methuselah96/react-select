@@ -11,13 +11,13 @@ export type AnimatedSingleValueProps<
 > = SingleValueProps<OptionType, GroupType, IsMultiType> & BaseTransition;
 
 // instant fade; all transition-group children must be transitions
-const AnimatedSingleValue = <
+const AnimatedSingleValue = (WrappedComponent: typeof SingleValue) => <
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 >(
-  WrappedComponent: typeof SingleValue
-) => (props: AnimatedSingleValueProps<OptionType, GroupType, IsMultiType>) => (
+  props: AnimatedSingleValueProps<OptionType, GroupType, IsMultiType>
+) => (
   <Fade
     component={
       WrappedComponent as ComponentType<{

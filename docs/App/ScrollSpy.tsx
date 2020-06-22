@@ -1,9 +1,4 @@
-import React, {
-  Component,
-  ReactElement,
-  // type ElementRef,
-  // type Element as ReactElement,
-} from 'react';
+import React, { Component, ReactElement } from 'react';
 import rafSchedule from 'raf-schd';
 import NodeResolver from 'react-node-resolver';
 
@@ -35,7 +30,7 @@ function isInView(el: HTMLElement) {
 export default class ScrollSpy extends Component<Props, State> {
   nav?: HTMLElement;
   allIds = [];
-  state = { elements: [] };
+  state: State = { elements: [] };
   static defaultProps = { preserveHeight: false };
   componentDidMount() {
     window.addEventListener('scroll', this.handleScroll, false);
