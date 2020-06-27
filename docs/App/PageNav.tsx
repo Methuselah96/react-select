@@ -70,7 +70,7 @@ class PageNav extends Component<RouteComponentProps, NavState> {
   }) => {
     event.preventDefault();
     const path = `#${hash}`;
-    const el = document.querySelector(path);
+    const el = document.querySelector<HTMLElement>(path);
     const { history } = this.props;
 
     if (el && el.offsetTop) {

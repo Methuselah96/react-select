@@ -17,7 +17,7 @@ const Section = () => {
 };
 
 const Content = ({ location, match }: RouteComponentProps) => {
-  const page = routes[match.path];
+  const page = routes[match.path as keyof typeof routes];
 
   return (
     <Route

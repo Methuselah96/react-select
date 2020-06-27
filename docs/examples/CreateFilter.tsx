@@ -23,7 +23,7 @@ export default class CreateFilter extends Component<{}, State> {
     matchFromStart: false,
   };
   toggleOption = (key: keyof State) => () => {
-    this.setState((state) => ({ [key]: !state[key] }));
+    this.setState((state) => ({ ...state, [key]: !state[key] }));
   };
   render() {
     const { ignoreCase, ignoreAccents, trim, matchFromStart } = this.state;

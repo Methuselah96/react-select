@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import Select, {
   CSSPropertiesWithLabel,
@@ -8,7 +8,7 @@ import Select, {
 import { colourOptions } from '../data';
 import { ClearIndicatorProps } from 'react-select/src/components/indicators';
 
-const CustomClearText = () => 'clear all';
+const CustomClearText = () => ('clear all' as unknown) as ReactElement;
 const ClearIndicator = <
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,

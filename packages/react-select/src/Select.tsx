@@ -134,7 +134,7 @@ export interface Props<
     instead. For a list of the components that can be passed in, and the shape
     that will be passed to them, see [the components docs](/components)
   */
-  components: SelectComponentsConfig;
+  components: SelectComponentsConfig<OptionType, GroupType, IsMultiType>;
   /* Whether the value of the select, e.g. SingleValue, should be displayed in the control. */
   controlShouldRenderValue: boolean;
   /* Delimiter used to join multiple values into a single HTML Input value */
@@ -408,7 +408,7 @@ export default class Select<
   isComposing: boolean = false;
   clearFocusValueOnUpdate: boolean = false;
   commonProps: any; // TODO
-  components!: SelectComponents;
+  components!: SelectComponents<OptionType, GroupType, IsMultiType>;
   hasGroups: boolean = false;
   initialTouchX: number = 0;
   initialTouchY: number = 0;
@@ -541,7 +541,9 @@ export default class Select<
     this.stopListeningToTouch();
     document.removeEventListener('scroll', this.onScroll, true);
   }
-  cacheComponents = (components: SelectComponentsConfig) => {
+  cacheComponents = (
+    components: SelectComponentsConfig<OptionType, GroupType, IsMultiType>
+  ) => {
     this.components = defaultComponents({ components });
   };
   // ==============================

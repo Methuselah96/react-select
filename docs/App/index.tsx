@@ -71,10 +71,10 @@ export default class App extends Component {
                   <Route
                     render={(props) => (
                       <Fragment>
-                        <PageNav {...props} />
+                        <PageNav />
                         <AppContent>
                           <PageContent>
-                            <Section {...props} />
+                            <Section />
                           </PageContent>
                         </AppContent>
                       </Fragment>

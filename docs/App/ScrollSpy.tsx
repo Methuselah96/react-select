@@ -39,7 +39,7 @@ export default class ScrollSpy extends Component<Props, State> {
   componentWillUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
   }
-  handleScroll = rafSchedule((event: Event) => {
+  handleScroll: (event: Event) => void = rafSchedule((event: Event) => {
     event.preventDefault();
     const { onChange } = this.props;
     const { elements } = this.state;
@@ -47,7 +47,7 @@ export default class ScrollSpy extends Component<Props, State> {
 
     const idsInView = elements
       .filter(isInView)
-      .map((i) => i.getAttribute('id'));
+      .map((i) => i.getAttribute('id')!);
     if (idsInView.length) {
       onChange(idsInView);
     }
@@ -59,9 +59,9 @@ export default class ScrollSpy extends Component<Props, State> {
   buildNodeList = () => {
     if (!this.nav) return;
 
-    const anchorList = this.nav.querySelectorAll('[data-hash]');
-    const elements = Array.from(anchorList).map((i) =>
-      document.querySelector(`#${i.dataset.hash}`)
+    const anchorList = this.nav.querySelectorAll<HTMLElement>('[data-hash]');
+    const elements = Array.from(anchorList).map(
+      (i) => document.querySelector<HTMLElement>(`#${i.dataset.hash}`)!
     );
 
     this.setState({ elements });

@@ -34,7 +34,7 @@ const GroupHeading = <
   <div style={groupStyles}>
     <components.GroupHeading {...props} />
     <Tooltip content="Custom GroupHeading Component">
-      <EditorPanelIcon />
+      <EditorPanelIcon label="" />
     </Tooltip>
   </div>
 );

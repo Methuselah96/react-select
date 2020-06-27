@@ -96,18 +96,14 @@ export function handleInputChange(
 // Scroll Helpers
 // ==============================
 
-export function isDocumentElement(el: Element) {
-  return (
-    [document.documentElement, document.body, window].indexOf(
-      el as HTMLElement
-    ) > -1
-  );
+export function isDocumentElement(el: HTMLElement | typeof window) {
+  return [document.documentElement, document.body, window].indexOf(el) > -1;
 }
 
 // Normalized Scroll Top
 // ------------------------------
 
-export function normalizedHeight(el: Element) {
+export function normalizedHeight(el: HTMLElement) {
   if (isDocumentElement(el)) {
     return window.innerHeight;
   }
@@ -118,27 +114,27 @@ export function normalizedHeight(el: Element) {
 // Normalized scrollTo & scrollTop
 // ------------------------------
 
-export function getScrollTop(el: Element) {
+export function getScrollTop(el: HTMLElement | typeof window) {
   if (isDocumentElement(el)) {
     return window.pageYOffset;
   }
-  return el.scrollTop;
+  return (el as HTMLElement).scrollTop;
 }
 
-export function scrollTo(el: Element, top: number) {
+export function scrollTo(el: HTMLElement | typeof window, top: number) {
   // with a scroll distance, we perform scroll on the element
   if (isDocumentElement(el)) {
     window.scrollTo(0, top);
     return;
   }
 
-  el.scrollTop = top;
+  (el as HTMLElement).scrollTop = top;
 }
 
 // Get Scroll Parent
 // ------------------------------
 
-export function getScrollParent(element: Element) {
+export function getScrollParent(element: HTMLElement) {
   let style = getComputedStyle(element);
   const excludeStaticParent = style.position === 'absolute';
   const overflowRx = /(auto|scroll)/;
@@ -147,7 +143,7 @@ export function getScrollParent(element: Element) {
   if (style.position === 'fixed') return docEl;
 
   for (
-    let parent: Element | null = element;
+    let parent: HTMLElement | null = element;
     (parent = parent.parentElement);
 
   ) {
@@ -177,10 +173,10 @@ function easeOutCubic(t: number, b: number, c: number, d: number) {
 }
 
 export function animatedScrollTo(
-  element: Element,
+  element: HTMLElement | typeof window,
   to: number,
   duration: number = 200,
-  callback: (element: Element) => void = noop
+  callback: (element: Element | typeof window) => void = noop
 ) {
   const start = getScrollTop(element);
   const change = to - start;

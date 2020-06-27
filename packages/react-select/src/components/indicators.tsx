@@ -1,5 +1,10 @@
 /** @jsx jsx */
-import { MouseEventHandler, ReactNode, TouchEventHandler } from 'react';
+import {
+  MouseEventHandler,
+  ReactNode,
+  RefCallback,
+  TouchEventHandler,
+} from 'react';
 import { jsx, keyframes } from '@emotion/core';
 
 import {
@@ -145,6 +150,7 @@ export interface ClearIndicatorProps<
     onMouseDown: MouseEventHandler<HTMLDivElement>;
     onTouchEnd: TouchEventHandler<HTMLDivElement>;
     'aria-hidden': 'true';
+    ref: RefCallback<HTMLDivElement>;
   };
   isFocused: boolean;
   /** The children to be rendered inside the indicator. */
