@@ -73,6 +73,7 @@ import {
   OptionsType,
   OptionTypeBase,
   ValueType,
+  CommonProps,
 } from './types';
 
 type FormatOptionLabelContext = 'menu' | 'value';
@@ -407,7 +408,7 @@ export default class Select<
   blockOptionHover: boolean = false;
   isComposing: boolean = false;
   clearFocusValueOnUpdate: boolean = false;
-  commonProps: any; // TODO
+  commonProps!: CommonProps<OptionType, GroupType, IsMultiType>;
   components!: SelectComponents<OptionType, GroupType, IsMultiType>;
   hasGroups: boolean = false;
   initialTouchX: number = 0;

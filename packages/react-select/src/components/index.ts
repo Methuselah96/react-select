@@ -1,4 +1,10 @@
-import { ComponentType, ReactComponentElement } from 'react';
+import {
+  Component,
+  ComponentType,
+  PropsWithChildren,
+  ReactComponentElement,
+  ReactElement,
+} from 'react';
 
 import {
   ContainerProps,
@@ -51,11 +57,7 @@ export type PlaceholderOrValue =
   | ReactComponentElement<typeof SingleValue>
   | ReactComponentElement<typeof MultiValue>[];
 
-export const components: SelectComponents<
-  OptionTypeBase,
-  GroupTypeBase<OptionTypeBase>,
-  boolean
-> = {
+export const components = {
   ClearIndicator: ClearIndicator,
   Control: Control,
   DropdownIndicator: DropdownIndicator,
@@ -83,14 +85,60 @@ export const components: SelectComponents<
   ValueContainer: ValueContainer,
 };
 
+export interface ClearIndicatorComponentClass {
+  new <
+    OptionType extends OptionTypeBase,
+    GroupType extends GroupTypeBase<OptionType>,
+    IsMultiType extends boolean
+  >(
+    props: ClearIndicatorProps<OptionType, GroupType, IsMultiType>,
+    context?: any
+  ): Component<InputProps<OptionType, GroupType, IsMultiType>, any>;
+}
+export interface ClearIndicatorFunctionComponent {
+  <
+    OptionType extends OptionTypeBase,
+    GroupType extends GroupTypeBase<OptionType>,
+    IsMultiType extends boolean
+  >(
+    props: PropsWithChildren<
+      ClearIndicatorProps<OptionType, GroupType, IsMultiType>
+    >,
+    context?: any
+  ): ReactElement<any, any> | null;
+}
+export type ClearIndicatorComponentType =
+  | ClearIndicatorComponentClass
+  | ClearIndicatorFunctionComponent;
+
+export interface InputComponentClass {
+  new <
+    OptionType extends OptionTypeBase,
+    GroupType extends GroupTypeBase<OptionType>,
+    IsMultiType extends boolean
+  >(
+    props: InputProps<OptionType, GroupType, IsMultiType>,
+    context?: any
+  ): Component<InputProps<OptionType, GroupType, IsMultiType>, any>;
+}
+export interface InputFunctionComponent {
+  <
+    OptionType extends OptionTypeBase,
+    GroupType extends GroupTypeBase<OptionType>,
+    IsMultiType extends boolean
+  >(
+    props: PropsWithChildren<InputProps<OptionType, GroupType, IsMultiType>>,
+    context?: any
+  ): ReactElement<any, any> | null;
+}
+export type InputComponentType = InputComponentClass | InputFunctionComponent;
+
 export interface SelectComponents<
   OptionType extends OptionTypeBase,
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 > {
-  ClearIndicator: ComponentType<
-    ClearIndicatorProps<OptionType, GroupType, IsMultiType>
-  >;
+  ClearIndicator: ClearIndicatorComponentType;
   Control: ComponentType<ControlProps<OptionType, GroupType, IsMultiType>>;
   DropdownIndicator: ComponentType<
     DropdownIndicatorProps<OptionType, GroupType, IsMultiType>
@@ -107,7 +155,7 @@ export interface SelectComponents<
   IndicatorSeparator: ComponentType<
     IndicatorSeparatorProps<OptionType, GroupType, IsMultiType>
   >;
-  Input: ComponentType<InputProps<OptionType, GroupType, IsMultiType>>;
+  Input: InputComponentType;
   LoadingIndicator: ComponentType<
     LoadingIndicatorProps<OptionType, GroupType, IsMultiType>
   >;

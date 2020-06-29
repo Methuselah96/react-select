@@ -1,6 +1,7 @@
 /** @jsx jsx */
 import {
   MouseEventHandler,
+  PropsWithChildren,
   ReactNode,
   RefCallback,
   TouchEventHandler,
@@ -153,8 +154,6 @@ export interface ClearIndicatorProps<
     ref: RefCallback<HTMLDivElement>;
   };
   isFocused: boolean;
-  /** The children to be rendered inside the indicator. */
-  children: ReactNode;
 }
 
 export const clearIndicatorCSS = baseCSS;
@@ -163,7 +162,9 @@ export const ClearIndicator = <
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 >(
-  props: ClearIndicatorProps<OptionType, GroupType, IsMultiType>
+  props: PropsWithChildren<
+    ClearIndicatorProps<OptionType, GroupType, IsMultiType>
+  >
 ) => {
   const { children, className, cx, getStyles, innerProps } = props;
   return (

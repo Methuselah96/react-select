@@ -1,9 +1,10 @@
 import React from 'react';
 import { TransitionActions } from 'react-transition-group/Transition';
 
-import Input, { InputProps } from '../components/Input';
+import { InputProps } from '../components/Input';
 import { GroupTypeBase, OptionTypeBase } from '../types';
 import { BaseTransition } from './transitions';
+import { InputComponentType } from '../components';
 
 export type AnimatedInputProps<
   OptionType extends OptionTypeBase,
@@ -15,7 +16,7 @@ export type AnimatedInputProps<
 
 // strip transition props off before spreading onto select component
 // note we need to be explicit about innerRef for flow
-const AnimatedInput = (WrappedComponent: typeof Input) => {
+const AnimatedInput = (WrappedComponent: InputComponentType) => {
   return <
     OptionType extends OptionTypeBase,
     GroupType extends GroupTypeBase<OptionType>,
@@ -28,7 +29,7 @@ const AnimatedInput = (WrappedComponent: typeof Input) => {
     exit,
     ...props
   }: AnimatedInputProps<OptionType, GroupType, IsMultiType>) => (
-    <WrappedComponent {...props} />
+    <WrappedComponent<OptionType, GroupType, IsMultiType> {...props} />
   );
 };
 
