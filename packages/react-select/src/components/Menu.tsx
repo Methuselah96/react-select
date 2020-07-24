@@ -577,8 +577,8 @@ export interface MenuPortalProps<
   GroupType extends GroupTypeBase<OptionType>,
   IsMultiType extends boolean
 > extends CommonProps<OptionType, GroupType, IsMultiType> {
-  appendTo: HTMLElement;
-  controlElement: HTMLElement;
+  appendTo: HTMLElement | undefined;
+  controlElement: HTMLDivElement | null;
   menuPlacement: MenuPlacement;
   menuPosition: MenuPosition;
   children: ReactNode; // ideally Menu<MenuProps>
