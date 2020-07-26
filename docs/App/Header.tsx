@@ -1,4 +1,3 @@
-// @flow
 /** @jsx jsx */
 import fetch from 'unfetch';
 import { Component, type Node } from 'react';
