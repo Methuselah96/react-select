@@ -1,5 +1,3 @@
-// @flow
-
 import React, {
   Component,
   type ElementRef,
@@ -51,7 +49,9 @@ export default class ScrollSpy extends Component<Props, State> {
     const { elements } = this.state;
     if (!elements.length) return;
 
-    const idsInView = elements.filter(isInView).map(i => i.getAttribute('id'));
+    const idsInView = elements
+      .filter(isInView)
+      .map((i) => i.getAttribute('id'));
     if (idsInView.length) {
       onChange(idsInView);
     }
@@ -64,7 +64,7 @@ export default class ScrollSpy extends Component<Props, State> {
     if (!this.nav) return;
 
     const anchorList = this.nav.querySelectorAll('[data-hash]');
-    const els = Array.from(anchorList).map(i =>
+    const els = Array.from(anchorList).map((i) =>
       document.querySelector(`#${i.dataset.hash}`)
     );
 

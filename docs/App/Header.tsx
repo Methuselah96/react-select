@@ -1,16 +1,21 @@
 /** @jsx jsx */
 import fetch from 'unfetch';
-import { Component, type Node } from 'react';
+import { Component, CSSProperties, ReactNode, Ref, RefCallback } from 'react';
 import { jsx } from '@emotion/core';
-import { withRouter } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import Select from 'react-select';
-import type { RouterProps } from '../types';
 import GitHubButton from './GitHubButton';
 import TwitterButton from './TwitterButton';
 
 const smallDevice = '@media (max-width: 769px)';
 const largeDevice = '@media (min-width: 770px)';
+
+interface Change {
+  value: string;
+  icon: string;
+  label: string;
+}
 
 const changes = [
   {
@@ -40,7 +45,7 @@ const changes = [
   },
 ];
 
-function getLabel({ icon, label }) {
+function getLabel({ icon, label }: Change) {
   return (
     <div style={{ alignItems: 'center', display: 'flex' }}>
       <span style={{ fontSize: 18, marginRight: '0.5em' }}>{icon}</span>
@@ -50,27 +55,27 @@ function getLabel({ icon, label }) {
 }
 
 const headerSelectStyles = {
-  control: ({ isFocused, ...base }) => ({
+  control: ({ isFocused, ...base }: CSSProperties) => ({
     ...base,
     backgroundClip: 'padding-box',
     borderColor: 'rgba(0,0,0,0.1)',
-    boxShadow: isFocused ? '0 0 0 1px #4C9AFF' : null,
+    boxShadow: isFocused ? '0 0 0 1px #4C9AFF' : undefined,
 
     ':hover': {
       borderColor: 'rgba(0,0,0,0.2)',
     },
   }),
-  option: base => ({
+  option: (base: CSSProperties) => ({
     ...base,
     padding: '4px 12px',
   }),
-  placeholder: base => ({
+  placeholder: (base: CSSProperties) => ({
     ...base,
     color: 'black',
   }),
 };
 
-const Gradient = props => (
+const Gradient = (props: JSX.IntrinsicElements['div']) => (
   <div
     css={{
       backgroundColor: '#2684FF',
@@ -86,7 +91,7 @@ const Gradient = props => (
     {...props}
   />
 );
-const Container = props => (
+const Container = (props: JSX.IntrinsicElements['div']) => (
   <div
     css={{
       boxSizing: 'border-box',
@@ -104,15 +109,18 @@ const Container = props => (
   />
 );
 
-type HeaderProps = RouterProps & { children: Node };
-type HeaderState = { contentHeight: 'auto' | number, stars: number };
+type HeaderProps = RouteComponentProps & { children: ReactNode };
+interface HeaderState {
+  contentHeight: 'auto' | number;
+  stars: number;
+}
 
 const apiUrl = 'https://api.github.com/repos/jedwatson/react-select';
 
 class Header extends Component<HeaderProps, HeaderState> {
-  nav: HTMLElement;
-  content: HTMLElement;
-  state = { contentHeight: 'auto', stars: 0 };
+  nav!: HTMLElement;
+  content!: HTMLDivElement;
+  state: HeaderState = { contentHeight: 'auto', stars: 0 };
   componentDidMount() {
     this.getStarCount();
   }
@@ -125,12 +133,12 @@ class Header extends Component<HeaderProps, HeaderState> {
   }
   getStarCount = () => {
     fetch(apiUrl)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         const stars = data.stargazers_count;
         this.setState({ stars });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('Error retrieving data', err);
       });
   };
@@ -142,7 +150,7 @@ class Header extends Component<HeaderProps, HeaderState> {
     const contentHeight = this.content.scrollHeight;
     this.setState({ contentHeight });
   };
-  getContent = ref => {
+  getContent: RefCallback<HTMLDivElement> = (ref) => {
     if (!ref) return;
     this.content = ref;
   };
@@ -178,7 +186,7 @@ class Header extends Component<HeaderProps, HeaderState> {
             </h1>
             <Content
               stars={stars}
-              onChange={opt => {
+              onChange={(opt) => {
                 history.push(opt.value);
               }}
             />
@@ -189,13 +197,24 @@ class Header extends Component<HeaderProps, HeaderState> {
   }
 }
 
-const Collapse = ({ height, isCollapsed, innerRef, ...props }) => {
+interface CollapseProps {
+  height: 'auto' | number;
+  isCollapsed: boolean;
+  innerRef: Ref<HTMLDivElement>;
+}
+
+const Collapse = ({
+  height,
+  isCollapsed,
+  innerRef,
+  ...props
+}: CollapseProps & JSX.IntrinsicElements['div']) => {
   return (
     <div
       ref={innerRef}
       css={{
         height: isCollapsed ? 0 : height,
-        overflow: isCollapsed ? 'hidden' : null,
+        overflow: isCollapsed ? 'hidden' : undefined,
         transition: 'height 260ms cubic-bezier(0.2, 0, 0, 1)',
       }}
       {...props}
@@ -203,7 +222,12 @@ const Collapse = ({ height, isCollapsed, innerRef, ...props }) => {
   );
 };
 
-const Content = ({ onChange, stars }) => (
+interface ContentProps {
+  onChange: (option: Change) => void;
+  stars: number;
+}
+
+const Content = ({ onChange, stars }: ContentProps) => (
   <div
     css={{
       marginTop: 16,
@@ -244,7 +268,7 @@ const Content = ({ onChange, stars }) => (
           formatOptionLabel={getLabel}
           isSearchable={false}
           options={changes}
-          onChange={option => {
+          onChange={(option) => {
             if (option && !Array.isArray(option)) {
               onChange(option);
             }
