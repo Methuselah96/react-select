@@ -2,7 +2,6 @@ import React, {
   ChangeEventHandler,
   Component,
   ComponentProps,
-  ComponentType,
   CSSProperties,
 } from 'react';
 
