@@ -4,7 +4,7 @@ import { Component, CSSProperties, ReactNode, Ref, RefCallback } from 'react';
 import { jsx } from '@emotion/core';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import Select from 'react-select';
+import Select, { ControlProps } from 'react-select';
 import GitHubButton from './GitHubButton';
 import TwitterButton from './TwitterButton';
 
@@ -55,7 +55,7 @@ function getLabel({ icon, label }: Change) {
 }
 
 const headerSelectStyles = {
-  control: ({ isFocused, ...base }: CSSProperties) => ({
+  control: (base: CSSProperties, { isFocused }: ControlProps<{}>) => ({
     ...base,
     backgroundClip: 'padding-box',
     borderColor: 'rgba(0,0,0,0.1)',
