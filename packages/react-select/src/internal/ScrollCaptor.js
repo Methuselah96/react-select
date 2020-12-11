@@ -1,8 +1,6 @@
 // @flow
 
-import React, { Component, type Element } from 'react';
-
-import NodeResolver from './NodeResolver';
+import React, { Children, Component, type Element } from 'react';
 
 export type CaptorProps = {
   children: Element<*>,
@@ -117,15 +115,15 @@ class ScrollCaptor extends Component<CaptorProps> {
   };
 
   getScrollTarget = (ref: HTMLElement) => {
+    const { innerRef } = Children.only(this.props.children).props;
+    if (innerRef) innerRef(ref);
     this.scrollTarget = ref;
   };
 
   render() {
-    return (
-      <NodeResolver innerRef={this.getScrollTarget}>
-        {this.props.children}
-      </NodeResolver>
-    );
+    return React.cloneElement(Children.only(this.props.children), {
+      innerRef: this.getScrollTarget,
+    });
   }
 }
 

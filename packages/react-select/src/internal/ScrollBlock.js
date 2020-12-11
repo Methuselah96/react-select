@@ -1,13 +1,13 @@
 // @flow
 /** @jsx jsx */
-import { PureComponent, type Element } from 'react';
+import React, { Children, PureComponent, type Element } from 'react';
 import { jsx } from '@emotion/core';
-import NodeResolver from './NodeResolver';
 import ScrollLock from './ScrollLock/index';
 
 type Props = {
   children: Element<*>,
   isEnabled: boolean,
+  innerRef?: (ref: ?HTMLElement) => mixed,
 };
 type State = {
   touchScrollTarget: HTMLElement | null,
@@ -21,10 +21,23 @@ type State = {
 export default class ScrollBlock extends PureComponent<Props, State> {
   state = { touchScrollTarget: null };
 
-  // must be in state to trigger a re-render, only runs once per instance
-  getScrollTarget = (ref: HTMLElement) => {
-    if (ref === this.state.touchScrollTarget) return;
-    this.setState({ touchScrollTarget: ref });
+  callInnerRefFromParent = (element: ?HTMLElement) => {
+    const { innerRef } = this.props;
+    if (innerRef) innerRef(element);
+  };
+
+  childInnerRef = (element: ?HTMLElement) => {
+    const { children, isEnabled } = this.props;
+
+    Children.only(children).props.innerRef(element);
+
+    if (isEnabled) {
+      // must be in state to trigger a re-render, only runs once per instance
+      if (element === this.state.touchScrollTarget) return;
+      this.setState({ touchScrollTarget: element });
+    } else {
+      this.callInnerRefFromParent(element);
+    }
   };
 
   // this will close the menu when a user clicks outside
@@ -38,8 +51,14 @@ export default class ScrollBlock extends PureComponent<Props, State> {
     const { children, isEnabled } = this.props;
     const { touchScrollTarget } = this.state;
 
+    const childElement = Children.only(children);
+
     // bail early if not enabled
-    if (!isEnabled) return children;
+    if (!isEnabled) {
+      return React.cloneElement(childElement, {
+        innerRef: this.childInnerRef,
+      });
+    }
 
     /*
      * Div
@@ -56,12 +75,14 @@ export default class ScrollBlock extends PureComponent<Props, State> {
      * actually does the scroll locking
      */
     return (
-      <div>
+      <div ref={this.callInnerRefFromParent}>
         <div
           onClick={this.blurSelectInput}
           css={{ position: 'fixed', left: 0, bottom: 0, right: 0, top: 0 }}
         />
-        <NodeResolver innerRef={this.getScrollTarget}>{children}</NodeResolver>
+        {React.cloneElement(childElement, {
+          innerRef: this.childInnerRef,
+        })}
         {touchScrollTarget ? (
           <ScrollLock touchScrollTarget={touchScrollTarget} />
         ) : null}
