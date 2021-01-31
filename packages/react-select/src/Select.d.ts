@@ -114,7 +114,7 @@ export interface NamedProps<
   /** The id to set on the SelectContainer component. */
   id?: string;
   /** The value of the search input */
-  inputValue?: string;
+  inputValue: string;
   /** The id of the search input */
   inputId?: string;
   /** Define an id prefix for the select components e.g. {your-id}-value */
@@ -169,7 +169,7 @@ export interface NamedProps<
   /** Handle blur events on the control */
   onBlur?: FocusEventHandler;
   /** Handle change events on the select */
-  onChange?: (
+  onChange: (
     value: ValueType<OptionType, IsMulti>,
     action: ActionMeta<OptionType>
   ) => void;
@@ -208,7 +208,7 @@ export interface NamedProps<
   /** Select the currently focused option when the user presses tab */
   tabSelectsValue?: boolean;
   /** The value of the select; reflected by the selected option */
-  value?: readonly OptionType[] | OptionType | null;
+  value: readonly OptionType[] | OptionType | null;
 
   defaultInputValue?: string;
   defaultMenuIsOpen?: boolean;
