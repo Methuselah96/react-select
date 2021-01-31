@@ -15,7 +15,11 @@ export interface CreatableProps<
   Option extends OptionBase,
   IsMulti extends boolean,
   Group extends GroupBase<Option>
-> extends SelectProps<Option, IsMulti, Group> {
+>
+  extends JSX.LibraryManagedAttributes<
+    typeof Select,
+    SelectProps<Option, IsMulti, Group>
+  > {
   /**
    * Allow options to be created while the `isLoading` prop is true. Useful to
    * prevent the "create new ..." option being displayed while async results are

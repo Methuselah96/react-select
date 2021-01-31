@@ -42,9 +42,7 @@ export interface FormatOptionLabelMeta<
   selectValue: ValueType<OptionType, IsMulti>;
 }
 
-export type SelectComponentsProps = { [key in string]: any };
-
-export interface NamedProps<
+export interface Props<
   OptionType extends OptionTypeBase = { label: string; value: string },
   IsMulti extends boolean = false,
   GroupType extends GroupTypeBase<OptionType> = GroupTypeBase<OptionType>
@@ -215,12 +213,6 @@ export interface NamedProps<
   defaultValue?: readonly OptionType[] | OptionType | null;
 }
 
-export interface Props<
-  OptionType extends OptionTypeBase = { label: string; value: string },
-  IsMulti extends boolean = false,
-  GroupType extends GroupTypeBase<OptionType> = GroupTypeBase<OptionType>
-> extends NamedProps<OptionType, IsMulti, GroupType>, SelectComponentsProps {}
-
 export const defaultProps: Props<any>;
 
 export interface MenuOptions<OptionType extends OptionTypeBase> {
@@ -250,8 +242,6 @@ export default class Select<
   Props<OptionType, IsMulti, GroupType>,
   State<OptionType>
 > {
-  static defaultProps: Props<any>;
-
   // Misc. Instance Properties
   // ------------------------------
 
