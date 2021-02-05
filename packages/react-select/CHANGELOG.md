@@ -1,5 +1,11 @@
 # react-select
 
+## 4.0.3
+
+### Patch Changes
+
+- [10b5f5a5](https://github.com/JedWatson/react-select/commit/10b5f5a5edc93becb6b46f22666305ec8c1b7de3) [#4404](https://github.com/JedWatson/react-select/pull/4404) Thanks [@Methuselah96](https://github.com/Methuselah96)! - Remove unnecessary dependency on @emotion/css
+
 ## 4.0.2
 
 ### Patch Changes
